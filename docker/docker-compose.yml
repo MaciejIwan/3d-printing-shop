@@ -8,11 +8,14 @@ services:
     container_name: 3d-printing-app
     restart: always
     working_dir: /var/www/
+#   uncomment 2 lines under when develop on linux
+#    extra_hosts:
+#      - host.docker.internal:host-gateway
     volumes:
       - ../src:/var/www
   ngnix:
     image: nginx:1.19-alpine
-    container_name: 3d-printing-ngnix
+    container_name: 3d-printing-nginx
     restart: always
     ports:
       - "8000:80"
