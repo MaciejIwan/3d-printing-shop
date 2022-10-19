@@ -2,43 +2,27 @@ version: '3.8'
 
 services:
   app:
-    container_name: 3d-printing-app
     build:
-      context: ""
+      context: ./
       dockerfile: Dockerfile
-      args:
-        USER_ID: '${WWWUSER:-1000}'
-        GROUP_ID: '${WWWGROUP:-1000}'
-        USER: '${USER:-whoami}'
-    extra_hosts:
-      - host.docker.internal:host-gateway
+    container_name: 3d-printing-app
     restart: always
     working_dir: /var/www/
     volumes:
-      - ../:/var/www
+      - ../src:/var/www
   ngnix:
-    container_name: 3d-printing-nginx
     image: nginx:1.19-alpine
+    container_name: 3d-printing-nginx
     restart: always
     ports:
       - "8000:80"
     volumes:
-      - ../:/var/www
+      - ../src:/var/www
       - ./nginx:/etc/nginx/conf.d
   db:
-    container_name: 3d-printing-database
     image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: phpDatabase
     ports:
       - "3306:3306"
-  mailhog:
-    container_name: 3d-printing-mailhog
-    image: mailhog/mailhog
-    restart: always
-    logging:
-      driver: "none"
-    ports:
-      - "8025:8025" # mailbox on local machine
-      - "1025:1025" # smtp server
