@@ -11,3 +11,7 @@
 ```docker-compose up -d --build```
 ### To force rebuild whole container
 ```docker-compose build --no-cache --pull```
+
+
+### To generate own files map
+```composer dump-autoload -o```

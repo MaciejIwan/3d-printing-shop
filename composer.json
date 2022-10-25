@@ -1,7 +1,0 @@
-{
-  "require": {
-    "doctrine/orm": "*",
-    "doctrine/dbal": "*",
-    "ext-xdebug": "*"
-  }
-}
