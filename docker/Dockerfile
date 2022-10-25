@@ -24,3 +24,5 @@ RUN pecl install xdebug \
     && echo "xdebug.client_host = host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 COPY xdebug.ini "${PHP_INI_DIR}/conf.d"
+
+RUN composer install
