@@ -2,6 +2,10 @@
 
 namespace App;
 
+/**
+ * @property-read ?array $mailer
+ * @property-read ?array $database
+ */
 class Config
 {
     protected array $config = [];
@@ -17,6 +21,9 @@ class Config
                 'host' => $env['DB_HOST'],
                 'port' => intval($env['DB_PORT']),
                 'driver' => $env['DB_DRIVER'] ?? 'pdo_mysql',
+            ],
+            'mailer' => [
+                'dsn' => $env['MAILER_DSN']
             ]
         ];
     }

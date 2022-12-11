@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace App;
 
 use App\Exceptions\RouteNotFoundException;
-
+use Symfony\Component\Mailer\MailerInterface;
 
 
 class App
 {
     private static Database $database;
-    private Config $config;
-
 
     public function __construct(protected Container $container,
                                 protected Router    $router,
-                                protected array     $request
+                                protected array     $request,
+                                protected Config $config
     )
     {
+        $this->container->set(MailerInterface::class, fn()=> new CustomMailer($config->mailer['dsn']));
     }
 
     public function run(): void
