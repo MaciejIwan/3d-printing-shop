@@ -26,3 +26,12 @@ services:
       MYSQL_DATABASE: phpDatabase
     ports:
       - "3306:3306"
+  mailhog:
+    container_name: 3d-printing-mailhog
+    image: mailhog/mailhog
+    restart: always
+    logging:
+      driver: "none"
+    ports:
+      - "8025:8025" # mailbox on local machine
+      - "1025:1025" # smtp server
