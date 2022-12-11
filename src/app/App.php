@@ -6,9 +6,11 @@ namespace App;
 
 use App\Exceptions\RouteNotFoundException;
 
+
+
 class App
 {
-    private DB $database;
+    private static Database $database;
     private Config $config;
 
 
@@ -33,11 +35,11 @@ class App
     }
 
 
-    public function boot(array $env): static
+    public function boot(): static
     {
         $this->config = new Config($_ENV);
 
-        $this->database = new DB($this->config->db ?? []);
+        static::$database = new Database($this->config->database ?? []);
 
         return $this;
     }

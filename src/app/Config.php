@@ -20,4 +20,9 @@ class Config
             ]
         ];
     }
+
+    public function __get(string $name)
+    {
+        return $this->config[$name] ?? null;
+    }
 }

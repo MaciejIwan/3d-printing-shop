@@ -5,11 +5,12 @@ namespace App;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 
-class DB
+class Database
 {
     private Connection $connection;
-    public function __construct(array $config)
+
+    public function __construct(array $dbConfig)
     {
-//        $this->connection = DriverManager::getConnection($config);
+        $this->connection = DriverManager::getConnection($dbConfig);
     }
 }
