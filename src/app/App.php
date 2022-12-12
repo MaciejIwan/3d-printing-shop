@@ -15,10 +15,10 @@ class App
     public function __construct(protected Container $container,
                                 protected Router    $router,
                                 protected array     $request,
-                                protected Config $config
+                                protected Config    $config
     )
     {
-        $this->container->set(MailerInterface::class, fn()=> new CustomMailer($config->mailer['dsn']));
+        $this->container->set(MailerInterface::class, fn() => new CustomMailer($config->mailer['dsn']));
     }
 
     public function run(): void
@@ -34,6 +34,10 @@ class App
         }
     }
 
+    public static function getDatabase(): Database
+    {
+        return static::$database;
+    }
 
     public function boot(): static
     {

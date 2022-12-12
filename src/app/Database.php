@@ -5,6 +5,9 @@ namespace App;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 
+/**
+ * @mixin Connection
+ */
 class Database
 {
     private Connection $connection;
@@ -12,5 +15,10 @@ class Database
     public function __construct(array $dbConfig)
     {
         $this->connection = DriverManager::getConnection($dbConfig);
+    }
+
+    public function __call(string $name, array $arguments)
+    {
+        return call_user_func_array([$this->connection, $name], $arguments);
     }
 }

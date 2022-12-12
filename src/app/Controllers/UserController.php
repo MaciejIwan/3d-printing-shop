@@ -7,6 +7,7 @@ use App\Attributes\Post;
 use App\Attributes\Put;
 use App\Attributes\Route;
 use App\Enums\HttpMethod;
+use App\Models\User;
 use App\View;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
@@ -23,6 +24,14 @@ class UserController
     public function login(): View
     {
         return View::make('login');
+    }
+
+    #[Get('/users/id')]
+    public function getById(): string
+    {
+        $userModel = new User();
+        $user = $userModel->fetchByID($_GET['id']);
+        return implode(" ",$user[0]);
     }
 
     #[Post('/login')]
@@ -49,6 +58,9 @@ class UserController
         $name = $_POST['name'];
         $email = $_POST['email'];
         $firstName = explode(' ', $name)[0];
+
+
+
 // todo move HTML to VIEW. Use Twing and check email templetes
         $text = <<<Body
 Hello $firstName,
@@ -70,9 +82,6 @@ HTMLBody;
             ->text($text)
             ->html($html);
 
-//        $transport = Transport::fromDsn($_ENV['MAILER_DSN']);
-//        $mailer = new Mailer($transport);
-//        $mailer->send($email);
         $this->mailer->send($email);
     }
 
