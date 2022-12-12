@@ -1,9 +1,12 @@
 {
   "require": {
     "vlucas/phpdotenv": "^5.5",
-    "doctrine/dbal": "^3.5",
+    "doctrine/dbal": "^3.3",
+    "doctrine/orm": "^2.11",
     "psr/container": "^2.0",
-    "symfony/mailer": "^6.2"
+    "symfony/mailer": "^6.2",
+    "marcin-orlowski/lombok-php": "^1.0",
+    "symfony/cache": "^6.2"
   },
   "autoload": {
     "psr-4": {
