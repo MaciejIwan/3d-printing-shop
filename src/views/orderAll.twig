@@ -1,0 +1,17 @@
+<table>
+    <tr>
+        <th>id</th>
+        <th>amount</th>
+        <th>status</th>
+    </tr>
+
+    {% for order in orders %}
+        <tr>
+            <td>{{order.id}}</td>
+            <td>{{order.amount|format_currency)'USD'}}</td>
+            <td>{{order.status}}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4">No Orders Found</td></tr>
+    {% endfor %}
+</table>

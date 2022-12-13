@@ -26,11 +26,8 @@ class Order
     #[Column, GeneratedValue]
     private int $id;
 
-    #[Column(type: 'decimal')]
+    #[Column(type: 'decimal', precision: 10, scale: 2)]
     private int $amount;
-
-    #[Column(name: 'invoice_number')]
-    private string $invoiceNumber;
 
 
     #[Column(enumType: OrderStatus::class)]
@@ -38,6 +35,7 @@ class Order
 
     #[Column('created_at')]
     private DateTime $createdAt;
+
     //todo check cascade
     #[OneToMany(mappedBy: 'order', targetEntity: OrderItem::class, cascade: ['persist', 'remove'])]
     private Collection $items;
@@ -80,24 +78,6 @@ class Order
     public function setAmount($amount)
     {
         $this->amount = $amount;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getInvoiceNumber(): string
-    {
-        return $this->invoiceNumber;
-    }
-
-    /**
-     * @param string $invoiceNumber
-     * @return Order
-     */
-    public function setInvoiceNumber($invoiceNumber)
-    {
-        $this->invoiceNumber = $invoiceNumber;
         return $this;
     }
 

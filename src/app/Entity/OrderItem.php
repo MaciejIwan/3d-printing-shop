@@ -24,10 +24,10 @@ class OrderItem
     #[Column(name: 'order_id')]
     private int $orderId;
 
-    #[Column]
+    #[Column(name: 'description')]
     private string $description;
 
-    #[Column]
+    #[Column(name: 'quantity', type: 'decimal', precision: 10, scale: 2)]
     private int $quantity;
 
     #[Column(name: 'unit_price', type: Types::DECIMAL, precision: 10, scale: 2)]
@@ -143,8 +143,6 @@ class OrderItem
         $this->order = $order;
         return $this;
     }
-
-
 
 
 }

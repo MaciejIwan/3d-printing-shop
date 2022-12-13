@@ -6,7 +6,9 @@
     "psr/container": "^2.0",
     "symfony/mailer": "^6.2",
     "marcin-orlowski/lombok-php": "^1.0",
-    "symfony/cache": "^6.2"
+    "symfony/cache": "^6.2",
+    "symfony/console": "^6.2",
+    "twig/twig": "^3.4"
   },
   "autoload": {
     "psr-4": {

@@ -52,6 +52,12 @@ class UserController
         return View::make('register');
     }
 
+    #[Get('/orders/all')]
+    public function all(): View
+    {
+        return View::make('ordersAll');
+    }
+
     #[Post('/users')]
     public function register()
     {

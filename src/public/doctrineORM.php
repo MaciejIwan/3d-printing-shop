@@ -19,6 +19,7 @@ $connectionParams = [
     'port' => intval($_ENV['DB_PORT']),
     'driver' => $_ENV['DB_DRIVER'] ?? 'pdo_mysql',
 ];
+
 $config = ORMSetup::createAttributeMetadataConfiguration([__DIR__ . '/Entity']);
 $entityManager = EntityManager::create($connectionParams, $config);
 
@@ -38,5 +39,10 @@ foreach ($items as [$description, $quantity, $unitPrice]) {
 
 
 $entityManager->persist($invoice);
-$entityManager->flush();
 echo("hello world");
+$entityManager->flush();
+//fetch example
+$invoice = $entityManager->find(Order::class, 1);
+$invoice->setStatus(OrderStatus::Done);
+$entityManager->flush();
+var_dump($invoice);

@@ -6,6 +6,8 @@ namespace App;
 
 use App\Exceptions\RouteNotFoundException;
 use Symfony\Component\Mailer\MailerInterface;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 
 class App
@@ -44,6 +46,18 @@ class App
         $this->config = new Config($_ENV);
 
         static::$database = new Database($this->config->database ?? []);
+
+
+        $twig = new Environment(
+            new FilesystemLoader(VIEW_PATH),
+            [
+                'cache' => STORAGE_PATH . '/cache',
+            ]
+        );
+
+        //todo bind customMailer here
+
+//        $this->container->
 
         return $this;
     }
