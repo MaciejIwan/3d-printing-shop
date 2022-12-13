@@ -9,6 +9,8 @@
 ```http://localhost:8025/```
 
 # About Docker
+### To enter docker container command line
+```docker exec -it 3d-printing-app /bin/bash```
 ### To reload nginx.conf without restarting
 ```docker exec 3d-printing-nginx nginx -s reload```
 ### To run docker-compose from terminal
