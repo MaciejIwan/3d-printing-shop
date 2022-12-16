@@ -25,4 +25,4 @@ RUN pecl install xdebug \
 
 COPY xdebug.ini "${PHP_INI_DIR}/conf.d"
 
-RUN composer install
+#RUN composer install
