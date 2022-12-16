@@ -19,7 +19,7 @@ use Lombok\Setter;
 
 //#[Setter, Getter]
 #[Entity]
-#[Table('orders')]
+#[Table('order')]
 class Order
 {
     #[Id]
