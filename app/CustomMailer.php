@@ -1,6 +1,6 @@
 <?php
 
-namespace app;
+namespace App;
 
 use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mailer\MailerInterface;

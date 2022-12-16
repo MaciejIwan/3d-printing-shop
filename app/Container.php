@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace app;
+namespace App;
 
 //todo tutorial to DI Containers
 # https://www.youtube.com/watch?v=igx3bIl1T_c
 # https://www.youtube.com/watch?v=78Vpg97rQwE
 # todo it should be replaced with symphony or lavaler before production
-use app\Exceptions\NotFoundException;
+use App\Exceptions\NotFoundException;
 use Psr\Container\ContainerInterface;
 
 class Container implements ContainerInterface

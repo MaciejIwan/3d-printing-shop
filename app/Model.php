@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app;
+namespace App;
 
 // todo wrtie more code in Model class
 abstract class Model

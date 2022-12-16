@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace app\Enums;
+namespace App\Enums;
 
 enum OrderStatus: int
 {

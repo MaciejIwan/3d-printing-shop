@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace app\Entity;
+namespace App\Entity;
 
-use app\Enums\OrderStatus;
+use App\Enums\OrderStatus;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

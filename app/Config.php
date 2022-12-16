@@ -1,6 +1,6 @@
 <?php
 
-namespace app;
+namespace App;
 
 /**
  * @property-read ?array $mailer

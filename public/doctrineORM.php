@@ -1,8 +1,8 @@
 <?php
 
-use app\Entity\Order;
-use app\Entity\OrderItem;
-use app\Enums\OrderStatus;
+use App\Entity\Order;
+use App\Entity\OrderItem;
+use App\Enums\OrderStatus;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 

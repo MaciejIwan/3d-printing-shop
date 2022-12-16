@@ -1,12 +1,12 @@
 <?php
 
-use app\App;
-use app\Config;
-use app\Container;
-use app\Controllers\HomeController;
-use app\Controllers\UploadController;
-use app\Controllers\UserController;
-use app\Router;
+use App\App;
+use App\Config;
+use App\Container;
+use App\Controllers\HomeController;
+use App\Controllers\UploadController;
+use App\Controllers\UserController;
+use App\Router;
 
 
 require_once __DIR__ . '/../vendor/autoload.php';

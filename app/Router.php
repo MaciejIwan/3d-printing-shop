@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace app;
+namespace App;
 
-use app\Attributes\Route;
-use app\Exceptions\RouteNotFoundException;
+use App\Attributes\Route;
+use App\Exceptions\RouteNotFoundException;
 
 class Router
 {

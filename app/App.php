@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace app;
+namespace App;
 
-use app\Exceptions\RouteNotFoundException;
+use App\Exceptions\RouteNotFoundException;
 use Symfony\Component\Mailer\MailerInterface;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;

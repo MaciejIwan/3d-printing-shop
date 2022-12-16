@@ -1,13 +1,13 @@
 <?php
 
-namespace app\Controllers;
+namespace App\Controllers;
 
-use app\Attributes\Get;
-use app\Attributes\Post;
-use app\Attributes\Put;
-use app\Attributes\Route;
-use app\Enums\HttpMethod;
-use app\View;
+use App\Attributes\Get;
+use App\Attributes\Post;
+use App\Attributes\Put;
+use App\Attributes\Route;
+use App\Enums\HttpMethod;
+use App\View;
 
 
 class UploadController
