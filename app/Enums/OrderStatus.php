@@ -1,12 +1,25 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace app\Enums;
 
-enum OrderStatus: string
+enum OrderStatus: int
 {
-    case New = 'new';
-    case Waiting = 'waiting for review';
-    case InProgress = 'in progress';
-    case Accepted = 'accepted';
-    case Done = 'done';
+
+    case Pending = 0;
+    case Paid    = 1;
+    case Void    = 2;
+    case Failed  = 3;
+
+    public function toString(): string
+    {
+        return match($this) {
+            self::Paid   => 'Paid',
+            self::Failed => 'Declined',
+            self::Void   => 'Void',
+            default      => 'Pending'
+        };
+    }
+
 }

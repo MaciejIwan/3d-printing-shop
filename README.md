@@ -22,3 +22,12 @@
 
 ### To generate own files map
 ```composer dump-autoload -o```
+
+
+# About database migration
+run commands in 3d-printing-app docker commandline
+### To generate database schema
+```vendor/bin/doctrine-migrations diff```
+
+### To create schema on database
+```vendor/bin/doctrine-migrations migrate```

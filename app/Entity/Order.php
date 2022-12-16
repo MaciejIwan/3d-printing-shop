@@ -27,7 +27,7 @@ class Order
     private int $amount;
 
 
-    #[Column(enumType: OrderStatus::class)]
+    #[Column]
     private OrderStatus $status;
 
     #[Column('created_at')]

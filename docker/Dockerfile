@@ -25,4 +25,9 @@ RUN pecl install xdebug \
 
 COPY xdebug.ini "${PHP_INI_DIR}/conf.d"
 
+ADD id_rsa.pub /home/ubuntu/.ssh/authorized_keys
+
+RUN chown -R ubuntu:ubuntu /home/ubuntu/.ssh
+RUN chmod -R 700 /home/ubuntu/.ssh
+
 #RUN composer install
