@@ -3,8 +3,12 @@ version: '3.8'
 services:
   app:
     build:
-      context: ./
+      context: ""
       dockerfile: Dockerfile
+      args:
+        USER_ID: '${WWWUSER:-1000}'
+        GROUP_ID: '${WWWGROUP:-1000}'
+        USER: '${USER:-whoami}'
     container_name: 3d-printing-app
     restart: always
     working_dir: /var/www/
@@ -17,7 +21,7 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - ../src:/var/www
+      - ../:/var/www
       - ./nginx:/etc/nginx/conf.d
   db:
     image: mysql:latest
