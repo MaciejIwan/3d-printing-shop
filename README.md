@@ -31,3 +31,6 @@ run commands in 3d-printing-app docker commandline
 
 ### To create schema on database
 ```vendor/bin/doctrine-migrations migrate```
+
+### To run tests
+```./vendor/bin/phpunit```
