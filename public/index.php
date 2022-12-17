@@ -2,11 +2,11 @@
 
 use App\App;
 use App\Config;
-use App\Container;
 use App\Controllers\HomeController;
 use App\Controllers\UploadController;
 use App\Controllers\UserController;
 use App\Router;
+use Illuminate\Container\Container;
 
 
 require_once __DIR__ . '/../vendor/autoload.php';
