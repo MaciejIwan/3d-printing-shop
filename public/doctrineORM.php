@@ -20,7 +20,7 @@ $connectionParams = [
     'driver' => $_ENV['DB_DRIVER'] ?? 'pdo_mysql',
 ];
 
-$config = ORMSetup::createAttributeMetadataConfiguration([__DIR__ . '/Entity']);
+$config = ORMSetup::createAttributeMetadataConfiguration([__DIR__ . __DIR__ . '/../app/Entity']);
 $entityManager = EntityManager::create($connectionParams, $config);
 
 $items = [['item 1', 1, 15], ['item 2', 2, 7.5], ['item 3', 4, 3.75]];

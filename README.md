@@ -5,6 +5,8 @@
 2. Check use path mappings
 3. Add mapping like: C:\pathOnYourDisk\mySite mapped to remote /var/www/mySite
 
+## To enter index page
+```http://localhost:8000/```
 ## To check local email inbox go to:
 ```http://localhost:8025/```
 

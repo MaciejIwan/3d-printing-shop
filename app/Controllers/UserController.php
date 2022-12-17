@@ -6,15 +6,21 @@ use App\Attributes\Get;
 use App\Attributes\Post;
 use App\Attributes\Put;
 use App\Attributes\Route;
+use App\Entity\User;
 use App\Enums\HttpMethod;
-use App\Models\User;
+use App\Repository\UserRepository;
 use App\View;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Twig\Environment AS Twig;
 
 class UserController
 {
-    public function __construct(protected MailerInterface $mailer){
+    public function __construct(
+        protected MailerInterface $mailer,
+        protected UserRepository $userRepository,
+        protected Twig $twig
+    ){
 
     }
     #[Get('/login')]
@@ -27,9 +33,8 @@ class UserController
     #[Get('/users/id')]
     public function getById(): string
     {
-        $userModel = new User();
-        $user = $userModel->fetchByID($_GET['id']);
-        return implode(" ",$user[0]);
+        $user = $this->userRepository->fetchUser($_GET['id']);
+        return $user->getEmail();
     }
 
     #[Post('/login')]
@@ -50,10 +55,14 @@ class UserController
         return View::make('register');
     }
 
-    #[Get('/orders/all')]
-    public function all(): View
+    #[Get('/users')]
+    public function all(): string
     {
-        return View::make('ordersAll');
+        //todo add service and repository fetch
+        echo "<br>Kurwa";
+        $users = $this->userRepository->findAll();
+        //var_dump($users);
+        return $this->twig->render('users/index.twig', ['users' => $users]);
     }
 
     #[Post('/users')]

@@ -25,6 +25,7 @@ class User
     #[Column(name: 'password_hash')]
     private string $paaswordHash;
 
+    //todo email must be uniq
     #[Column(name: 'email')]
     private string $email;
 
