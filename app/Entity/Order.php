@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping\Table;
 
 //#[Setter, Getter]
 #[Entity]
-#[Table('order')]
+#[Table('`order`')]
 class Order
 {
     #[Id]
@@ -27,14 +27,14 @@ class Order
     private int $amount;
 
 
-    #[Column]
+    #[Column(enumType: OrderStatus::class)]
     private OrderStatus $status;
 
     #[Column('created_at')]
     private DateTime $createdAt;
 
     //todo check cascade
-    #[OneToMany(mappedBy: 'order', targetEntity: OrderItem::class, cascade: ['persist', 'remove'])]
+    #[OneToMany(mappedBy: '`order`', targetEntity: OrderItem::class, cascade: ['persist', 'remove'])]
     private Collection $items;
 
     public function __construct()

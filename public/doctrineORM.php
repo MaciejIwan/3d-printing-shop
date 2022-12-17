@@ -26,7 +26,7 @@ $entityManager = EntityManager::create($connectionParams, $config);
 $items = [['item 1', 1, 15], ['item 2', 2, 7.5], ['item 3', 4, 3.75]];
 $invoice = (new Order())
     ->setAmount(45)
-    ->setStatus(OrderStatus::Waiting)
+    ->setStatus(OrderStatus::Pending)
     ->setCreatedAt(new DateTime());
 
 foreach ($items as [$description, $quantity, $unitPrice]) {
@@ -41,8 +41,16 @@ foreach ($items as [$description, $quantity, $unitPrice]) {
 $entityManager->persist($invoice);
 echo("hello world");
 $entityManager->flush();
+
 //fetch example
 $invoice = $entityManager->find(Order::class, 1);
-$invoice->setStatus(OrderStatus::Done);
+$invoice->setStatus(OrderStatus::Paid);
 $entityManager->flush();
-var_dump($invoice);
+//var_dump($invoice);
+
+
+
+$user = (new \App\Entity\User())->setEmail("myemail@edu.pl")->setPaaswordHash("passhash");
+$user->addAddress((new \App\Entity\UserAddress())->setCountry("Poland")->setPhoneNumber("731333261"));
+$entityManager->persist($user);
+$entityManager->flush();

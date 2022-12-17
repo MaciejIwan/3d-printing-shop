@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping\Table;
 
 //#[Setter, Getter]
 #[Entity]
-#[Table('order_item')]
+#[Table('`order_item`')]
 class OrderItem
 {
     #[Id]

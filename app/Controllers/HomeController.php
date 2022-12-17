@@ -15,6 +15,7 @@ class HomeController
     #[Route('/home', HttpMethod::Head)]
     public function index(): View
     {
+        xdebug_info();
         return View::make('index');
     }
 
