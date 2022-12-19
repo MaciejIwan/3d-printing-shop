@@ -2,76 +2,63 @@
 
 namespace App\Controllers;
 
-use App\Attributes\Get;
-use App\Attributes\Post;
-use App\Attributes\Put;
-use App\Attributes\Route;
-use App\Entity\User;
-use App\Enums\HttpMethod;
 use App\Repository\UserRepository;
-use App\View;
+use App\Services\UserService;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Views\Twig;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
-use Twig\Environment AS Twig;
+
 
 class UserController
 {
     public function __construct(
         protected MailerInterface $mailer,
-        protected UserRepository $userRepository,
-        protected Twig $twig
-    ){
-
-    }
-    #[Get('/login')]
-    #[Route('/login2', HttpMethod::Head)]
-    public function login(): View
+        protected UserRepository  $userRepository,
+        private UserService $userService
+    )
     {
-        return View::make('login');
+
     }
 
-    #[Get('/users/id')]
-    public function getById(): string
+    public function login(Request $request, Response $response, $args): Response
+    {
+        return Twig::fromRequest($request)->render($response, 'login.twig');
+    }
+
+    public function getById(Request $request, Response $response, $args): Response
     {
         $user = $this->userRepository->fetchUser($_GET['id']);
-        return $user->getEmail();
+
+        $body = $response->getBody();
+        $body->write($user->getEmail());
+
+        return $response;
     }
 
-    #[Post('/login')]
-    public function store(): void
+
+    public function create(Request $request, Response $response, $args): Response
     {
-
+        return Twig::fromRequest($request)->render($response, 'users/register.twig');
     }
 
-    #[Put('/login')]
-    public function update(): void
-    {
-
-    }
-
-    #[Get('/users/create')]
-    public function create(): View
-    {
-        return View::make('register');
-    }
-
-    #[Get('/users')]
-    public function all(): string
+    public function all(Request $request, Response $response, $args): Response
     {
         //todo add service and repository fetch
-        echo "<br>Kurwa";
+        echo "<br>test_string";
         $users = $this->userRepository->findAll();
-        //var_dump($users);
-        return $this->twig->render('users/index.twig', ['users' => $users]);
+        return Twig::fromRequest($request)->render($response, 'users/index.twig', ['users' => $users]);
     }
 
-    #[Post('/users')]
-    public function register()
-    {
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $firstName = explode(' ', $name)[0];
 
+    public function register(Request $request, Response $response, $args): Response
+    {
+        $allPostPutVars = $request->getParsedBody();
+
+        $name = $allPostPutVars['name'];
+        $email = $allPostPutVars['email'];
+        $firstName = explode(' ', $name)[0];
 
 
 // todo move HTML to VIEW. Use Twing and check email templetes
@@ -96,6 +83,10 @@ HTMLBody;
             ->html($html);
 
         $this->mailer->send($email);
+
+
+        $response->getBody()->write("Check your email!");
+        return $response;
     }
 
 }
