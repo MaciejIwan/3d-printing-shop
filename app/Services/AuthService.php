@@ -40,7 +40,7 @@ class AuthService
         )->message("User with given email already exists");
 
         if ($v->validate()) {
-            echo "Yay! We're all good!";
+            echo "All fine!";
         } else {
             throw new ValidationException($v->errors());
         }
