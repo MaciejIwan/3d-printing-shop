@@ -1,5 +1,5 @@
-# 3d printing shop app
-
+  # 3d printing shop app
+[IN PROGRESS] PHP web ecomerce application. Created for a 3D printing house.
 ## IDE setup
 ### To set up step debugger in phpStorm you have to config path mapping in IDE
 1. Go to Settings > Languages & Frameworks > PHP and create a server with a hostname localhost
