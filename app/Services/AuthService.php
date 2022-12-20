@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Entity\User;
+use App\Exceptions\ValidationException;
 use App\Repository\UserRepository;
+use Valitron\Validator;
 
 class AuthService
 {
@@ -27,5 +29,20 @@ class AuthService
     {
 //        throw error if user with given email exists
         #$this->userRepository->findOneBy($new_user->getEmail());
+
+        $v = new Validator(array('name' => 'Chester Tester'));
+        $v->rule('required', ['name', 'email', 'password', 'confirmPassword']);
+        $v->rule('email', 'email');
+        $v->rule('equals', ['password', 'confirmPassword']);
+
+        $v->rule(fn($field, $value, $params, $fields) => $this->userRepository->count(
+            ['email' => $value]), 'email'
+        )->message("User with given email already exists");
+
+        if ($v->validate()) {
+            echo "Yay! We're all good!";
+        } else {
+            throw new ValidationException($v->errors());
+        }
     }
 }

@@ -16,7 +16,8 @@
     "symfony/console": "^6.2",
     "symfony/asset": "^6.2",
     "symfony/webpack-encore-bundle": "^1.16",
-    "symfony/twig-bridge": "^6.2"
+    "symfony/twig-bridge": "^6.2",
+    "vlucas/valitron": "^1.4"
 
   },
   "autoload": {
