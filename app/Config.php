@@ -5,9 +5,13 @@ namespace App;
 /**
  * @property-read ?array $mailer
  * @property-read ?array $database
+ * @property-read ?array $environment
  */
 class Config
 {
+    /**
+     * @var array|mixed|null
+     */
     protected array $config = [];
 
     public function __construct(array $env)
@@ -24,7 +28,8 @@ class Config
             ],
             'mailer' => [
                 'dsn' => $env['MAILER_DSN']
-            ]
+            ],
+            'environment' => $env['APP_ENVIRONMENT'] ?? 'production'
         ];
     }
 

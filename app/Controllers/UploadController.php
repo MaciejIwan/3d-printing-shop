@@ -2,12 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Attributes\Get;
-use App\Attributes\Post;
-use App\Attributes\Put;
-use App\Attributes\Route;
-use App\Enums\HttpMethod;
-use App\View;
+
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Psr7\UploadedFile;
@@ -16,12 +12,17 @@ use Slim\Views\Twig;
 
 class UploadController
 {
-    public function index(Request $request, Response $response, $args): Response
+
+    public function __construct(private readonly Twig $twig)
     {
-        return Twig::fromRequest($request)->render($response, 'uploadFile.twig');
     }
 
-    #[Post('/upload')]
+    public function index(Request $request, Response $response, $args): Response
+    {
+        return $this->twig->render($response, 'uploadFile.twig');
+    }
+
+
     public function store(Request $request, Response $response)
     {
         //todo move all to service
@@ -57,7 +58,7 @@ class UploadController
         return $filename;
     }
 
-    #[Put('/')]
+
     public function update(): void
     {
 
