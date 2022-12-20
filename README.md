@@ -40,3 +40,7 @@ run commands in 3d-printing-app docker commandline
 
 ### To run tests
 ```./vendor/bin/phpunit```
+
+## Credits
+ Software used to create database diagram
+ https://drawsql.app/
