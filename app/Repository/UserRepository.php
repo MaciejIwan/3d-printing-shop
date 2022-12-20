@@ -22,4 +22,10 @@ class UserRepository extends EntityRepository
         return $this->find(User::class, $user_id);
     }
 
+    public function addUser(User $new_user)
+    {
+        $this->getEntityManager()->persist($new_user);
+        $this->getEntityManager()->flush();
+    }
+
 }

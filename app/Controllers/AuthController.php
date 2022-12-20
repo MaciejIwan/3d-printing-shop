@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Entity\User;
+use App\Services\AuthService;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use App\Services\UserService;
@@ -13,9 +15,8 @@ use Symfony\Component\Mailer\MailerInterface;
 class AuthController
 {
     public function __construct(
-        private readonly MailerInterface $mailer,
-        private readonly UserService     $userService,
-        private readonly Twig            $twig)
+        private readonly AuthService $authService,
+        private readonly Twig        $twig)
     {
 
     }
@@ -32,8 +33,18 @@ class AuthController
 
     public function register(Request $request, Response $response): Response
     {
-        // TODO: Implement User Registration
+        $data = $request->getParsedBody();
+        var_dump($data);
 
+        $newUser = new User();
+        $password_hash = password_hash($data['password'], PASSWORD_BCRYPT, ['cost' => 12]);
+        $newUser
+            ->setName($data['name'])
+            ->setEmail($data['email'])
+            ->setPaaswordHash($password_hash);
+
+
+        $this->authService->register($newUser);
         return $response;
     }
 

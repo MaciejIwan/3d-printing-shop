@@ -45,5 +45,7 @@ run commands in 3d-printing-app docker commandline
 ```./vendor/bin/phpunit```
 
 ## Credits
- Software used to create database diagram
+ * Software used to create database diagram
  https://drawsql.app/
+ * Logo design https://pixabay.com/pl/users/krzysztof-m-1363864/
+ 

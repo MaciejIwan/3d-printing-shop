@@ -25,7 +25,7 @@ $dependencyFactory = DependencyFactory::fromEntityManager($config, new ExistingE
 $migrationCommands = require(CONFIG_PATH . '/commands/migration_commands.php');
 $customCommands = require(CONFIG_PATH . '/commands/custom_commands.php');
 
-$application = new Application($appConfig->app['name'], $appConfig->app['version']);
+$application = new Application($appConfig->get('app_name'), $appConfig->get('app_version'));
 ConsoleRunner::addCommands($application, new SingleManagerProvider($entityManager));
 
 $application->addCommands($migrationCommands($dependencyFactory));
