@@ -5,3 +5,4 @@
 /src/vendor/
 .env
 /.phpunit.result.cache
+/storagecache/
