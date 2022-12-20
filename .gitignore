@@ -6,3 +6,4 @@
 .env
 /.phpunit.result.cache
 /storagecache/
+/node_modules/
