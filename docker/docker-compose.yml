@@ -12,10 +12,13 @@ services:
         USER: '${USER:-whoami}'
     extra_hosts:
       - host.docker.internal:host-gateway
+    ports:
+      - "9003:9003"
     restart: always
     working_dir: /var/www/
     volumes:
       - ../:/var/www
+      - ./local.ini:/usr/local/etc/php/conf.d/local.ini
   ngnix:
     container_name: 3d-printing-nginx
     image: nginx:1.19-alpine
