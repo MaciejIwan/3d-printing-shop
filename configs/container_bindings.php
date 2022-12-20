@@ -2,7 +2,8 @@
 declare(strict_types=1);
 
 use App\Config;
-use App\CustomMailer;
+use App\Repository\UserRepository;
+use App\Services\MailerService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 use Slim\Views\Twig;
@@ -24,5 +25,6 @@ return [
         $twig->addExtension(new IntlExtension());
         return $twig;
     },
-    MailerInterface::class => fn(Config $config) => new CustomMailer($config->mailer['dsn']),
+    MailerInterface::class => fn(Config $config) => new MailerService($config->mailer['dsn']),
+    UserRepository::class => fn(EntityManager $entityManager) => new UserRepository($entityManager),
 ];

@@ -19,8 +19,7 @@ class UserRepository extends EntityRepository
 
     public function fetchUser($user_id)
     {
-        $addr = $this->getEntityManager()->find(User::class, $user_id);
-        return $addr;
+        return $this->find(User::class, $user_id);
     }
 
 }

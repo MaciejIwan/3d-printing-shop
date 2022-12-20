@@ -2,18 +2,19 @@
 
 namespace App\Services;
 
-use App\Entity\User;
-use Doctrine\ORM\EntityManager;
+
+use App\Repository\UserRepository;
 
 class UserService
 {
-    public function __construct(private EntityManager $entityManager)
+    public function __construct(
+        private readonly UserRepository $userRepository)
     {
 
     }
 
     public function getAllUsers(): array
     {
-        return $this->entityManager->getRepository(User::class)->findAll();
+        return $this->userRepository->findAll();
     }
 }
