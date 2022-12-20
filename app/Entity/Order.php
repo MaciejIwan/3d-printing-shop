@@ -19,8 +19,8 @@ use Doctrine\ORM\Mapping\Table;
 #[Table('`order`')]
 class Order
 {
-    #[Id]
-    #[Column, GeneratedValue]
+
+    #[Id, Column(options: ['unsigned' => true]), GeneratedValue]
     private int $id;
 
     #[Column(type: 'decimal', precision: 10, scale: 2)]

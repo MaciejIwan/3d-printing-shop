@@ -18,8 +18,7 @@ use Doctrine\ORM\Mapping\Table;
 #[Table('`user`')]
 class User
 {
-    #[Id]
-    #[Column, GeneratedValue]
+    #[Id, Column(options: ['unsigned' => true]), GeneratedValue]
     private int $id;
 
     #[Column(name: 'password_hash')]
