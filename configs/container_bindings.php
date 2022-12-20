@@ -19,7 +19,7 @@ return [
     ),
     Twig::class => function (Config $config) {
         $twig = Twig::create(VIEW_PATH, [
-            'cache' => STORAGE_PATH . 'cache',
+            'cache' => STORAGE_PATH . '/cache',
             'auto_reload' => $config->environment === 'development'
         ]);
         $twig->addExtension(new IntlExtension());
