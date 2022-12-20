@@ -1,2 +1,8 @@
 .idea/
 .idea
+/vendor/
+/.env
+/src/vendor/
+.env
+/.phpunit.result.cache
+/storagecache/
