@@ -1,38 +1,42 @@
 # 3d printing shop app
 
+## IDE setup
 ### To set up step debugger in phpStorm you have to config path mapping in IDE
 1. Go to Settings > Languages & Frameworks > PHP and create a server with a hostname localhost
 2. Check use path mappings
 3. Add mapping like: C:\pathOnYourDisk\mySite mapped to remote /var/www/mySite
-
-## To enter index page
-```http://localhost:8000/```
-## To check local email inbox go to:
+   * To generate own files map run this command
+   ```composer dump-autoload -o```
+## Links
+* main page ```http://localhost:8000/```
+* local email inbox:
 ```http://localhost:8025/```
 
-# About Docker
-### To enter docker container command line
+## Docker
+* To enter docker container command line
 ```docker exec -it 3d-printing-app /bin/bash```
-### To reload nginx.conf without restarting
+* To reload nginx.conf without restarting
 ```docker exec 3d-printing-nginx nginx -s reload```
-### To run docker-compose from terminal
+* To run docker-compose from terminal
 ```docker-compose up -d --build```
-### To force rebuild whole container
+* To force rebuild whole container
 ```docker-compose build --no-cache --pull```
-### To exec command driectly on docker maching
+* To exec command driectly on docker maching
 ```docker exec -ti 3d-printing-app sh -c "echo hello world"```
 
-### To generate own files map
-```composer dump-autoload -o```
 
 
-# About database migration
+## App CLI 
 run commands in 3d-printing-app docker commandline
-### To generate database schema
-```vendor/bin/doctrine-migrations diff```
+### About database migration
+* To generate database schema: ```php myapp migrations:diff```
+* To create schema on database: ```php myapp migrations:migrate```
 
-### To create schema on database
-```vendor/bin/doctrine-migrations migrate```
+### List all available command
+* ```php myapp list```
+
+
+
 
 ### To run tests
 ```./vendor/bin/phpunit```

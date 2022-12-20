@@ -6,6 +6,7 @@ namespace App;
  * @property-read ?array $mailer
  * @property-read ?array $database
  * @property-read ?array $environment
+ * @property-read ?array $app
  */
 class Config
 {
@@ -29,7 +30,11 @@ class Config
             'mailer' => [
                 'dsn' => $env['MAILER_DSN']
             ],
-            'environment' => $env['APP_ENVIRONMENT'] ?? 'production'
+            'environment' => $env['APP_ENVIRONMENT'] ?? 'production',
+            'app' => [
+                'name' => $env['APP_NAME'] ?? 'myapp',
+                'version' => $env['APP_VERSION']
+            ]
         ];
     }
 

@@ -2,7 +2,7 @@
   "require": {
     "vlucas/phpdotenv": "^5.5",
     "marcin-orlowski/lombok-php": "^1.0",
-    "doctrine/dbal": "^3.3",
+    "doctrine/dbal": "^3.4",
     "doctrine/orm": "2.13.4",
     "doctrine/migrations": "^3.5",
     "symfony/mailer": "^6.2",
@@ -12,7 +12,8 @@
     "slim/slim": "4.*",
     "slim/psr7": "^1.6",
     "slim/twig-view": "^3.3",
-    "php-di/php-di": "^6.4"
+    "php-di/php-di": "^6.4",
+    "symfony/console": "^6.2"
   },
   "autoload": {
     "psr-4": {
