@@ -4,15 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-use App\Entity\User;
-use App\Exceptions\ValidationException;
 use App\Services\AuthService;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-use App\Services\UserService;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
-use Symfony\Component\Mailer\MailerInterface;
-use Valitron\Validator;
 
 class AuthController
 {

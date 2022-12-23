@@ -1,13 +1,13 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Enums;
 
 enum AppEnvironment: string
 {
     case Development = 'development';
-    case Production  = 'production';
+    case Production = 'production';
 
     public static function isProduction(string $appEnvironment): bool
     {

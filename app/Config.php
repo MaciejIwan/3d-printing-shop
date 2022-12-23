@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App;
 
@@ -12,7 +12,7 @@ class Config
 
     public function get(string $name, mixed $default = null): mixed
     {
-        $path  = explode('.', $name);
+        $path = explode('.', $name);
         $value = $this->config[array_shift($path)] ?? null;
 
         if ($value === null) {
@@ -20,7 +20,7 @@ class Config
         }
 
         foreach ($path as $key) {
-            if (! isset($value[$key])) {
+            if (!isset($value[$key])) {
                 return $default;
             }
 

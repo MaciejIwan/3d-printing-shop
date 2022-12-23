@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Repository\UserRepository;
 use App\Services\UserService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
