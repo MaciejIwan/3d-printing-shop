@@ -11,38 +11,53 @@ use Valitron\Validator;
 
 class AuthService
 {
+    private static int $MIN_PASSWORD_LENGTH = 6;
+    private static int $MAX_PASSWORD_LENGTH = 32;
 
     public function __construct(
-        private readonly UserRepository $userRepository)
+        public readonly UserRepository $userRepository)
     {
 
     }
 
-    public function register(User $new_user)
+    public function register(array $userFormData): void
     {
-        //todo validate data
-        #$this->validateRegisterData($new_user);
-        $this->userRepository->addUser($new_user);
+        $this->validateRegisterData($userFormData);
+        $newUser = $this->buildUserFromFormData($userFormData);
+        $this->userRepository->addUser($newUser);
     }
 
-    private function validateRegisterData(User $new_user)
+    private function validateRegisterData(array $newUserData): void
     {
-//        throw error if user with given email exists
-        #$this->userRepository->findOneBy($new_user->getEmail());
-
-        $v = new Validator(array('name' => 'Chester Tester'));
+        $v = new Validator($newUserData);
         $v->rule('required', ['name', 'email', 'password', 'confirmPassword']);
-        $v->rule('email', 'email');
-        $v->rule('equals', ['password', 'confirmPassword']);
-
-        $v->rule(fn($field, $value, $params, $fields) => $this->userRepository->count(
-            ['email' => $value]), 'email'
-        )->message("User with given email already exists");
+        $v->rule('email', 'email')->message(ValidationException::$EMAIL_NOT_CORRECT)->label('Email');;
+        $v->rule('equals', 'confirmPassword', 'password')->message(ValidationException::$PASSWORDS_NOT_MATCH)->label('Confirm Password');
+        $v->rule('lengthBetween', 'password', static::$MIN_PASSWORD_LENGTH, static::$MAX_PASSWORD_LENGTH)->message(ValidationException::$PASSWORD_LENGTH)->label('Password not the same');
+        $v->rule(
+            fn($field, $value, $params, $fields) => !$this->userRepository->isEmailTaken($value),
+            'email'
+        )->message(ValidationException::$EMAIL_TAKEN);
 
         if ($v->validate()) {
-            echo "All fine!";
+            echo "Yay! We're all good!";
         } else {
             throw new ValidationException($v->errors());
         }
+    }
+
+    /**
+     * @param array $userData
+     * @return User
+     */
+    public function buildUserFromFormData(array $userData): User
+    {
+        $newUser = new User();
+        $password_hash = password_hash($userData['password'], PASSWORD_BCRYPT, ['cost' => 12]);
+        $newUser
+            ->setName($userData['name'])
+            ->setEmail($userData['email'])
+            ->setPaaswordHash($password_hash);
+        return $newUser;
     }
 }

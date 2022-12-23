@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 
 use App\Config;
+use App\Middleware\ValidationExceptionsMiddleware;
 use Slim\App;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
@@ -14,6 +15,8 @@ return function (App $app) {
 
     // Twig
     $app->add(TwigMiddleware::create($app, $container->get(Twig::class)));
+
+    $app->add(ValidationExceptionsMiddleware::class);
 
     // Logger
     $app->addErrorMiddleware(

@@ -28,4 +28,8 @@ class UserRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
 
+    public function isEmailTaken(string $email): bool{
+        return boolval($this->count(['email' => $email]));
+    }
+
 }
