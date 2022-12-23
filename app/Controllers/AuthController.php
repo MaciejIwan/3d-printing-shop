@@ -31,8 +31,8 @@ class AuthController
     public function register(Request $request, Response $response): Response
     {
         $data = $request->getParsedBody();
-
         $this->authService->register($data);
+
         return $response;
     }
 

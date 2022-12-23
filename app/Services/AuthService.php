@@ -32,8 +32,12 @@ class AuthService
         $v = new Validator($newUserData);
         $v->rule('required', ['name', 'email', 'password', 'confirmPassword']);
         $v->rule('email', 'email')->message(ValidationException::$EMAIL_NOT_CORRECT)->label('Email');;
-        $v->rule('equals', 'confirmPassword', 'password')->message(ValidationException::$PASSWORDS_NOT_MATCH)->label('Confirm Password');
-        $v->rule('lengthBetween', 'password', static::$MIN_PASSWORD_LENGTH, static::$MAX_PASSWORD_LENGTH)->message(ValidationException::$PASSWORD_LENGTH)->label('Password not the same');
+        $v->rule('equals', 'confirmPassword', 'password')
+            ->message(ValidationException::$PASSWORDS_NOT_MATCH)
+            ->label('ConfirmPassword');
+        $v->rule('lengthBetween', ['password', 'confirmPassword'], static::$MIN_PASSWORD_LENGTH, static::$MAX_PASSWORD_LENGTH)
+            ->message(ValidationException::$PASSWORD_LENGTH)
+            ->label('Password');
         $v->rule(
             fn($field, $value, $params, $fields) => !$this->userRepository->isEmailTaken($value),
             'email'
