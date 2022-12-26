@@ -5,19 +5,28 @@ declare(strict_types=1);
 use App\Controllers\AuthController;
 use App\Controllers\HomeController;
 use App\Controllers\UploadController;
-use App\Controllers\UserController;
+use App\Middleware\AuthMiddleware;
+use App\Middleware\GuestMiddleware;
 use Slim\App;
 
-return function(App $app){
-    $app->get('/', [HomeController::class, 'index']);
+return function (App $app) {
+    //homepage
+    $app->get('/', [HomeController::class, 'index'])
+        ->add(AuthMiddleware::class);
+
+    //upload
     $app->get('/upload', [UploadController::class, 'index']);
     $app->post('/upload', [UploadController::class, 'store']);
 
-
-    $app->get('/login', [AuthController::class, 'loginView']);
-    $app->get('/register', [AuthController::class, 'registerView']);
-    $app->post('/login', [AuthController::class, 'logIn']);
-    $app->post('/register', [AuthController::class, 'register']);
+    //auth
+    $app->get('/login', [AuthController::class, 'loginView'])
+        ->add(GuestMiddleware::class);
+    $app->post('/login', [AuthController::class, 'logIn'])
+        ->add(GuestMiddleware::class);
+    $app->get('/register', [AuthController::class, 'registerView'])
+        ->add(GuestMiddleware::class);
+    $app->post('/register', [AuthController::class, 'register'])
+        ->add(GuestMiddleware::class);
 
 //    $app->get('/login', [UserController::class, 'login']);
 //    $app->get('/users', [UserController::class, 'all']);

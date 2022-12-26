@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Entity\User;
+use App\Exceptions\AuthenticationException;
 use App\Exceptions\ValidationException;
 use App\Repository\UserRepository;
 use Valitron\Validator;
@@ -63,5 +64,32 @@ class AuthService
             ->setEmail($userData['email'])
             ->setPaaswordHash($password_hash);
         return $newUser;
+    }
+
+    public function validateLoginData(array $userData)
+    {
+        $v = new Validator($userData);
+        $v->rule('required', ['email', 'password']);
+        $v->rule('email', 'email')->message(ValidationException::$EMAIL_NOT_CORRECT)->label('Email');;
+
+        if (!$v->validate()) {
+            throw new ValidationException(['password' => ['email or password is not valid']]);
+        }
+    }
+
+    public function checkCredentials(array $userData): User
+    {
+        $user = $this->userRepository->findOneBy(['email' => $userData['email']]);
+
+        if (!$user) {
+            throw new ValidationException(["email" => "Wrong email or password"]);
+        }
+
+        $isPasswordValid = password_verify($userData['password'], $user->getPaaswordHash());
+        if (!$isPasswordValid) {
+            throw new ValidationException(["password" => "Wrong email or password"]);
+        }
+
+        return $user;
     }
 }
