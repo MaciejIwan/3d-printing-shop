@@ -14,7 +14,7 @@ use Slim\Views\Twig;
 class OldFormDataMiddleware implements MiddlewareInterface
 {
     public function __construct(
-        private readonly Twig $twig,
+        private readonly Twig             $twig,
         private readonly SessionInterface $session
     )
     {

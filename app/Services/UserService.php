@@ -5,7 +5,6 @@ namespace App\Services;
 
 use App\Contracts\UserInterface;
 use App\Contracts\UserProviderServiceInterface;
-use App\Entity\User;
 use App\Repository\UserRepository;
 
 class UserService implements UserProviderServiceInterface

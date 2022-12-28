@@ -69,6 +69,7 @@ class Session implements Contracts\SessionInterface
     {
         unset($_SESSION[$key]);
     }
+
     public function flash(string $key, array $messages): void
     {
         $_SESSION[$this->options['flashName']][$key] = $messages;
