@@ -17,11 +17,6 @@ class UserRepository extends EntityRepository
     }
 
 
-    public function fetchUser($user_id)
-    {
-        return $this->find(User::class, $user_id);
-    }
-
     public function addUser(User $new_user)
     {
         $this->getEntityManager()->persist($new_user);

@@ -36,8 +36,8 @@ class AuthServiceTest extends TestCase
         $repositoryMock->expects($this->any())
             ->method('isEmailTaken')
             ->willReturn(true);
-        $object = new AuthService($repositoryMock);
-        $reflector = new ReflectionClass(AuthService::class);
+        $object = new UserRegisterService($repositoryMock);
+        $reflector = new ReflectionClass(UserRegisterService::class);
         $method = $reflector->getMethod('validateRegisterData');
         $method->setAccessible(true);
 
@@ -68,8 +68,8 @@ class AuthServiceTest extends TestCase
             ->method('isEmailTaken')
             ->willReturn(false);
 
-        $object = new AuthService($repositoryMock);
-        $reflector = new ReflectionClass(AuthService::class);
+        $object = new UserRegisterService($repositoryMock);
+        $reflector = new ReflectionClass(UserRegisterService::class);
         $method = $reflector->getMethod('validateRegisterData');
         $method->setAccessible(true);
 

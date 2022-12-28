@@ -50,7 +50,7 @@ $entityManager->flush();
 
 
 
-$user = (new \App\Entity\User())->setEmail("myemail@edu.pl")->setPaaswordHash("passhash");
+$user = (new \App\Entity\User())->setEmail("myemail@edu.pl")->setPasswordHash("passhash");
 $user->addAddress((new \App\Entity\UserAddress())->setCountry("Poland")->setPhoneNumber("731333261"));
 $entityManager->persist($user);
 $entityManager->flush();

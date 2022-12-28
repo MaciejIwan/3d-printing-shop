@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+
 use App\Entity\User;
-use App\Exceptions\AuthenticationException;
 use App\Exceptions\ValidationException;
 use App\Repository\UserRepository;
 use Valitron\Validator;
 
-class AuthService
+class UserRegisterService
 {
     private static int $MIN_PASSWORD_LENGTH = 6;
     private static int $MAX_PASSWORD_LENGTH = 32;
@@ -21,14 +21,15 @@ class AuthService
 
     }
 
+
     public function register(array $userFormData): void
     {
-        $this->validateRegisterData($userFormData);
+        $this->validateRegisterFormData($userFormData);
         $newUser = $this->buildUserFromFormData($userFormData);
         $this->userRepository->addUser($newUser);
     }
 
-    private function validateRegisterData(array $newUserData): void
+    private function validateRegisterFormData(array $newUserData): void
     {
         $v = new Validator($newUserData);
         $v->rule('required', ['name', 'email', 'password', 'confirmPassword']);
@@ -51,10 +52,6 @@ class AuthService
         }
     }
 
-    /**
-     * @param array $userData
-     * @return User
-     */
     public function buildUserFromFormData(array $userData): User
     {
         $newUser = new User();
@@ -62,34 +59,7 @@ class AuthService
         $newUser
             ->setName($userData['name'])
             ->setEmail($userData['email'])
-            ->setPaaswordHash($password_hash);
+            ->setPasswordHash($password_hash);
         return $newUser;
-    }
-
-    public function validateLoginData(array $userData)
-    {
-        $v = new Validator($userData);
-        $v->rule('required', ['email', 'password']);
-        $v->rule('email', 'email')->message(ValidationException::$EMAIL_NOT_CORRECT)->label('Email');;
-
-        if (!$v->validate()) {
-            throw new ValidationException(['password' => ['email or password is not valid']]);
-        }
-    }
-
-    public function checkCredentials(array $userData): User
-    {
-        $user = $this->userRepository->findOneBy(['email' => $userData['email']]);
-
-        if (!$user) {
-            throw new ValidationException(["email" => "Wrong email or password"]);
-        }
-
-        $isPasswordValid = password_verify($userData['password'], $user->getPaaswordHash());
-        if (!$isPasswordValid) {
-            throw new ValidationException(["password" => "Wrong email or password"]);
-        }
-
-        return $user;
     }
 }

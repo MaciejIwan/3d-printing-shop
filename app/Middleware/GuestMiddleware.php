@@ -20,11 +20,10 @@ class GuestMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if (!empty($_SESSION['user'])) {
-            return $this->responseFactory
-                ->createResponse(302)
-                ->withHeader("Location", '/');
+            return $this->responseFactory->createResponse(302)->withHeader('Location', '/');
         }
 
         return $handler->handle($request);
+
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Contracts\UserInterface;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -21,7 +22,7 @@ use Doctrine\ORM\Mapping\Table;
 
 #[Entity, Table('`user`')]
 #[HasLifecycleCallbacks]
-class User
+class User implements UserInterface
 {
     #[Id, Column(options: ['unsigned' => true]), GeneratedValue]
     private int $id;
@@ -33,16 +34,21 @@ class User
     private string $email;
 
     #[Column(name: 'password_hash', nullable: false)]
-    private string $paaswordHash;
+    private string $passwordHash;
 
     #[OneToMany(mappedBy: '`user`', targetEntity: UserAddress::class, cascade: ['persist', 'remove'])]
     private Collection $addresses;
 
-    #[Column('created_at')]
-    private DateTime $createdAt;
+    #[Column(name: 'created_at')]
+    private \DateTime $createdAt;
 
-    #[Column('updated_at')]
-    private DateTime $updatedAt;
+    #[Column(name: 'updated_at')]
+    private \DateTime $updatedAt;
+
+    public function __construct()
+    {
+        $this->addresses = new ArrayCollection();
+    }
 
     public function addAddress(UserAddress $address)
     {
@@ -57,13 +63,11 @@ class User
         if (!isset($this->createdAt)) {
             $this->createdAt = new DateTime();
         }
+
         $this->updatedAt = new DateTime();
     }
 
-    public function __construct()
-    {
-        $this->addresses = new ArrayCollection();
-    }
+
 
     public function getName(): string
     {
@@ -95,18 +99,18 @@ class User
         return $this;
     }
 
-    public function getPaaswordHash(): string
+    public function getPasswordHash(): string
     {
-        return $this->paaswordHash;
+        return $this->passwordHash;
     }
 
     /**
-     * @param string $paaswordHash
+     * @param string $passwordHash
      * @return User
      */
-    public function setPaaswordHash(string $paaswordHash): User
+    public function setPasswordHash(string $passwordHash): User
     {
-        $this->paaswordHash = $paaswordHash;
+        $this->passwordHash = $passwordHash;
         return $this;
     }
 
