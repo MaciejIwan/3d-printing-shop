@@ -2,6 +2,8 @@
 
 namespace App\Contracts;
 
+use App\Dto\UserRegisterDto;
+
 interface AuthInterface
 {
 
@@ -12,4 +14,6 @@ interface AuthInterface
     public function checkCredentials(UserInterface $user, array $credentials): bool;
 
     public function logOut(): void;
+    public function logIn(UserInterface $user): void;
+    public function register(UserRegisterDto $data): UserInterface;
 }

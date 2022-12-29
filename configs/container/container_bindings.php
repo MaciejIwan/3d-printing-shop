@@ -79,8 +79,17 @@ return [
         $container->get('webpack_encore.packages')
     ),
     ResponseFactoryInterface::class => fn(App $app) => $app->getResponseFactory(),
-    AuthInterface::class => fn(ContainerInterface $container) => $container->get(Auth::class),
-    UserProviderServiceInterface::class => fn(ContainerInterface $container) => $container->get(UserService::class),
-    SessionInterface::class => fn(Config $config) => new Session($config->get('session'))
+    AuthInterface::class => fn(ContainerInterface $container) => $container->get(
+        Auth::class
+    ),
+    UserProviderServiceInterface::class => fn(ContainerInterface $container) => $container->get(
+        UserService::class
+    ),
+    SessionInterface::class => fn(Config $config) => new Session(
+        $config->get('session')
+    ),
+    \App\Contracts\DataValidatorFactoryInterface::class => fn(ContainerInterface $container) => $container->get(
+        \App\DataValidators\DataValidatorFactory::class
+    ),
 
 ];

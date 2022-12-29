@@ -16,11 +16,11 @@ class Session implements Contracts\SessionInterface
     public function start(): void
     {
         if ($this->isActive()) {
-            throw new \RuntimeException("Session has already started!");
+            throw new SessionException("Session has already started!");
         }
 
         if (headers_sent($filename, $line)) {
-            throw new \RuntimeException("Headers already sent");
+            throw new SessionException("Headers already sent");
         }
         session_set_cookie_params([
             'secure' => $this->options['secure'] ?? true,

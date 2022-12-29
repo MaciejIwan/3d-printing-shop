@@ -5,19 +5,21 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Contracts\AuthInterface;
+use App\Contracts\DataValidatorFactoryInterface;
+use App\DataValidators\UserLoginDataValidator;
+use App\DataValidators\UserRegisterDataValidator;
+use App\Dto\UserRegisterDto;
 use App\Exceptions\ValidationException;
-use App\Services\UserRegisterService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
-use Valitron\Validator;
 
 class AuthController
 {
     public function __construct(
-        private readonly UserRegisterService $userRegisterService,
-        private readonly Twig                $twig,
-        private readonly AuthInterface       $auth
+        private readonly Twig                          $twig,
+        private readonly AuthInterface                 $auth,
+        private readonly DataValidatorFactoryInterface $dataValidatorFactory
     )
     {
 
@@ -35,17 +37,17 @@ class AuthController
 
     public function register(Request $request, Response $response): Response
     {
-        $data = $request->getParsedBody();
-        $this->userRegisterService->register($data);
+        $data = $this->dataValidatorFactory->make(UserRegisterDataValidator::class)->validate($request->getParsedBody());
+        $this->auth->register(new UserRegisterDto($data['name'], $data['email'], $data['password']));
 
-        return $response;
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     public function logIn(Request $request, Response $response): Response
     {
-        // 1. Validate the request data
-        $data = $request->getParsedBody();
-        $this->validateLoginFormData($data);
+        $data = $this->dataValidatorFactory->make(UserLoginDataValidator::class)->validate(
+            $request->getParsedBody()
+        );
 
         if (!$this->auth->attemptLogin($data)) {
             throw new ValidationException(['password' => ['You have entered an invalid username or password']]);
@@ -60,14 +62,4 @@ class AuthController
         return $response->withHeader('Location', '/')->withStatus(302);
     }
 
-    private function validateLoginFormData(array $userData): void
-    {
-        $v = new Validator($userData);
-        $v->rule('required', ['email', 'password']);
-        $v->rule('email', 'email')->message(ValidationException::$EMAIL_NOT_CORRECT)->label('Email');;
-
-        if (!$v->validate()) {
-            throw new ValidationException(['password' => ['email or password is not valid']]);
-        }
-    }
 }

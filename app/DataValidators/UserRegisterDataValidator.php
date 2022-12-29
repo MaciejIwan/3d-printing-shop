@@ -2,36 +2,26 @@
 
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\DataValidators;
 
-
-use App\Entity\User;
+use App\Contracts\DataValidatorInterface;
 use App\Exceptions\ValidationException;
 use App\Repository\UserRepository;
 use Valitron\Validator;
 
-class UserRegisterService
+class UserRegisterDataValidator implements DataValidatorInterface
 {
     private static int $MIN_PASSWORD_LENGTH = 6;
     private static int $MAX_PASSWORD_LENGTH = 32;
 
-    public function __construct(
-        public readonly UserRepository $userRepository)
+    public function __construct(private readonly UserRepository $userRepository)
     {
-
     }
 
-
-    public function register(array $userFormData): void
+    public function validate(array $formData): array
     {
-        $this->validateRegisterFormData($userFormData);
-        $newUser = $this->buildUserFromFormData($userFormData);
-        $this->userRepository->addUser($newUser);
-    }
+        $v = new Validator($formData);
 
-    private function validateRegisterFormData(array $newUserData): void
-    {
-        $v = new Validator($newUserData);
         $v->rule('required', ['name', 'email', 'password', 'confirmPassword']);
         $v->rule('email', 'email')->message(ValidationException::$EMAIL_NOT_CORRECT)->label('Email');;
         $v->rule('equals', 'confirmPassword', 'password')
@@ -45,21 +35,10 @@ class UserRegisterService
             'email'
         )->message(ValidationException::$EMAIL_TAKEN);
 
-        if ($v->validate()) {
-            echo "Yay! We're all good!";
-        } else {
+        if (!$v->validate()) {
             throw new ValidationException($v->errors());
         }
-    }
 
-    public function buildUserFromFormData(array $userData): User
-    {
-        $newUser = new User();
-        $password_hash = password_hash($userData['password'], PASSWORD_BCRYPT, ['cost' => 12]);
-        $newUser
-            ->setName($userData['name'])
-            ->setEmail($userData['email'])
-            ->setPasswordHash($password_hash);
-        return $newUser;
+        return $formData;
     }
 }
