@@ -1,45 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App;
 
-/**
- * @property-read ?array $mailer
- * @property-read ?array $database
- * @property-read ?array $environment
- * @property-read ?array $app
- */
 class Config
 {
-    /**
-     * @var array|mixed|null
-     */
-    protected array $config = [];
-
-    public function __construct(array $env)
+    public function __construct(private readonly array $config)
     {
-
-        $this->config = [
-            'database' => [
-                'dbname' => $env['DB_DATABASE'],
-                'user' => $env['DB_USER'],
-                'password' => $env['DB_PASS'],
-                'host' => $env['DB_HOST'],
-                'port' => intval($env['DB_PORT']),
-                'driver' => $env['DB_DRIVER'] ?? 'pdo_mysql',
-            ],
-            'mailer' => [
-                'dsn' => $env['MAILER_DSN']
-            ],
-            'environment' => $env['APP_ENVIRONMENT'] ?? 'production',
-            'app' => [
-                'name' => $env['APP_NAME'] ?? 'myapp',
-                'version' => $env['APP_VERSION']
-            ]
-        ];
     }
 
-    public function __get(string $name)
+    public function get(string $name, mixed $default = null): mixed
     {
-        return $this->config[$name] ?? null;
+        $path = explode('.', $name);
+        $value = $this->config[array_shift($path)] ?? null;
+
+        if ($value === null) {
+            return $default;
+        }
+
+        foreach ($path as $key) {
+            if (!isset($value[$key])) {
+                return $default;
+            }
+
+            $value = $value[$key];
+        }
+
+        return $value;
     }
 }

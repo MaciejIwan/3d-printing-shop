@@ -12,6 +12,7 @@
 * local email inbox:
 ```http://localhost:8025/```
 
+  
 ## Docker
 * To enter docker container command line
 ```docker exec -it 3d-printing-app /bin/bash```
@@ -24,8 +25,10 @@
 * To exec command driectly on docker maching
 ```docker exec -ti 3d-printing-app sh -c "echo hello world"```
 
-
-
+## Before start
+*  ```composer install``` & ```npm install```
+* ```npm run dev```
+* ```docker-compose up -d --build```
 ## App CLI 
 run commands in 3d-printing-app docker commandline
 ### About database migration
@@ -42,5 +45,7 @@ run commands in 3d-printing-app docker commandline
 ```./vendor/bin/phpunit```
 
 ## Credits
- Software used to create database diagram
+ * Software used to create database diagram
  https://drawsql.app/
+ * Logo design https://pixabay.com/pl/users/krzysztof-m-1363864/
+ 

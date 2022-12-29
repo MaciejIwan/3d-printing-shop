@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 return [
     'table_storage' => [
@@ -12,7 +12,7 @@ return [
     ],
 
     'migrations_paths' => [
-        'Migrations' => __DIR__ .'/../migrations',
+        'Migrations' => __DIR__ . '/../migrations',
     ]
 
 ];
