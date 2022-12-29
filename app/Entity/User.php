@@ -4,33 +4,51 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Contracts\UserInterface;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\PrePersist;
+use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\ORM\Mapping\Table;
 
 
-#[Entity]
-#[Table('`user`')]
-class User
+#[Entity, Table('`user`')]
+#[HasLifecycleCallbacks]
+class User implements UserInterface
 {
     #[Id, Column(options: ['unsigned' => true]), GeneratedValue]
     private int $id;
 
-    #[Column(name: 'password_hash')]
-    private string $paaswordHash;
+    #[Column(name: 'name')]
+    private string $name;
 
-    //todo email must be uniq
-    #[Column(name: 'email')]
+    #[Column(name: 'email', unique: true, nullable: false)]
     private string $email;
 
+    #[Column(name: 'password_hash', nullable: false)]
+    private string $passwordHash;
 
     #[OneToMany(mappedBy: '`user`', targetEntity: UserAddress::class, cascade: ['persist', 'remove'])]
     private Collection $addresses;
+
+    #[Column(name: 'created_at')]
+    private \DateTime $createdAt;
+
+    #[Column(name: 'updated_at')]
+    private \DateTime $updatedAt;
+
+    public function __construct()
+    {
+        $this->addresses = new ArrayCollection();
+    }
 
     public function addAddress(UserAddress $address)
     {
@@ -39,9 +57,30 @@ class User
         return $this;
     }
 
-    public function __construct()
+    #[PrePersist, PreUpdate]
+    public function updateTimestamps(LifecycleEventArgs $args): void
     {
-        $this->addresses = new ArrayCollection();
+        if (!isset($this->createdAt)) {
+            $this->createdAt = new DateTime();
+        }
+
+        $this->updatedAt = new DateTime();
+    }
+
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return User
+     */
+    public function setName(string $name): User
+    {
+        $this->name = $name;
+        return $this;
     }
 
     public function getId(): int
@@ -59,18 +98,18 @@ class User
         return $this;
     }
 
-    public function getPaaswordHash(): string
+    public function getPasswordHash(): string
     {
-        return $this->paaswordHash;
+        return $this->passwordHash;
     }
 
     /**
-     * @param string $paaswordHash
+     * @param string $passwordHash
      * @return User
      */
-    public function setPaaswordHash(string $paaswordHash): User
+    public function setPasswordHash(string $passwordHash): User
     {
-        $this->paaswordHash = $paaswordHash;
+        $this->passwordHash = $passwordHash;
         return $this;
     }
 

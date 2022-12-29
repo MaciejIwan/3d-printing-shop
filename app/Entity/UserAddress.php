@@ -27,24 +27,24 @@ class UserAddress
     #[Column(name: 'phone_number')]
     private string $phoneNumber;
 
-    #[Column(name: 'country', type:Types::STRING, nullable:true)]
+    #[Column(name: 'country', type: Types::STRING, nullable: true)]
     private string $country = "";
-    #[Column(name: 'post_code', type:Types::STRING, nullable:true)]
+    #[Column(name: 'post_code', type: Types::STRING, nullable: true)]
     private string $postCode;
 
-    #[Column(name: 'city', type:Types::STRING, nullable:true)]
+    #[Column(name: 'city', type: Types::STRING, nullable: true)]
     private string $city;
 
-    #[Column(name: 'street', type:Types::STRING, nullable:true)]
+    #[Column(name: 'street', type: Types::STRING, nullable: true)]
     private string $street;
 
-    #[Column(name: 'direction', type:Types::STRING, nullable:true)]
+    #[Column(name: 'direction', type: Types::STRING, nullable: true)]
     private string $direction;
 
-    #[Column(name:'created_at', type:"datetime", nullable: true)]
+    #[Column(name: 'created_at', type: "datetime", nullable: true)]
     private DateTime $createdAt;
 
-    #[Column(name:'updated_at', type:"datetime", nullable: true)]
+    #[Column(name: 'updated_at', type: "datetime", nullable: true)]
     private DateTime $updatedAt;
 
     #[ManyToOne(cascade: ['persist'], inversedBy: 'addresses')]
@@ -53,7 +53,6 @@ class UserAddress
 
     /**
      * Gets triggered only on insert
-
      * @ORM\PrePersist
      */
     public function onPrePersist()
@@ -63,7 +62,6 @@ class UserAddress
 
     /**
      * Gets triggered every time on update
-
      * @ORM\PreUpdate
      */
     public function onPreUpdate()

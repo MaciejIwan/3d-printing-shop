@@ -13,8 +13,7 @@ use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
 use Symfony\Component\Console\Application;
 
 
-$app = require(__DIR__ . '/bootstrap.php');
-$container = $app->getContainer();
+$container = require(__DIR__ . '/bootstrap.php');
 
 $entityManager = $container->get(EntityManager::class);
 $appConfig = $container->get(Config::class);
@@ -22,10 +21,10 @@ $appConfig = $container->get(Config::class);
 $config = new PhpFile(CONFIG_PATH . '/migrations.php');
 $dependencyFactory = DependencyFactory::fromEntityManager($config, new ExistingEntityManager($entityManager));
 
-$migrationCommands = require(CONFIG_PATH . '/migration_commands.php');
-$customCommands = require(CONFIG_PATH . '/custom_commands.php');
+$migrationCommands = require(CONFIG_PATH . '/commands/migration_commands.php');
+$customCommands = require(CONFIG_PATH . '/commands/custom_commands.php');
 
-$application = new Application($appConfig->app['name'], $appConfig->app['version']);
+$application = new Application($appConfig->get('app_name'), $appConfig->get('app_version'));
 ConsoleRunner::addCommands($application, new SingleManagerProvider($entityManager));
 
 $application->addCommands($migrationCommands($dependencyFactory));
