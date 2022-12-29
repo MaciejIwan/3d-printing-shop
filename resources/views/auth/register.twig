@@ -16,13 +16,14 @@
                                     Register
                                 </h2>
                                 <form method="post" action="/register">
+                                    {{ csrf.fields | raw }}
                                     <div class="form-outline form-white mb-4">
                                         <input type="text" name="name" required
                                                value="{{ old.name }}"
                                                class="form-control form-control-lg {{ errors.name ? "is-invalid" : "" }}"
                                                placeholder="Name"/>
                                         <div class="invalid-feedback">
-                                                {{ errors.name | first }}
+                                            {{ errors.name | first }}
                                         </div>
                                     </div>
                                     <div class="form-outline form-white mb-4">
