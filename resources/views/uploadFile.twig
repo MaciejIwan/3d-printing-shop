@@ -1,12 +1,47 @@
-{% extends 'views/layout.twig' %}
+{% extends 'layout.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('uploadFile') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('uploadFile') }}
+{% endblock %}
 
 {% block title %}
     Upload
 {% endblock %}
 
 {% block content %}
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="receipt"/>
-        <button type="submit">Upload</button>
+    {#    <form action="/upload" method="post" enctype="multipart/form-data"> #}
+    {#        #}
+    {#        <input type="file" name="receipt"/> #}
+    {#        <button type="submit">Upload</button> #}
+    {#    </form> #}
+    {#    <div class="file-upload-wrapper"> #}
+    {#        <input type="file" id="input-file-now" class="file-upload" /> #}
+    {#    </div> #}
+    <form class="" method="post" action="/upload" enctype="multipart/form-data">
+        {{ csrf.fields | raw }}
+        <div class="drop-zone">
+            <span class="drop-zone__prompt">Drop file here or click to upload </span>
+            <input type="file" name="model_file" class="drop-zone__input" required>
+
+        </div>
+        <button class="btn btn-primary bg-gradient text-white btn-lg px-5" type="submit">Prześlij</button>
     </form>
+
+    {#    <form class="box" method="post" action="/upload" enctype="multipart/form-data"> #}
+    {#        {{ csrf.fields | raw }} #}
+    {#        <div class="box__input"> #}
+    {#            <input class="box__file" type="file" name="files[]" id="file" data-multiple-caption="{count} files selected" multiple /> #}
+    {#            <label for="file"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it here</span>.</label> #}
+    {#            <button class="box__button" type="submit">Upload</button> #}
+    {#        </div> #}
+    {#        <div class="box__uploading">Uploading…</div> #}
+    {#        <div class="box__success">Done!</div> #}
+    {#        <div class="box__error">Error! <span></span>.</div> #}
+    {#    </form> #}
 {% endblock %}
