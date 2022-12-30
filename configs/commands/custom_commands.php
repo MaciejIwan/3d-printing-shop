@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\commands\MyCommand;
+use App\Commands\MyCommand;
 
 return [
     MyCommand::class
