@@ -9,6 +9,7 @@ use App\Contracts\SessionInterface;
 use App\Contracts\UserProviderServiceInterface;
 use App\DataValidators\DataValidatorFactory;
 use App\Enums\AppEnvironment;
+use App\Repository\PrintingModelRepository;
 use App\Repository\UserRepository;
 use App\Services\MailerService;
 use App\Services\UserService;
@@ -69,6 +70,7 @@ return [
     },
     MailerInterface::class => fn(Config $config) => new MailerService($config->get('mailer.dsn')),
     UserRepository::class => fn(EntityManager $entityManager) => new UserRepository($entityManager),
+    PrintingModelRepository::class => fn(EntityManager $entityManager) => new PrintingModelRepository($entityManager),
 
 
     /**
