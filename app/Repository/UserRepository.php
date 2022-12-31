@@ -17,7 +17,7 @@ class UserRepository extends EntityRepository
     }
 
 
-    public function addUser(User $new_user)
+    public function add(User $new_user)
     {
         $this->getEntityManager()->persist($new_user);
         $this->getEntityManager()->flush();

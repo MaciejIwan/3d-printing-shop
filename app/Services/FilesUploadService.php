@@ -26,7 +26,7 @@ class FilesUploadService
         $printingModel
             ->setFilename($new_name)
             ->setMaterialCost(1);
-        $this->printingModelRepository->addPrintingModel($printingModel);
+        $this->printingModelRepository->add($printingModel);
     }
 
     function moveUploadedFile($directory, UploadedFile $uploadedFile)

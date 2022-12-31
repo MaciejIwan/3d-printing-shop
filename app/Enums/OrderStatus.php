@@ -6,19 +6,18 @@ namespace App\Enums;
 
 enum OrderStatus: int
 {
-
-    case Pending = 0;
-    case Paid = 1;
-    case Void = 2;
-    case Failed = 3;
+    case New = 0;
+    case Pending = 1;
+    case Paid = 2;
+    case Canceled = 3;
 
     public function toString(): string
     {
         return match ($this) {
+            self::New => 'New',
+            self::Pending => 'Pending',
             self::Paid => 'Paid',
-            self::Failed => 'Declined',
-            self::Void => 'Void',
-            default => 'Pending'
+            self::Canceled => 'Canceled'
         };
     }
 

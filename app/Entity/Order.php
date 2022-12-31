@@ -3,22 +3,24 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Trait\HasTimestamps;
 use App\Enums\OrderStatus;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 
-//#[Setter, Getter]
-#[Entity]
-#[Table('`order`')]
+
+#[Entity, Table('`order`'), HasLifecycleCallbacks]
 class Order
 {
+    use HasTimestamps;
+
     #[Id]
     #[Column, GeneratedValue]
     private int $id;
@@ -30,10 +32,7 @@ class Order
     #[Column(enumType: OrderStatus::class)]
     private OrderStatus $status;
 
-    #[Column('created_at')]
-    private DateTime $createdAt;
 
-    //todo check cascade
     #[OneToMany(mappedBy: '`order`', targetEntity: OrderItem::class, cascade: ['persist', 'remove'])]
     private Collection $items;
 
@@ -41,6 +40,14 @@ class Order
     {
         $this->items = new ArrayCollection();
     }
+
+    public function addItem(OrderItem $item)
+    {
+        $item->setOrder($this);
+        $this->items->add($item);
+        return $this;
+    }
+
 
     /**
      * @return int
@@ -97,24 +104,6 @@ class Order
     }
 
     /**
-     * @return DateTime
-     */
-    public function getCreatedAt(): DateTime
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @param DateTime $createdAt
-     * @return Order
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    /**
      * @return Collection
      */
     public function getItems(): Collection
@@ -129,13 +118,6 @@ class Order
     public function setItems($items)
     {
         $this->items = $items;
-        return $this;
-    }
-
-    public function addItem(OrderItem $item)
-    {
-        $item->setOrder($this);
-        $this->items->add($item);
         return $this;
     }
 
