@@ -37,8 +37,13 @@ class AuthController
 
     public function register(Request $request, Response $response): Response
     {
-        $data = $this->dataValidatorFactory->make(UserRegisterDataValidator::class)->validate($request->getParsedBody());
-        $this->auth->register(new UserRegisterDto($data['name'], $data['email'], $data['password']));
+        $data = $this->dataValidatorFactory->make(UserRegisterDataValidator::class)->validate(
+            $request->getParsedBody()
+        );
+
+        $this->auth->register(
+            new UserRegisterDto($data['name'], $data['email'], $data['password'])
+        );
 
         return $response->withHeader('Location', '/')->withStatus(302);
     }

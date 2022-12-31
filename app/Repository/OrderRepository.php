@@ -4,21 +4,22 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Order;
 use App\Entity\PrintingModel;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
 
-class PrintingModelRepository extends EntityRepository
+class OrderRepository extends EntityRepository
 {
     public function __construct(EntityManager $entityManager)
     {
-        $metaData = new ClassMetadata(PrintingModel::class);
+        $metaData = new ClassMetadata(Order::class);
         parent::__construct($entityManager, $metaData);
     }
-    public function add(PrintingModel $printingModel)
+    public function add(Order $order)
     {
-        $this->getEntityManager()->persist($printingModel);
+        $this->getEntityManager()->persist($order);
         $this->getEntityManager()->flush();
     }
 }

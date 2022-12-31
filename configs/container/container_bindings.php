@@ -9,6 +9,7 @@ use App\Contracts\SessionInterface;
 use App\Contracts\UserProviderServiceInterface;
 use App\DataValidators\DataValidatorFactory;
 use App\Enums\AppEnvironment;
+use App\Repository\OrderRepository;
 use App\Repository\PrintingModelRepository;
 use App\Repository\UserRepository;
 use App\Services\MailerService;
@@ -69,8 +70,10 @@ return [
         return $twig;
     },
     MailerInterface::class => fn(Config $config) => new MailerService($config->get('mailer.dsn')),
+
     UserRepository::class => fn(EntityManager $entityManager) => new UserRepository($entityManager),
     PrintingModelRepository::class => fn(EntityManager $entityManager) => new PrintingModelRepository($entityManager),
+    OrderRepository::class => fn(EntityManager $entityManager) => new OrderRepository($entityManager),
 
 
     /**

@@ -35,7 +35,7 @@ class UserService implements UserProviderServiceInterface
     public function createUser(UserRegisterDto $userData): ?UserInterface
     {
         $newUser = $this->buildUserFromFormData($userData);
-        $this->userRepository->addUser($newUser);
+        $this->userRepository->add($newUser);
 
         return $newUser;
     }
