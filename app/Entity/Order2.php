@@ -12,18 +12,23 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 
 
 #[Entity, Table('`order`'), HasLifecycleCallbacks]
-class Order
+class Order2
 {
     use HasTimestamps;
 
     #[Id]
     #[Column, GeneratedValue]
     private int $id;
+
+    #[Column]
+    private string $name;
+
 
     #[Column(type: 'decimal', precision: 10, scale: 2)]
     private int $amount;
@@ -32,6 +37,8 @@ class Order
     #[Column(enumType: OrderStatus::class)]
     private OrderStatus $status;
 
+    #[ManyToOne(inversedBy: '`order`')]
+    private User $user;
 
     #[OneToMany(mappedBy: '`order`', targetEntity: OrderItem::class, cascade: ['persist', 'remove'])]
     private Collection $items;
@@ -48,6 +55,16 @@ class Order
         return $this;
     }
 
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
 
     /**
      * @return int
@@ -59,7 +76,7 @@ class Order
 
     /**
      * @param int $id
-     * @return Order
+     * @return Order2
      */
     public function setId($id)
     {
@@ -77,7 +94,7 @@ class Order
 
     /**
      * @param int $amount
-     * @return Order
+     * @return Order2
      */
     public function setAmount($amount)
     {
@@ -95,7 +112,7 @@ class Order
 
     /**
      * @param OrderStatus $status
-     * @return Order
+     * @return Order2
      */
     public function setStatus($status)
     {
@@ -113,7 +130,7 @@ class Order
 
     /**
      * @param Collection $items
-     * @return Order
+     * @return Order2
      */
     public function setItems($items)
     {

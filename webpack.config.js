@@ -21,7 +21,6 @@ Encore
      */
     .addEntry("app", "./resources/js/app.js")
     .addEntry("dashboard", "./resources/js/dashboard.js")
-    .addEntry("categories", "./resources/js/categories.js")
     .addEntry("auth", "./resources/js/auth.js")
     .addEntry("uploadFile", "./resources/js/uploadFile.js")
     .addEntry("orders", "./resources/js/orders.js")
