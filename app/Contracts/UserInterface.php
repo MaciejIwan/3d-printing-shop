@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Contracts;
 
 interface UserInterface
 {
     public function getId(): int;
 
-    public function getPasswordHash(): string;
-
+    public function getPassword(): string;
 }

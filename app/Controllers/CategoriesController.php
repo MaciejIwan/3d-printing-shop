@@ -12,6 +12,7 @@ use App\Services\CategoryService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
+
 class CategoriesController
 {
     public function __construct(
@@ -79,6 +80,7 @@ class CategoriesController
 
         $this->categoryService->update($category, $data['name']);
 
+        $this->responseFormatter->asJson($response, ['message' => "updated successfully"]);
         return $response;
     }
 }

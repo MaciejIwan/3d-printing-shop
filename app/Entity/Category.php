@@ -25,6 +25,12 @@ class Category
     #[Id, Column(options: ['unsigned' => true]), GeneratedValue]
     private int $id;
 
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
     #[Column]
     private string $name;
 

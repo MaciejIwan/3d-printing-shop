@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Contracts\AuthInterface;
-use App\Contracts\DataValidatorFactoryInterface;
-use App\DataValidators\UserLoginDataValidator;
-use App\DataValidators\UserRegisterDataValidator;
-use App\Dto\UserRegisterDto;
+use App\Contracts\RequestValidatorFactoryInterface;
+use App\Dto\RegisterUserData;
 use App\Exceptions\ValidationException;
+use App\RequestValidators\RegisterUserRequestValidator;
+use App\RequestValidators\UserLoginRequestValidator;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
@@ -17,12 +17,11 @@ use Slim\Views\Twig;
 class AuthController
 {
     public function __construct(
-        private readonly Twig                          $twig,
-        private readonly AuthInterface                 $auth,
-        private readonly DataValidatorFactoryInterface $dataValidatorFactory
+        private readonly Twig                             $twig,
+        private readonly RequestValidatorFactoryInterface $requestValidatorFactory,
+        private readonly AuthInterface                    $auth
     )
     {
-
     }
 
     public function loginView(Request $request, Response $response): Response
@@ -37,12 +36,12 @@ class AuthController
 
     public function register(Request $request, Response $response): Response
     {
-        $data = $this->dataValidatorFactory->make(UserRegisterDataValidator::class)->validate(
+        $data = $this->requestValidatorFactory->make(RegisterUserRequestValidator::class)->validate(
             $request->getParsedBody()
         );
 
         $this->auth->register(
-            new UserRegisterDto($data['name'], $data['email'], $data['password'])
+            new RegisterUserData($data['name'], $data['email'], $data['password'])
         );
 
         return $response->withHeader('Location', '/')->withStatus(302);
@@ -50,7 +49,7 @@ class AuthController
 
     public function logIn(Request $request, Response $response): Response
     {
-        $data = $this->dataValidatorFactory->make(UserLoginDataValidator::class)->validate(
+        $data = $this->requestValidatorFactory->make(UserLoginRequestValidator::class)->validate(
             $request->getParsedBody()
         );
 
@@ -64,7 +63,7 @@ class AuthController
     public function logOut(Request $request, Response $response): Response
     {
         $this->auth->logOut();
+
         return $response->withHeader('Location', '/')->withStatus(302);
     }
-
 }

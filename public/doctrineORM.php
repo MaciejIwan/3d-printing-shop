@@ -2,7 +2,7 @@
 
 use App\Entity\Order;
 use App\Entity\OrderItem;
-use App\Enums\OrderStatus;
+use App\Enum\OrderStatus;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 

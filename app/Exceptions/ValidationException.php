@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
-use Laminas\Code\Exception\RuntimeException;
+use RuntimeException;
 
 class ValidationException extends RuntimeException
 {

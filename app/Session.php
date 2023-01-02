@@ -4,31 +4,37 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Exceptions\SessionException;
+use App\Contracts\SessionInterface;
+use App\Dto\SessionConfig;
+use App\Exception\SessionException;
 
-class Session implements Contracts\SessionInterface
+class Session implements SessionInterface
 {
-
-    public function __construct(private readonly array $options)
+    public function __construct(private readonly SessionConfig $options)
     {
     }
 
     public function start(): void
     {
         if ($this->isActive()) {
-            throw new SessionException("Session has already started!");
+            throw new SessionException('Session has already been started');
         }
 
-        if (headers_sent($filename, $line)) {
-            throw new SessionException("Headers already sent");
+        if (headers_sent($fileName, $line)) {
+            throw new SessionException('Headers have already sent by ' . $fileName . ':' . $line);
         }
-        session_set_cookie_params([
-            'secure' => $this->options['secure'] ?? true,
-            'httponly' => $this->options['httponly'] ?? true,
-            'samesite' => $this->options['samesite'] ?? 'lax'
-        ]);
 
-        session_name($this->options['name'] ?? 'app');
+        session_set_cookie_params(
+            [
+                'secure' => $this->options->secure,
+                'httponly' => $this->options->httpOnly,
+                'samesite' => $this->options->sameSite->value,
+            ]
+        );
+
+        if (!empty($this->options->name)) {
+            session_name($this->options->name);
+        }
 
         if (!session_start()) {
             throw new SessionException('Unable to start the session');
@@ -72,16 +78,15 @@ class Session implements Contracts\SessionInterface
 
     public function flash(string $key, array $messages): void
     {
-        $_SESSION[$this->options['flashName']][$key] = $messages;
+        $_SESSION[$this->options->flashName][$key] = $messages;
     }
 
     public function getFlash(string $key): array
     {
-        $messages = $_SESSION[$this->options['flashName']][$key] ?? [];
+        $messages = $_SESSION[$this->options->flashName][$key] ?? [];
 
-        unset($_SESSION[$this->options['flashName']][$key]);
+        unset($_SESSION[$this->options->flashName][$key]);
 
         return $messages;
     }
-
 }
