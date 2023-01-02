@@ -20,6 +20,7 @@ window.addEventListener('DOMContentLoaded', function () {
             name: editCategoryModal._element.querySelector('input[name="name"]').value
         }).then(response => {
             console.log(response)
+            updateTableRow(response['data'])
         })
     })
 })
@@ -32,4 +33,11 @@ function openEditCategoryModal(modal, {id, name}) {
     modal._element.querySelector('.save-category-btn').setAttribute('data-id', id)
 
     modal.show()
+}
+
+function updateTableRow({id, name, created_at, updated_at}) {
+    let date  = new Date();
+    document.querySelector(`#categoriesTable > table > tbody > tr.t${id} > td.category-name`).innerHTML = name
+    document.querySelector(`#categoriesTable > table > tbody > tr.t${id} > td.category-createAt`).innerHTML = created_at
+    document.querySelector(`#categoriesTable > table > tbody > tr.t${id} > td.category-updatedAt`).innerHTML = updated_at
 }
