@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Trait\HasTimestamps;
+use App\Enum\OrderStatus;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
@@ -22,32 +23,32 @@ class Category
 {
     use HasTimestamps;
 
-    #[Id, Column(options: ['unsigned' => true]), GeneratedValue]
+    #[Id]
+    #[Column, GeneratedValue]
     private int $id;
-
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
 
     #[Column]
     private string $name;
 
-    #[ManyToOne(inversedBy: 'categories')]
+    #[Column(nullable: true, enumType: OrderStatus::class)]
+    private OrderStatus $status;
+
+    #[ManyToOne(inversedBy: '`order`')]
     private User $user;
 
-    #[OneToMany(mappedBy: 'category', targetEntity: Transaction::class)]
-    private Collection $transactions;
+    #[OneToMany(mappedBy: 'categories', targetEntity: OrderItem::class, cascade: ['persist', 'remove'])]
+    private Collection $items;
 
     public function __construct()
     {
-        $this->transactions = new ArrayCollection();
+        $this->items = new ArrayCollection();
     }
 
-    public function getId(): int
+    public function addItem(OrderItem $item)
     {
-        return $this->id;
+        $item->setOrder($this);
+        $this->items->add($item);
+        return $this;
     }
 
     public function getName(): string
@@ -55,10 +56,9 @@ class Category
         return $this->name;
     }
 
-    public function setName(string $name): Category
+    public function setName($name)
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -67,24 +67,47 @@ class Category
         return $this->user;
     }
 
-    public function setUser(User $user): Category
+    public function setUser($user)
     {
-        $user->addCategory($this);
-
         $this->user = $user;
-
         return $this;
     }
 
-    public function getTransactions(): ArrayCollection|Collection
+
+    public function getId(): int
     {
-        return $this->transactions;
+        return $this->id;
     }
 
-    public function addTransaction(Transaction $transaction): Category
+    public function setId($id)
     {
-        $this->transactions->add($transaction);
-
+        $this->id = $id;
         return $this;
     }
+
+
+    public function getStatus(): OrderStatus
+    {
+        return $this->status;
+    }
+
+
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function setItems($items)
+    {
+        $this->items = $items;
+        return $this;
+    }
+
+
 }

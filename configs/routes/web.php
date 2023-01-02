@@ -3,9 +3,10 @@
 declare(strict_types = 1);
 
 use App\Controllers\AuthController;
-use App\Controllers\CategoriesController;
+use App\Controllers\OrderController;
 use App\Controllers\HomeController;
 use App\Controllers\UploadController;
+use App\Controllers\UserController;
 use App\Middleware\AuthMiddleware;
 use App\Middleware\GuestMiddleware;
 use Slim\App;
@@ -29,11 +30,11 @@ return function (App $app) {
 
     $app->post('/logout', [AuthController::class, 'logOut'])->add(AuthMiddleware::class);
 
-    $app->group('/categories', function (RouteCollectorProxy $categories) {
-        $categories->get('', [CategoriesController::class, 'index']);
-        $categories->post('', [CategoriesController::class, 'store']);
-        $categories->delete('/{id:[0-9]+}', [CategoriesController::class, 'delete']);
-        $categories->get('/{id:[0-9]+}', [CategoriesController::class, 'get']);
-        $categories->post('/{id:[0-9]+}', [CategoriesController::class, 'update']);
+    $app->group('/orders', function (RouteCollectorProxy $orders) {
+        $orders->get('', [OrderController::class, 'index']);
+        $orders->post('', [OrderController::class, 'store']);
+        $orders->delete('/{id:[0-9]+}', [OrderController::class, 'delete']);
+        $orders->get('/{id:[0-9]+}', [OrderController::class, 'get']);
+        $orders->post('/{id:[0-9]+}', [OrderController::class, 'update']);
     })->add(AuthMiddleware::class);
 };

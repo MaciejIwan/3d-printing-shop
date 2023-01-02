@@ -1,17 +1,18 @@
-{% if categories %}
-    <div id="categoriesTable">
+{% if orders %}
+    <div id="ordersTable">
         <table class="table table-striped">
             <thead>
             <tr>
                 <th>Name</th>
+                <th>Status</th>
                 <th>Created At</th>
                 <th>Updated At</th>
                 <th>Actions</th>
             </tr>
             </thead>
             <tbody>
-            {% for category in categories %}
-                {{ include('categories/category_row.twig') }}
+            {% for order in orders %}
+                {{ include('orders/order_row.twig') }}
             {% endfor %}
             </tbody>
         </table>

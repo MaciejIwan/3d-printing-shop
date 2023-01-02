@@ -31,8 +31,8 @@ class OrderItem
     #[Column(name: 'unit_price', type: Types::DECIMAL, precision: 10, scale: 2)]
     private float $unitPrice;
 
-    #[ManyToOne(cascade: ['persist'], inversedBy: 'items')]
-    private Order $order;
+    #[ManyToOne(cascade: ['persist'], inversedBy: 'order_item')]
+    private Order2 $order;
 
     /**
      * @return int
@@ -125,15 +125,15 @@ class OrderItem
     }
 
     /**
-     * @return Order
+     * @return Order2
      */
-    public function getOrder(): Order
+    public function getOrder(): Order2
     {
         return $this->order;
     }
 
     /**
-     * @param Order $order
+     * @param Order2 $order
      * @return OrderItem
      */
     public function setOrder($order)

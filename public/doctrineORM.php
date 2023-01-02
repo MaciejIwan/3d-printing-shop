@@ -1,6 +1,6 @@
 <?php
 
-use App\Entity\Order;
+use App\Entity\Order2;
 use App\Entity\OrderItem;
 use App\Enum\OrderStatus;
 use Doctrine\ORM\EntityManager;
@@ -24,7 +24,7 @@ $config = ORMSetup::createAttributeMetadataConfiguration([__DIR__ . __DIR__ . '/
 $entityManager = EntityManager::create($connectionParams, $config);
 
 $items = [['item 1', 1, 15], ['item 2', 2, 7.5], ['item 3', 4, 3.75]];
-$invoice = (new Order())
+$invoice = (new Order2())
     ->setAmount(45)
     ->setStatus(OrderStatus::Pending)
     ->setCreatedAt(new DateTime());
@@ -43,7 +43,7 @@ echo("hello world");
 $entityManager->flush();
 
 //fetch example
-$invoice = $entityManager->find(Order::class, 1);
+$invoice = $entityManager->find(Order2::class, 1);
 $invoice->setStatus(OrderStatus::Paid);
 $entityManager->flush();
 //var_dump($invoice);
