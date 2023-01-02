@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\DataValidators;
+namespace App\RequestValidators;
 
-use App\Contracts\DataValidatorInterface;
-use App\Exceptions\ValidationException;
-use App\Repository\UserRepository;
+use App\Contracts\RequestValidatorInterface;
+use App\Entity\User;
+use App\Exception\ValidationException;
+use Doctrine\ORM\EntityManager;
 use Valitron\Validator;
 
-class UserRegisterDataValidator implements DataValidatorInterface
+class RegisterUserRequestValidator implements RequestValidatorInterface
 {
     private static int $MIN_PASSWORD_LENGTH = 6;
     private static int $MAX_PASSWORD_LENGTH = 32;
-
-    public function __construct(private readonly UserRepository $userRepository)
+    public function __construct(private readonly EntityManager $entityManager)
     {
     }
 
@@ -23,7 +23,7 @@ class UserRegisterDataValidator implements DataValidatorInterface
         $v = new Validator($formData);
 
         $v->rule('required', ['name', 'email', 'password', 'confirmPassword']);
-        $v->rule('email', 'email')->message(ValidationException::$EMAIL_NOT_CORRECT)->label('Email');;
+        $v->rule('email', 'email')->message(\App\Exceptions\ValidationException::$EMAIL_NOT_CORRECT)->label('Email');;
         $v->rule('equals', 'confirmPassword', 'password')
             ->message(ValidationException::$PASSWORDS_NOT_MATCH)
             ->label('ConfirmPassword');
