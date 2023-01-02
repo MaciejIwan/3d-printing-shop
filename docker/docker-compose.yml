@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    container_name: 3d-printing-app
+    container_name: printing-app
     build:
       context: ""
       dockerfile: Dockerfile
@@ -11,7 +11,7 @@ services:
         GROUP_ID: '${WWWGROUP:-1000}'
         USER: '${USER:-whoami}'
     extra_hosts:
-      - host.docker.internal:host-gateway
+      - "host.docker.internal:host-gateway"
     ports:
       - "9003:9003"
     restart: always
@@ -19,8 +19,8 @@ services:
     volumes:
       - ../:/var/www
       - ./local.ini:/usr/local/etc/php/conf.d/local.ini
-  ngnix:
-    container_name: 3d-printing-nginx
+  nginx:
+    container_name: printing-nginx
     image: nginx:1.19-alpine
     restart: always
     ports:
@@ -29,7 +29,7 @@ services:
       - ../:/var/www
       - ./nginx:/etc/nginx/conf.d
   db:
-    container_name: 3d-printing-database
+    container_name: printing-database
     image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: password

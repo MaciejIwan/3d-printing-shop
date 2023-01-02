@@ -6,7 +6,7 @@ namespace App\Controllers;
 use App\Contracts\DataValidatorFactoryInterface;
 use App\DataValidators\CreateOrderDataValidator;
 use App\Dto\OrderAddDto;
-use App\Enums\OrderStatus;
+use App\Enum\OrderStatus;
 use App\Services\OrderService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
