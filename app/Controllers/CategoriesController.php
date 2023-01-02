@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Contracts\RequestValidatorFactoryInterface;
+use App\Dto\CategoryUpdateDto;
 use App\RequestValidators\CreateCategoryRequestValidator;
 use App\RequestValidators\UpdateCategoryRequestValidator;
 use App\ResponseFormatter;
@@ -78,9 +79,12 @@ class CategoriesController
             return $response->withStatus(404);
         }
 
-        $this->categoryService->update($category, $data['name']);
+        $updatedCategory = $this->categoryService->update($category, $data['name']);
 
-        $this->responseFormatter->asJson($response, ['message' => "updated successfully"]);
+        $this->responseFormatter->asJson($response, [
+            'message' => "updated successfully",
+            'data' => CategoryUpdateDto::fromEntity($updatedCategory),
+        ]);
         return $response;
     }
 }

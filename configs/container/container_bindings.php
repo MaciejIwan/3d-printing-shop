@@ -12,6 +12,9 @@ use App\Csrf;
 use App\Dto\SessionConfig;
 use App\Enum\AppEnvironment;
 use App\Enum\SameSite;
+use App\Repository\OrderRepository;
+use App\Repository\PrintingModelRepository;
+use App\Repository\UserRepository;
 use App\RequestValidators\RequestValidatorFactory;
 use App\Services\MailerService;
 use App\Services\UserProviderService;
@@ -28,6 +31,7 @@ use Symfony\Bridge\Twig\Extension\AssetExtension;
 use Symfony\Component\Asset\Package;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\Asset\VersionStrategy\JsonManifestVersionStrategy;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\WebpackEncoreBundle\Asset\EntrypointLookup;
 use Symfony\WebpackEncoreBundle\Asset\TagRenderer;
 use Symfony\WebpackEncoreBundle\Twig\EntryFilesTwigExtension;
@@ -61,7 +65,8 @@ return [
     ),
     Twig::class                             => function (Config $config, ContainerInterface $container) {
         $twig = Twig::create(VIEW_PATH, [
-            'cache'       => STORAGE_PATH . '/cache/templates',
+//            'cache'       => STORAGE_PATH . '/cache/templates',
+            'cache'       => false,
             'auto_reload' => AppEnvironment::isDevelopment($config->get('app_environment')),
         ]);
 

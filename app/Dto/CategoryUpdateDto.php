@@ -13,6 +13,8 @@ class CategoryUpdateDto
     public function __construct(
         public readonly int    $id,
         public readonly string $name,
+        public readonly string $created_at,
+        public readonly string $updated_at,
     )
     {
     }
@@ -22,6 +24,8 @@ class CategoryUpdateDto
         return new static(
             $data['id'],
             $data['name'],
+            date('m/d/Y g:i A', $data['created_at']->getTimestamp()),
+            date('m/d/Y g:i A', $data['updated_at']->getTimestamp()),
         );
     }
 
@@ -29,7 +33,9 @@ class CategoryUpdateDto
     {
         return CategoryUpdateDto::fromArray([
             'id' => $category->getId(),
-            'name' => $category->getName()
+            'name' => $category->getName(),
+            'created_at' => $category->getCreatedAt(),
+            'updated_at' => $category->getUpdatedAt()
         ]);
     }
 }
