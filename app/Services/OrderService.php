@@ -24,4 +24,9 @@ class OrderService
 
         return $order;
     }
+
+    public function getAll(): array
+    {
+        return $this->orderRepository->findAll();
+    }
 }

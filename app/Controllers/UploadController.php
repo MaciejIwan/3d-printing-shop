@@ -14,7 +14,7 @@ class UploadController
 {
 
     public function __construct(
-        private readonly Twig $twig,
+        private readonly Twig               $twig,
         private readonly FilesUploadService $filesUploadService
     )
     {
@@ -37,8 +37,6 @@ class UploadController
 
         return $response->withBody($body);
     }
-
-
 
 
     public function update(): void

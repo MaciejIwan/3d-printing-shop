@@ -1,10 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 use App\Controllers\AuthController;
+use App\Controllers\CategoriesController;
 use App\Controllers\HomeController;
-use App\Controllers\OrderController;
 use App\Controllers\UploadController;
 use App\Middleware\AuthMiddleware;
 use App\Middleware\GuestMiddleware;
@@ -22,18 +22,18 @@ return function (App $app) {
     //guest subpages
     $app->group('', function (RouteCollectorProxy $guest) {
         $guest->get('/login', [AuthController::class, 'loginView']);
-        $guest->post('/login', [AuthController::class, 'logIn']);
         $guest->get('/register', [AuthController::class, 'registerView']);
+        $guest->post('/login', [AuthController::class, 'logIn']);
         $guest->post('/register', [AuthController::class, 'register']);
     })->add(GuestMiddleware::class);
 
-
     $app->post('/logout', [AuthController::class, 'logOut'])->add(AuthMiddleware::class);
 
-    $app->group('/orders', function (RouteCollectorProxy $orders) {
-        $orders->get('', [OrderController::class, 'index']);
-        $orders->post('', [OrderController::class, 'store']);
-        $orders->delete('/{id}', [OrderController::class, 'delete']);
+    $app->group('/categories', function (RouteCollectorProxy $categories) {
+        $categories->get('', [CategoriesController::class, 'index']);
+        $categories->post('', [CategoriesController::class, 'store']);
+        $categories->delete('/{id:[0-9]+}', [CategoriesController::class, 'delete']);
+        $categories->get('/{id:[0-9]+}', [CategoriesController::class, 'get']);
+        $categories->post('/{id:[0-9]+}', [CategoriesController::class, 'update']);
     })->add(AuthMiddleware::class);
-
 };

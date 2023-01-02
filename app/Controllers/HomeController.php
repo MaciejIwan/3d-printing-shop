@@ -10,14 +10,12 @@ use Slim\Views\Twig;
 
 class HomeController
 {
-
     public function __construct(private readonly Twig $twig)
     {
     }
 
-    public function index(Request $request, Response $response, $args): Response
+    public function index(Request $request, Response $response): Response
     {
-//        $user = $request->getAttribute('user');
         return $this->twig->render($response, 'dashboard.twig');
     }
 }

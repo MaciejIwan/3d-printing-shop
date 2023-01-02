@@ -12,26 +12,24 @@
                             <div class="mb-4">
                                 <h2 class="fw-bold mb-5 text-uppercase text-primary d-flex justify-content-center align-items-center">
                                     <img src="{{ asset('build/images/logo.png') }}" width="64" height="64"
-                                         alt="Expennies Logo"/>
+                                         alt="Expennies Logo" />
                                     Login
                                 </h2>
                                 <form method="post" action="/login">
                                     {{ csrf.fields | raw }}
+
                                     <div class="form-outline form-white mb-4">
-                                        <input type="email" name="email"
-                                               class="form-control form-control-lg {{ errors.email ? "is-invalid" : "" }}"
+                                        <input type="email" name="email" class="form-control form-control-lg {{ errors.email ? 'is-invalid' : '' }}"
                                                value="{{ old.email }}"
                                                placeholder="Email"
-                                               required/>
+                                               required />
                                         <div class="invalid-feedback">
                                             {{ errors.email | first }}
                                         </div>
                                     </div>
                                     <div class="form-outline form-white mb-1">
-                                        <input type="password" name="password"
-                                               class="form-control form-control-lg {{ errors.password ? "is-invalid" : "" }}"
-                                               placeholder="Password"
-                                               required/>
+                                        <input type="password" name="password" class="form-control form-control-lg {{ errors.password ? 'is-invalid' : '' }}"
+                                               placeholder="Password" required />
                                         <div class="invalid-feedback">
                                             {{ errors.password | first }}
                                         </div>

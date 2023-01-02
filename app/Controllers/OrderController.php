@@ -4,9 +4,9 @@ namespace App\Controllers;
 
 
 use App\Contracts\DataValidatorFactoryInterface;
-use App\DataValidators\CreateOrderDataValidator;
 use App\Dto\OrderAddDto;
 use App\Enum\OrderStatus;
+use App\RequestValidators\CreateOrderDataValidator;
 use App\Services\OrderService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -29,11 +29,15 @@ class OrderController
         return $this->twig->render(
             $response,
             'orders/index.twig',
+            [
+                'orders' => $this->orderService->getAll(),
+            ]
         );
     }
 
     public function store(Request $request, Response $response): Response
     {
+        //todo add validatior
         $data = $this->dataValidatorFactory->make(CreateOrderDataValidator::class)->validate(
             $request->getParsedBody()
         );
