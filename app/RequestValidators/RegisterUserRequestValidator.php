@@ -5,16 +5,15 @@ declare(strict_types=1);
 namespace App\RequestValidators;
 
 use App\Contracts\RequestValidatorInterface;
-use App\Entity\User;
 use App\Exceptions\ValidationException;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManager;
 use Valitron\Validator;
 
 class RegisterUserRequestValidator implements RequestValidatorInterface
 {
     private static int $MIN_PASSWORD_LENGTH = 6;
     private static int $MAX_PASSWORD_LENGTH = 32;
+
     public function __construct(private readonly UserRepository $userRepository)
     {
     }
