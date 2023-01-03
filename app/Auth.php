@@ -86,4 +86,5 @@ class Auth implements AuthInterface
 
         $this->user = $user;
     }
+
 }

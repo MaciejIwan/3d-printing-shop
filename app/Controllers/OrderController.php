@@ -82,7 +82,7 @@ class OrderController
         $updatedCategory = $this->orderService->update($category, $data['name']);
 
         $this->responseFormatter->asJson($response, [
-            'message' => "updated successfully",
+            'message' => "order updated successfully",
             'data' => CategoryUpdateDto::fromEntity($updatedCategory),
         ]);
         return $response;

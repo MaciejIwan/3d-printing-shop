@@ -19,9 +19,9 @@ class RegisterUserRequestValidator implements RequestValidatorInterface
     {
     }
 
-    public function validate(array $formData): array
+    public function validate(array $data): array
     {
-        $v = new Validator($formData);
+        $v = new Validator($data);
 
         $v->rule('required', ['name', 'email', 'password', 'confirmPassword']);
         $v->rule('email', 'email')->message(\App\Exceptions\ValidationException::$EMAIL_NOT_CORRECT)->label('Email');;
@@ -40,6 +40,6 @@ class RegisterUserRequestValidator implements RequestValidatorInterface
             throw new ValidationException($v->errors());
         }
 
-        return $formData;
+        return $data;
     }
 }

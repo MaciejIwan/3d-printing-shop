@@ -16,7 +16,7 @@ use App\Repository\OrderRepository;
 use App\Repository\PrintingModelRepository;
 use App\Repository\UserRepository;
 use App\RequestValidators\RequestValidatorFactory;
-use App\Services\MailerService;
+use App\Services\EmailService;
 use App\Services\UserProviderService;
 use App\Session;
 use Doctrine\ORM\EntityManager;
@@ -76,7 +76,7 @@ return [
 
         return $twig;
     },
-    MailerInterface::class => fn(Config $config) => new MailerService($config->get('mailer.dsn')),
+    MailerInterface::class => fn(Config $config, ContainerInterface $container) => new EmailService($config->get('mailer.dsn'), $container->get(Twig::class)),
 
     UserRepository::class => fn(EntityManager $entityManager) => new UserRepository($entityManager),
     PrintingModelRepository::class => fn(EntityManager $entityManager) => new PrintingModelRepository($entityManager),
