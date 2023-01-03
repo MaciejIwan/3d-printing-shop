@@ -1,0 +1,30 @@
+<div class="modal fade" id="newUserModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="/users" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">New User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ csrf.fields | raw }}
+                    <div class="form-outline form-white mb-4">
+                        <input type="text" name="name" required
+                               class="form-control form-control-lg"
+                               placeholder="user Name"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i>
+                        Close
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-check-circle me-1"></i>
+                        Create
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

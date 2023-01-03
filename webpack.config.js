@@ -24,6 +24,7 @@ Encore
     .addEntry("auth", "./resources/js/auth.js")
     .addEntry("uploadFile", "./resources/js/uploadFile.js")
     .addEntry("orders", "./resources/js/orders.js")
+    .addEntry("users", "./resources/js/users.js")
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

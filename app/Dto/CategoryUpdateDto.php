@@ -6,11 +6,8 @@ namespace App\Dto;
 
 use App\Entity\Category;
 
-
 class CategoryUpdateDto
 {
-
-
     public function __construct(
         public readonly int    $id,
         public readonly string $name,

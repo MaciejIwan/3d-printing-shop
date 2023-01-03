@@ -1,19 +1,26 @@
-<table>
-    <tr>
-        <th>id</th>
-        <th>email</th>
-        <th>status</th>
-    </tr>
+{% extends 'layout.twig' %}
 
-    {% for user in users %}
-        <tr>
-            <td>{{ user.id }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.password_hash }}</td>
-        </tr>
-    {% else %}
-        <tr>
-            <td colspan="4">No user found</td>
-        </tr>
-    {% endfor %}
-</table>
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('users') }}
+{% endblock %}
+
+{% block title %}Users{% endblock %}
+
+{% block content %}
+    <div class="users container content-body">
+        <div class="text-end">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newUserModal">
+                <i class="bi bi-plus-circle me-1"></i>
+                New User
+            </button>
+        </div>
+
+        {% include 'users/create_user_modal.twig' %}
+        {% include 'users/edit_user_modal.twig' %}
+        {% include 'users/user_table.twig' %}
+
+    </div>
+{% endblock %}
+
+

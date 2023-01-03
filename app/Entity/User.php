@@ -28,7 +28,7 @@ class User implements UserInterface
     #[Column]
     private string $name;
 
-    #[Column]
+    #[Column(unique: true)]
     private string $email;
 
     #[Column]

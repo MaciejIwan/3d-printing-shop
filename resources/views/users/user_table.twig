@@ -1,33 +1,33 @@
-{% if orders %}
-    <div id="ordersTable">
+{% if users %}
+    <div id="usersTable">
         <table class="table table-striped">
             <thead>
             <tr>
                 <th>Name</th>
-                <th>Status</th>
+                <th>Email</th>
                 <th>Created At</th>
                 <th>Updated At</th>
                 <th>Actions</th>
             </tr>
             </thead>
             <tbody>
-            {% for order in orders %}
-                <tr class="t{{ order.id }}">
-                    <td class="order-name">{{ order.name }}</td>
-                    <td class="order-status">{{ order.status.toString() }}</td>
-                    <td class="order-createAt">{{ order.createdAt | date('m/d/Y g:i A') }}</td>
-                    <td class="order-updatedAt">{{ order.updatedAt | date('m/d/Y g:i A') }}</td>
+            {% for user in users %}
+                <tr class="t{{ user.id }}">
+                    <td class="user-name">{{ user.name }}</td>
+                    <td class="user-email">{{ user.email }}</td>
+                    <td class="user-createAt">{{ user.createdAt | date('m/d/Y g:i A') }}</td>
+                    <td class="user-updatedAt">{{ user.updatedAt | date('m/d/Y g:i A') }}</td>
                     <td>
                         <div class="d-flex flex-">
-                            <form action="/orders/{{ order.id }}" method="post">
+                            <form action="/users/{{ user.id }}" method="post">
                                 {{ csrf.fields | raw }}
                                 <input type="hidden" name="_METHOD" value="DELETE"/>
                                 <button type="submit" class="btn btn-outline-primary">
                                     <i class="bi bi-trash3-fill"></i>
                                 </button>
                             </form>
-                            <button class="ms-2 btn btn-outline-primary edit-order-btn"
-                                    data-id="{{ order.id }}">
+                            <button class="ms-2 btn btn-outline-primary edit-user-btn"
+                                    data-id="{{ user.id }}">
 
                                 <i class="bi bi-pencil-fill"></i>
                             </button>

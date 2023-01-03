@@ -13,13 +13,15 @@ use App\RequestValidators\UserLoginRequestValidator;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
+use Symfony\Component\Mailer\MailerInterface;
 
 class AuthController
 {
     public function __construct(
         private readonly Twig                             $twig,
         private readonly RequestValidatorFactoryInterface $requestValidatorFactory,
-        private readonly AuthInterface                    $auth
+        private readonly AuthInterface                    $auth,
+        private readonly MailerInterface                  $emailService,
     )
     {
     }
@@ -40,9 +42,11 @@ class AuthController
             $request->getParsedBody()
         );
 
-        $this->auth->register(
+        $user = $this->auth->register(
             new RegisterUserData($data['name'], $data['email'], $data['password'])
         );
+
+        $this->emailService->sendWelcomeEmail($user, $this);
 
         return $response->withHeader('Location', '/')->withStatus(302);
     }
@@ -66,4 +70,5 @@ class AuthController
 
         return $response->withHeader('Location', '/')->withStatus(302);
     }
+
 }
