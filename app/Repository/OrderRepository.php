@@ -16,6 +16,7 @@ class OrderRepository extends EntityRepository
         $metaData = new ClassMetadata(Order2::class);
         parent::__construct($entityManager, $metaData);
     }
+
     public function add(Order2 $order)
     {
         $this->getEntityManager()->persist($order);

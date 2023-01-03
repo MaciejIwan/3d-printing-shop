@@ -16,6 +16,7 @@ class PrintingModelRepository extends EntityRepository
         $metaData = new ClassMetadata(PrintingModel::class);
         parent::__construct($entityManager, $metaData);
     }
+
     public function add(PrintingModel $printingModel)
     {
         $this->getEntityManager()->persist($printingModel);

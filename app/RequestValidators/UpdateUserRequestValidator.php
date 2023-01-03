@@ -15,6 +15,7 @@ class UpdateUserRequestValidator implements RequestValidatorInterface
     public function __construct(private readonly UserRepository $userRepository)
     {
     }
+
     public function validate(array $data): array
     {
         $v = new Validator($data);
