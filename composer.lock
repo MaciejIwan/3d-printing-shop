@@ -4,8 +4,61 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a3461acef750ee99e16c2e53573bdb54",
+    "content-hash": "fe8ac5675cd5577e598f7dfa588add68",
     "packages": [
+        {
+            "name": "chubv/php-stl",
+            "version": "v2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ChubV/php-stl.git",
+                "reference": "9e7c4891cd13fd4f342db268eee197dc38615e3d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ChubV/php-stl/zipball/9e7c4891cd13fd4f342db268eee197dc38615e3d",
+                "reference": "9e7c4891cd13fd4f342db268eee197dc38615e3d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.3 || ^8.0"
+            },
+            "require-dev": {
+                "nexusphp/tachycardia": "^1.0",
+                "php-coveralls/php-coveralls": "^2.4",
+                "phpstan/phpstan": "^0.12",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PHPSTL\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vladimir Chub",
+                    "email": "v@chub.com.ua",
+                    "homepage": "http://github.com/ChubV/"
+                }
+            ],
+            "description": "Library to parse STL file and get some statistics of the model",
+            "homepage": "http://github.com/ChubV/php-stl",
+            "keywords": [
+                "3d",
+                "stl",
+                "volume"
+            ],
+            "support": {
+                "issues": "https://github.com/ChubV/php-stl/issues",
+                "source": "https://github.com/ChubV/php-stl/tree/v2.1.1"
+            },
+            "time": "2022-11-22T09:27:56+00:00"
+        },
         {
             "name": "doctrine/cache",
             "version": "2.2.0",
