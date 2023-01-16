@@ -16,6 +16,7 @@
     "jquery": "^3.6.3",
     "sass": "^1.54.9",
     "sass-loader": "^13.0.2",
+    "url-loader": "^4.1.1",
     "webpack-notifier": "^1.15.0"
   }
 }
