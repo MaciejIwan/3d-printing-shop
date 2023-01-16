@@ -1,4 +1,6 @@
 @import "./variables.scss";
+@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap-icons/font/bootstrap-icons";
 
 * {
   margin: 0;
@@ -64,7 +66,7 @@ ul {
 
 .btn-login {
   right: 0%;
-  color: #018EFC;
+  color: $primary;
   font-weight: bold;
 }
 
@@ -143,7 +145,7 @@ ul {
   justify-content: center;
   align-items: center;
   text-align: center;
-  color: #018EFC;
+  color: $primary;
   font-weight: bold;
   flex-direction: column;
   margin: 0 auto;

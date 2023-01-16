@@ -1,5 +1,9 @@
+import "../css/index.scss"
+
 import { Modal }     from "bootstrap"
 import { get, post } from "./ajax"
+
+
 
 window.addEventListener('DOMContentLoaded', function () {
     const editOrderModal = new Modal(document.getElementById('editOrderModal'))

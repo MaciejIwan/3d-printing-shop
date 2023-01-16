@@ -18,4 +18,8 @@ class HomeController
     {
         return $this->twig->render($response, 'index.twig');
     }
+    public function dashboard(Request $request, Response $response): Response
+    {
+        return $this->twig->render($response, 'dashboard.twig');
+    }
 }

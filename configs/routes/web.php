@@ -15,6 +15,7 @@ use Slim\Routing\RouteCollectorProxy;
 return function (App $app) {
     //homepage
     $app->get('/', [HomeController::class, 'index'])->add(AuthMiddleware::class);
+    $app->get('/dashboard', [HomeController::class, 'dashboard'])->add(AuthMiddleware::class);
 
     //upload
     $app->get('/upload', [UploadController::class, 'index']);

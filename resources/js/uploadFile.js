@@ -2,7 +2,6 @@ import "../css/uploadFile.scss"
 
 window.addEventListener('load', function() {
     document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
-        console.log("Hello from js file!")
         const dropZoneElement = inputElement.closest(".drop-zone");
 
         dropZoneElement.addEventListener("click", (e) => {
@@ -30,6 +29,9 @@ window.addEventListener('load', function() {
             e.preventDefault();
 
             if (e.dataTransfer.files.length) {
+                console.log("new file droped");
+                console.log(dropZoneElement);
+                console.log(e.dataTransfer.files[0]);
                 inputElement.files = e.dataTransfer.files;
                 updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
             }
