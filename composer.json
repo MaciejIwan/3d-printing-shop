@@ -15,6 +15,7 @@
     },
     "require": {
         "ext-pdo": "*",
+        "chubv/php-stl": "^2.1",
         "doctrine/dbal": "^3.4",
         "doctrine/migrations": "^3.5",
         "doctrine/orm": "^2.13",
