@@ -54,7 +54,7 @@ class ChartController
     {
         $this->chartService->delete((int)$args['id']);
 
-        return $response->withHeader('Location', '/orders')->withStatus(302);
+        return $response->withHeader('Location', '/chart')->withStatus(302);
     }
 
     public function get(Request $request, Response $response, array $args): Response

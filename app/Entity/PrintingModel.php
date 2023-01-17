@@ -25,7 +25,7 @@ class PrintingModel
     private string $filename;
 
     #[Column(name: 'user_filename')]
-    private string $original_name;
+    private string $originalName;
 
     #[Column(name: 'material_cost', type: 'decimal', precision: 10, scale: 2)]
     private float $materialCost;
@@ -92,12 +92,12 @@ class PrintingModel
 
     public function getOriginalName(): string
     {
-        return $this->original_name;
+        return $this->originalName;
     }
 
-    public function setOriginalName($original_name)
+    public function setOriginalName($originalName)
     {
-        $this->original_name = $original_name;
+        $this->originalName = $originalName;
         return $this;
     }
 
