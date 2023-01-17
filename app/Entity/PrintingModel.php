@@ -2,52 +2,36 @@
 
 namespace App\Entity;
 
-use DateTime;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use App\Entity\Trait\HasTimestamps;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\PrePersist;
-use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\ORM\Mapping\Table;
 
-//#[Setter, Getter]
 #[Entity]
 #[Table('`printing_model`')]
 #[HasLifecycleCallbacks]
 class PrintingModel
 {
+    use HasTimestamps;
+
     #[Id]
     #[Column, GeneratedValue]
     private int $id;
 
-
     #[Column(name: 'stl_filename')]
     private string $filename;
+
+    #[Column(name: 'user_filename')]
+    private string $original_name;
 
     #[Column(name: 'material_cost', type: 'decimal', precision: 10, scale: 2)]
     private float $materialCost;
 
     #[Column(name: 'price', type: 'decimal', precision: 10, scale: 2)]
     private float $price;
-
-    #[Column(name: 'created_at')]
-    private DateTime $createdAt;
-
-    #[Column(name: 'updated_at')]
-    private DateTime $updatedAt;
-
-    #[PrePersist, PreUpdate]
-    public function updateTimestamps(LifecycleEventArgs $args): void
-    {
-        if (!isset($this->createdAt)) {
-            $this->createdAt = new DateTime();
-        }
-
-        $this->updatedAt = new DateTime();
-    }
 
 
     public function getId(): int
@@ -95,36 +79,6 @@ class PrintingModel
         return $this;
     }
 
-    public function getCreatedAt(): DateTime
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @param DateTime $createdAt
-     * @return PrintingModel
-     */
-    public function setCreatedAt(DateTime $createdAt): PrintingModel
-    {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    public function getUpdatedAt(): DateTime
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * @param DateTime $updatedAt
-     * @return PrintingModel
-     */
-    public function setUpdatedAt(DateTime $updatedAt): PrintingModel
-    {
-        $this->updatedAt = $updatedAt;
-        return $this;
-    }
-
     public function getPrice(): float
     {
         return $this->price;
@@ -133,6 +87,17 @@ class PrintingModel
     public function setPrice($price)
     {
         $this->price = $price;
+        return $this;
+    }
+
+    public function getOriginalName(): string
+    {
+        return $this->original_name;
+    }
+
+    public function setOriginalName($original_name)
+    {
+        $this->original_name = $original_name;
         return $this;
     }
 
