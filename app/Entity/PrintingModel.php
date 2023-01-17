@@ -28,7 +28,10 @@ class PrintingModel
     private string $filename;
 
     #[Column(name: 'material_cost', type: 'decimal', precision: 10, scale: 2)]
-    private int $materialCost;
+    private float $materialCost;
+
+    #[Column(name: 'price', type: 'decimal', precision: 10, scale: 2)]
+    private float $price;
 
     #[Column(name: 'created_at')]
     private DateTime $createdAt;
@@ -62,21 +65,6 @@ class PrintingModel
         return $this;
     }
 
-    public function getModelId(): int
-    {
-        return $this->modelId;
-    }
-
-    /**
-     * @param int $modelId
-     * @return PrintingModel
-     */
-    public function setModelId(int $modelId): PrintingModel
-    {
-        $this->modelId = $modelId;
-        return $this;
-    }
-
     public function getFilename(): string
     {
         return $this->filename;
@@ -92,7 +80,7 @@ class PrintingModel
         return $this;
     }
 
-    public function getMaterialCost(): int
+    public function getMaterialCost(): float
     {
         return $this->materialCost;
     }
@@ -101,7 +89,7 @@ class PrintingModel
      * @param int $materialCost
      * @return PrintingModel
      */
-    public function setMaterialCost(int $materialCost): PrintingModel
+    public function setMaterialCost(float $materialCost): PrintingModel
     {
         $this->materialCost = $materialCost;
         return $this;
@@ -134,6 +122,17 @@ class PrintingModel
     public function setUpdatedAt(DateTime $updatedAt): PrintingModel
     {
         $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    public function getPrice(): float
+    {
+        return $this->price;
+    }
+
+    public function setPrice($price)
+    {
+        $this->price = $price;
         return $this;
     }
 

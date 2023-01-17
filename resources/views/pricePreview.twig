@@ -1,0 +1,59 @@
+{% extends 'layout.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('dashboard') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('dashboard') }}
+{% endblock %}
+
+{% block title %}PricePreview{% endblock %}
+
+{% block content %}
+    {% if printingModel %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>{{ printingModel.filename }}</h1>
+                    <p>Price: {{ printingModel.price }}</p>
+                    <form>
+                        {{ csrf.fields | raw }}
+                        <div class="form-group">
+                            <label for="quantity">Quantity:</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity" min="1" value="1">
+                        </div>
+                        <p>Total Cost: </p>
+                        <span id="total-cost">{{ printingModel.price }}</span></p>
+                        <button type="submit" class="btn btn-primary" id="add-to-cart">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                let quantityInput = document.getElementById("quantity");
+                let totalCostSpan = document.getElementById("total-cost");
+                let price = {{ printingModel.price }};
+
+                quantityInput.addEventListener("input", function () {
+                    let quantity = this.value;
+                    let totalCost = quantity * price;
+                    totalCostSpan.innerText = totalCost.toFixed(2);
+                });
+            });
+        </script>
+
+
+        {#        <div data-id="{{ printingModel.id }}"> #}
+        {#            <div class="order-name">{{ printingModel.price }}</div> #}
+        {#            <div class="order-createAt">{{ printingModel.createdAt | date('m/d/Y g:i A') }}</div> #}
+        {#            <div class="order-updatedAt">{{ printingModel.updatedAt | date('m/d/Y g:i A') }}</div> #}
+        {#        </div> #}
+        {#
+
+    {% endif %}
+{% endblock %}

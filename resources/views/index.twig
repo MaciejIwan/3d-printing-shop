@@ -39,10 +39,10 @@
 
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href="/" class="nav-link">Home</a>
+                    <a href="#" id="home-btn" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/contact" class="nav-link">Contact</a>
+                    <a href="#" id="contact-btn" class="nav-link">Contact</a>
                 </li>
                 <li class="nav-item">
                     {% if auth is defined %}
@@ -83,49 +83,44 @@
 
         </nav>
 
-        <div class="content">
+        <div id="home" class="content">
             <div class="content-texts">
-                <p>Nie musisz wychodzić z domu, by cieszyć się najlepszym drukiem 3D - zamów online i odbierz z dostawą
+                <p>Nie musisz wychodzić z domu, by cieszyć się najlepszym drukiem 3D - zamów online i odbierz z
+                    dostawą
                     do domu!
                 </p>
                 <p>Z nami każdy wydruk 3D to sukces - zapraszamy do skorzystania z naszych usług!</p>
             </div>
 
-            <form  class="file-form " method="post" action="/upload" enctype="multipart/form-data">
+            <form class="file-form " method="post" action="/upload" enctype="multipart/form-data">
                 {{ csrf.fields | raw }}
                 <div class="drop-zone drag-upload-container">
-                    <div class="drop-zone__prompt">Przeciągnij tutaj model do wyceny
-                        <div id="upload-icon" style="background-image: url('{{ asset('build/images/upload.png') }}')"></div>
+                    <div class="drop-zone__prompt">Przeciągnij tu .stl do automatycznej wyceny
+                        <div id="upload-icon"
+                             style="background-image: url('{{ asset('build/images/upload.png') }}')"></div>
                     </div>
 
                     <input type="file" name="model_file" class="drop-zone__input" required>
 
 
                 </div>
-                <p id="note">Akceptujemy pliki z rozszerzeniem .stl</p>
+                <p id="note">Akceptujemy pliki tylko z rozszerzeniem .stl</p>
                 <button class="btn btn-primary bg-gradient text-white btn-lg px-5" type="submit">Prześlij</button>
             </form>
-
-{#            <form class="file-form" method="post" action="/upload" enctype="multipart/form-data">#}
-{#                {{ csrf.fields | raw }}#}
-{#                <div class="drop-zone drag-upload-container">#}
-{#                    <span class="drop-zone__prompt">Przeciągnij tutaj model do wyceny</span>#}
-{#                    <input type="file" name="model_file" class="drop-zone__input" required>#}
-{#                    <div id="upload-icon" style="background-image: url('{{ asset('build/images/upload.png') }}')"></div>#}
-{#                    <span id="note">Akceptujemy pliki z rozszerzeniem .stl</span>#}
-{#                    <button class="btn btn-primary bg-gradient text-white btn-lg px-5" type="submit">Prześlij</button>#}
-{#                </div>#}
-
-{#            </form>#}
-
-            {#            <form id="file-form" action="" method="post" enctype="multipart/form-data"> #}
-            {#                <div class="drag-upload-container"> #}
-            {#                    <input type="file" multiple> #}
-            {#                    <p></p> #}
-            {#                    #}
-            {#                </div> #}
-            {#            </form> #}
         </div>
+
+        <div id="contact" class="content" style="display: none">
+            <div class="content-texts">
+                <span>W przypadku zamówień większych ilości, prosimy o kontakt mailowy, aby ustalić indywidualną cenę.</span>
+                <span>Nasza drukarnia jest otwarta w godzinach 8-18.</span>
+
+                <p class="contact-info">Email: contract@3dboat.pl</p>
+                <p class="contact-info">Telefon: 000 000 000</p>
+                <p class="contact-info">Piotrkowska XX lok XX 99-999 Lodz</p>
+                <span> Dziękujemy za zainteresowanie Naszymi usługami i jesteśmy do Państwa dyspozycji.</span>
+            </div>
+        </div>
+
     </div>
 </div>
 </body>

@@ -29,12 +29,18 @@ class UploadController
     {
         $modelFile = $request->getUploadedFiles()['model_file'];
 
-        $this->filesUploadService->handleNewFile($modelFile);
+        $printingModel = $this->filesUploadService->handleNewFile($modelFile);
 
-        $body = $response->getBody();
-        $body->write("File uploaded");
+//        $body = $response->getBody();
+//        $body->write("File uploaded. Cost is " . $printingModel->getPrice() . " PLN");
 
-        return $response->withBody($body);
+        return $this->twig->render(
+            $response,
+            'pricePreview.twig',
+            [
+                'printingModel' => $printingModel,
+            ]
+        );
     }
 
 

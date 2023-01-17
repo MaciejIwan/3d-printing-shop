@@ -87,7 +87,7 @@ ul {
 }
 
 .content-texts p:nth-child(2) {
-  color: #DDA107;
+  color: $secondary;
   font-size: 1.3em;
   font-weight: bold;
 }
@@ -177,4 +177,8 @@ ul {
   background-size: cover;
   background-position-x: center;
   background-position-y: center;
+}
+.contact-info {
+  color: $secondary;
+  font-weight: bold;
 }
