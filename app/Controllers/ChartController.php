@@ -9,6 +9,7 @@ use App\Dto\OrderUpdateDto;
 use App\RequestValidators\AddShoppingChartItemRequestValidator;
 use App\RequestValidators\UpdateOrderRequestValidator;
 use App\ResponseFormatter;
+use App\Services\ChartService;
 use App\Services\OrderService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -19,7 +20,7 @@ class ChartController
     public function __construct(
         private readonly Twig                             $twig,
         private readonly RequestValidatorFactoryInterface $requestValidatorFactory,
-        private readonly OrderService                     $orderService,
+        private readonly ChartService                     $chartService,
         private readonly ResponseFormatter                $responseFormatter
     )
     {
@@ -31,40 +32,42 @@ class ChartController
 
         return $this->twig->render(
             $response,
-            'orders/index.twig',
+            'chart/index.twig',
             [
-                'orders' => $user->getShoppingCardItems(),
+                'chartItems' => $user->getShoppingCardItems(),
             ]
         );
     }
 
     public function store(Request $request, Response $response): Response
     {
+        var_dump(   $request->getParsedBody());
         $data = $this->requestValidatorFactory->make(AddShoppingChartItemRequestValidator::class)->validate(
             $request->getParsedBody()
         );
-
-        $this->orderService->create($data['name'], $request->getAttribute('user'));
-
-        return $response->withHeader('Location', '/orders')->withStatus(302);
+        echo "e321\n";
+        $this->chartService->create(intval($data['product']), intval($data['quantity']), $request->getAttribute('user'));
+        echo "1111aaa\n";
+        return $response->withHeader('Location', '/chart')->withStatus(302);
     }
 
     public function delete(Request $request, Response $response, array $args): Response
     {
-        $this->orderService->delete((int)$args['id']);
+        $this->chartService->delete((int)$args['id']);
 
         return $response->withHeader('Location', '/orders')->withStatus(302);
     }
 
     public function get(Request $request, Response $response, array $args): Response
     {
-        $category = $this->orderService->getById((int)$args['id']);
+        //todo write this function
+        $chartItem = $this->chartService->getById((int)$args['id']);
 
-        if (!$category) {
+        if (!$chartItem) {
             return $response->withStatus(404);
         }
 
-        $data = ['id' => $category->getId(), 'name' => $category->getName()];
+        $data = ['id' => $chartItem->getId()];
 
         return $this->responseFormatter->asJson($response, $data);
     }
@@ -75,17 +78,17 @@ class ChartController
             $args + $request->getParsedBody()
         );
 
-        $category = $this->orderService->getById((int)$data['id']);
+        $category = $this->chartService->getById((int)$data['id']);
 
         if (!$category) {
             return $response->withStatus(404);
         }
 
-        $updatedCategory = $this->orderService->update($category, $data['name']);
+        $updatedCategory = $this->chartService->update($category, $data['name']);
 
         $this->responseFormatter->asJson($response, [
             'message' => "order updated successfully",
-            'data' => OrderUpdateDto::fromEntity($updatedCategory),
+            'data' => ChartUpdateDto::fromEntity($updatedCategory), //todo implement ChartUpdateDto
         ]);
         return $response;
     }

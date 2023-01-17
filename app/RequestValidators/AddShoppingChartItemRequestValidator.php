@@ -16,7 +16,13 @@ class AddShoppingChartItemRequestValidator implements RequestValidatorInterface
         $v = new Validator($data);
 
         $v->rule('required', 'product');
+        $v->rule('integer', 'product');
         $v->rule('required', 'quantity');
+        $v->rule('integer', 'quantity');
+//        $v->rules([
+//            'required' => ['quantity', 'product'],
+//            'int' => ['quantity', 'product'],
+//        ]);
 
         if (!$v->validate()) {
             throw new ValidationException($v->errors());

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Entity\PrintingModel;
 use App\Entity\ShoppingCartItem;
 use App\Entity\User;
 use Doctrine\ORM\EntityManager;
@@ -14,13 +15,20 @@ class ChartService
     {
     }
 
-    public function create(string $name, User $user): ShoppingCartItem
+    public function create(int $printingModelId, int $quantity, User $user): ShoppingCartItem
     {
         $chart = new ShoppingCartItem();
 
-        $chart->setUser($user);
+        $printingModel = $this->entityManager->getRepository(PrintingModel::class)->findOneBy(['id' => $printingModelId]);
+        $chart
+            ->setUser($user)
+            ->setQuantity($quantity)
+            ->setPrintingModel($printingModel);
 
-        return $this->update($chart);
+        $this->entityManager->persist($chart);
+        $this->entityManager->flush();
+
+        return $chart;
     }
 
     public function getAll(): array

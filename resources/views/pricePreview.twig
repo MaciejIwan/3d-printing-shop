@@ -19,8 +19,9 @@
                 <div class="col-md-12">
                     <h1>{{ printingModel.filename }}</h1>
                     <p>Price: {{ printingModel.price }}</p>
-                    <form>
+                    <form action="/chart" method="post">
                         {{ csrf.fields | raw }}
+                        <input type="hidden" class="form-control" name="product" value="{{ printingModel.id }}">
                         <div class="form-group">
                             <label for="quantity">Quantity:</label>
                             <input type="number" class="form-control" id="quantity" name="quantity" min="1" value="1">

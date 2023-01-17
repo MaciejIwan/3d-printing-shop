@@ -1,4 +1,4 @@
-{% if chartItems %}
+{% if orders %}
     <div id="ordersTable">
         <table class="table table-striped">
             <thead>
@@ -11,14 +11,15 @@
             </tr>
             </thead>
             <tbody>
-            {% for chartItem in chartItems %}
-                <tr class="t{{ chartItem.id }}">
-                    <td class="order-name">{{ chartItem.amount }}</td>
-                    <td class="order-createAt">{{ chartItem.createdAt | date('m/d/Y g:i A') }}</td>
-                    <td class="order-updatedAt">{{ chartItem.updatedAt | date('m/d/Y g:i A') }}</td>
+            {% for order in orders %}
+                <tr class="t{{ order.id }}">
+                    <td class="order-name">{{ order.name }}</td>
+                    <td class="order-status">{{ order.status.toString() }}</td>
+                    <td class="order-createAt">{{ order.createdAt | date('m/d/Y g:i A') }}</td>
+                    <td class="order-updatedAt">{{ order.updatedAt | date('m/d/Y g:i A') }}</td>
                     <td>
                         <div class="d-flex flex-">
-                            <form action="/orders/{{ chartItem.id }}" method="post">
+                            <form action="/orders/{{ order.id }}" method="post">
                                 {{ csrf.fields | raw }}
                                 <input type="hidden" name="_METHOD" value="DELETE"/>
                                 <button type="submit" class="btn btn-outline-primary">
@@ -26,7 +27,7 @@
                                 </button>
                             </form>
                             <button class="ms-2 btn btn-outline-primary edit-order-btn"
-                                    data-id="{{ chartItem.id }}">
+                                    data-id="{{ order.id }}">
 
                                 <i class="bi bi-pencil-fill"></i>
                             </button>

@@ -18,7 +18,7 @@ class ShoppingCartItem
     #[Column, GeneratedValue]
     private int $id;
 
-    #[Column(name: 'order_id')]
+    #[Column(name: 'printing_model_id')]
     private PrintingModel $printingModel;
 
     #[Column(name: 'quantity', type: 'decimal', precision: 10, scale: 2)]
@@ -54,7 +54,7 @@ class ShoppingCartItem
         return $this->quantity;
     }
 
-    public function setQuantity($quantity): ShoppingCartItem
+    public function setQuantity(int $quantity): ShoppingCartItem
     {
         $this->quantity = $quantity;
         return $this;
