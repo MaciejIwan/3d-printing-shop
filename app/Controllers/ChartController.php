@@ -41,13 +41,12 @@ class ChartController
 
     public function store(Request $request, Response $response): Response
     {
-        var_dump(   $request->getParsedBody());
         $data = $this->requestValidatorFactory->make(AddShoppingChartItemRequestValidator::class)->validate(
             $request->getParsedBody()
         );
-        echo "e321\n";
+
         $this->chartService->create(intval($data['product']), intval($data['quantity']), $request->getAttribute('user'));
-        echo "1111aaa\n";
+
         return $response->withHeader('Location', '/chart')->withStatus(302);
     }
 
