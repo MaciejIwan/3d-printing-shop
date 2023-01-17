@@ -34,16 +34,12 @@ class User implements UserInterface
     #[Column]
     private string $password;
 
-    #[OneToMany(mappedBy: 'user', targetEntity: Category::class)]
-    private Collection $categories;
-
-    #[OneToMany(mappedBy: 'user', targetEntity: Transaction::class)]
-    private Collection $transactions;
+    #[OneToMany(mappedBy: 'user', targetEntity: ShoppingCartItem::class)]
+    private Collection $shoppingCardItems;
 
     public function __construct()
     {
-        $this->categories = new ArrayCollection();
-        $this->transactions = new ArrayCollection();
+        $this->shoppingCardItems = new ArrayCollection();
     }
 
     public function getId(): int
@@ -87,36 +83,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getCreatedAt(): \DateTime
+    public function getShoppingCardItems(): ArrayCollection|Collection
     {
-        return $this->createdAt;
+        return $this->shoppingCardItems;
     }
 
-    public function getUpdatedAt(): \DateTime
+    public function addShoppingCardItem(ShoppingCartItem $item): User
     {
-        return $this->updatedAt;
-    }
-
-    public function getCategories(): ArrayCollection|Collection
-    {
-        return $this->categories;
-    }
-
-    public function addCategory(Category $category): User
-    {
-        $this->categories->add($category);
-
-        return $this;
-    }
-
-    public function getTransactions(): ArrayCollection|Collection
-    {
-        return $this->transactions;
-    }
-
-    public function addTransaction(Transaction $transaction): User
-    {
-        $this->transactions->add($transaction);
+        $this->shoppingCardItems->add($item);
 
         return $this;
     }

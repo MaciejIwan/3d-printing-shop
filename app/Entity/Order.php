@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping\Table;
 
 
 #[Entity, Table('`order`'), HasLifecycleCallbacks]
-class Order2
+class Order
 {
     use HasTimestamps;
 
@@ -76,7 +76,7 @@ class Order2
 
     /**
      * @param int $id
-     * @return Order2
+     * @return Order
      */
     public function setId($id)
     {
@@ -94,7 +94,7 @@ class Order2
 
     /**
      * @param int $amount
-     * @return Order2
+     * @return Order
      */
     public function setAmount($amount)
     {
@@ -112,7 +112,7 @@ class Order2
 
     /**
      * @param OrderStatus $status
-     * @return Order2
+     * @return Order
      */
     public function setStatus($status)
     {
@@ -130,7 +130,7 @@ class Order2
 
     /**
      * @param Collection $items
-     * @return Order2
+     * @return Order
      */
     public function setItems($items)
     {

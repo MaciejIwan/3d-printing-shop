@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 
-//#[Setter, Getter]
 #[Entity]
 #[Table('`order_item`')]
 class OrderItem
@@ -31,8 +30,8 @@ class OrderItem
     #[Column(name: 'unit_price', type: Types::DECIMAL, precision: 10, scale: 2)]
     private float $unitPrice;
 
-    #[ManyToOne(cascade: ['persist'], inversedBy: 'order_item')]
-    private Order2 $order;
+    #[ManyToOne(cascade: ['persist'], inversedBy: 'items')]
+    private Order $order;
 
     /**
      * @return int
@@ -125,15 +124,15 @@ class OrderItem
     }
 
     /**
-     * @return Order2
+     * @return Order
      */
-    public function getOrder(): Order2
+    public function getOrder(): Order
     {
         return $this->order;
     }
 
     /**
-     * @param Order2 $order
+     * @param Order $order
      * @return OrderItem
      */
     public function setOrder($order)
