@@ -29,16 +29,15 @@ class Order
     #[Column]
     private string $name;
 
-
     #[Column(type: 'decimal', precision: 10, scale: 2)]
     private int $amount;
-
 
     #[Column(enumType: OrderStatus::class)]
     private OrderStatus $status;
 
     #[ManyToOne(inversedBy: '`order`')]
     private User $user;
+
 
     #[OneToMany(mappedBy: '`order`', targetEntity: OrderItem::class, cascade: ['persist', 'remove'])]
     private Collection $items;
@@ -138,5 +137,19 @@ class Order
         return $this;
     }
 
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     * @return Order
+     */
+    public function setUser(User $user): Order
+    {
+        $this->user = $user;
+        return $this;
+    }
 
 }

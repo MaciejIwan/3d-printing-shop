@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace Tests\App\Dto;
 
-use App\Dto\CategoryUpdateDto;
-use App\Entity\Category;
+use App\Dto\OrderUpdateDto;
+use App\Entity\Order;
+use App\Enum\OrderStatus;
+use DateTime;
 use PHPUnit\Framework\TestCase;
 
 class DtoToJsonTest extends TestCase
@@ -13,17 +15,23 @@ class DtoToJsonTest extends TestCase
     public function it_should_convert_dto_to_json()
     {
         //given
-        $category = new Category();
-        $category->setName("test name");
-        $category->setId(1);
-        $categoryDto = CategoryUpdateDto::fromEntity($category);
+        $order = new Order();
+        $order->setId(1);
+        $order->setName("test name");
+        $order->setStatus(OrderStatus::New);
+
+        $date = new DateTime();
+        $order->setUpdatedAt($date);
+        $order->setCreatedAt($date);
+
+        $categoryDto = OrderUpdateDto::fromEntity($order);
 
         //when
         $actual = json_encode($categoryDto);
-        $expected = '{"id":1,"name":"test name"}';
+        $expected = '{"id":1,"name":"test name","status":"New",';
 
         //then
-        $this->assertEquals($expected, $actual);
+        $this->assertStringContainsString($expected, $actual);
 
     }
 

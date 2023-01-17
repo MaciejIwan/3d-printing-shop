@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Contracts\RequestValidatorFactoryInterface;
-use App\Dto\CategoryUpdateDto;
-use App\RequestValidators\CreateCategoryRequestValidator;
-use App\RequestValidators\UpdateCategoryRequestValidator;
+use App\Dto\OrderAddDto;
+use App\Dto\OrderUpdateDto;
+use App\RequestValidators\CreateOrderDataValidator;
+use App\RequestValidators\UpdateOrderRequestValidator;
 use App\ResponseFormatter;
 use App\Services\OrderService;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -38,11 +39,12 @@ class OrderController
 
     public function store(Request $request, Response $response): Response
     {
-        $data = $this->requestValidatorFactory->make(CreateCategoryRequestValidator::class)->validate(
+        $data = $this->requestValidatorFactory->make(CreateOrderDataValidator::class)->validate(
             $request->getParsedBody()
         );
-
-        $this->orderService->create($data['name'], $request->getAttribute('user'));
+        $orderAddDto = OrderAddDto::fromArrayAndUser($data,$request->getAttribute('user'));
+        $this->orderService->create($orderAddDto);
+        //$this->orderService->create($data['name'], $request->getAttribute('user'), $data['name']);
 
         return $response->withHeader('Location', '/orders')->withStatus(302);
     }
@@ -56,34 +58,34 @@ class OrderController
 
     public function get(Request $request, Response $response, array $args): Response
     {
-        $category = $this->orderService->getById((int)$args['id']);
+        $order = $this->orderService->getById((int)$args['id']);
 
-        if (!$category) {
+        if (!$order) {
             return $response->withStatus(404);
         }
 
-        $data = ['id' => $category->getId(), 'name' => $category->getName()];
+        $data = ['id' => $order->getId(), 'name' => $order->getName()];
 
         return $this->responseFormatter->asJson($response, $data);
     }
 
     public function update(Request $request, Response $response, array $args): Response
     {
-        $data = $this->requestValidatorFactory->make(UpdateCategoryRequestValidator::class)->validate(
+        $data = $this->requestValidatorFactory->make(UpdateOrderRequestValidator::class)->validate(
             $args + $request->getParsedBody()
         );
 
-        $category = $this->orderService->getById((int)$data['id']);
+        $order = $this->orderService->getById((int)$data['id']);
 
-        if (!$category) {
+        if (!$order) {
             return $response->withStatus(404);
         }
 
-        $updatedCategory = $this->orderService->update($category, $data['name']);
+        $updatedOrder = $this->orderService->update($order, $data['name']);
 
         $this->responseFormatter->asJson($response, [
             'message' => "order updated successfully",
-            'data' => CategoryUpdateDto::fromEntity($updatedCategory),
+            'data' => OrderUpdateDto::fromEntity($updatedOrder),
         ]);
         return $response;
     }

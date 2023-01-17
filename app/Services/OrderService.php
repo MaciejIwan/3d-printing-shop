@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Entity\Category;
+use App\Dto\OrderAddDto;
+use App\Entity\Order;
 use App\Entity\User;
 use App\Enum\OrderStatus;
 use Doctrine\ORM\EntityManager;
@@ -15,41 +16,42 @@ class OrderService
     {
     }
 
-    public function create(string $name, User $user): Category
+    public function create(OrderAddDto $dto): Order
     {
-        $category = new Category();
+        $order = new Order();
 
-        $category->setUser($user);
-        $category->setStatus(OrderStatus::New);
+        $order->setUser($dto->user);
+        $order->setAmount($dto->amount);
+        $order->setStatus($dto->status);
 
-        return $this->update($category, $name);
+        return $this->update($order, $dto->name);
     }
 
     public function getAll(): array
     {
-        return $this->entityManager->getRepository(Category::class)->findAll();
+        return $this->entityManager->getRepository(Order::class)->findAll();
     }
 
     public function delete(int $id): void
     {
-        $category = $this->entityManager->find(Category::class, $id);
+        $order = $this->entityManager->find(Order::class, $id);
 
-        $this->entityManager->remove($category);
+        $this->entityManager->remove($order);
         $this->entityManager->flush();
     }
 
-    public function getById(int $id): ?Category
+    public function getById(int $id): ?Order
     {
-        return $this->entityManager->find(Category::class, $id);
+        return $this->entityManager->find(Order::class, $id);
     }
 
-    public function update(Category $category, string $name): Category
+    public function update(Order $order, string $name): Order
     {
-        $category->setName($name);
+        $order->setName($name);
 
-        $this->entityManager->persist($category);
+        $this->entityManager->persist($order);
         $this->entityManager->flush();
 
-        return $category;
+        return $order;
     }
 }

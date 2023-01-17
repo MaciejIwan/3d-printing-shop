@@ -15,6 +15,8 @@ class CreateOrderDataValidator implements RequestValidatorInterface
         $v = new Validator($data);
 
         $v->rule('required', 'name');
+        $v->rule('required', 'amount');
+        $v->rule('required', 'status');
 
         if (!$v->validate()) {
             throw new ValidationException($v->errors());

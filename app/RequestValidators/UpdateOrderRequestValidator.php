@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\RequestValidators;
 
 use App\Contracts\RequestValidatorInterface;
-use App\Exception\ValidationException;
+use App\Exceptions\ValidationException;
 use Valitron\Validator;
 
-class UpdateCategoryRequestValidator implements RequestValidatorInterface
+class UpdateOrderRequestValidator implements RequestValidatorInterface
 {
     public function validate(array $data): array
     {

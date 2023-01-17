@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Dto;
 
-use App\Entity\Category;
+use App\Entity\Order;
+use App\Entity\User;
 
-class CategoryUpdateDto
+class OrderUpdateDto
 {
     public function __construct(
         public readonly int    $id,
@@ -18,7 +19,7 @@ class CategoryUpdateDto
     {
     }
 
-    public static function fromArray(array $data): CategoryUpdateDto
+    public static function fromArray(array $data): OrderUpdateDto
     {
         return new static(
             $data['id'],
@@ -29,14 +30,14 @@ class CategoryUpdateDto
         );
     }
 
-    public static function fromEntity(Category $category): CategoryUpdateDto
+    public static function fromEntity(Order $order): OrderUpdateDto
     {
-        return CategoryUpdateDto::fromArray([
-            'id' => $category->getId(),
-            'name' => $category->getName(),
-            'status' => $category->getStatus()->toString(),
-            'created_at' => $category->getCreatedAt(),
-            'updated_at' => $category->getUpdatedAt()
+        return OrderUpdateDto::fromArray([
+            'id' => $order->getId(),
+            'name' => $order->getName(),
+            'status' => $order->getStatus()->toString(),
+            'created_at' => $order->getCreatedAt(),
+            'updated_at' => $order->getUpdatedAt()
         ]);
     }
 }

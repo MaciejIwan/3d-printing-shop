@@ -24,7 +24,8 @@ class FilesUploadService
 
     public function handleNewFile(mixed $modelFile): PrintingModel
     {
-        $file_extension = pathinfo($modelFile->getClientFilename(), PATHINFO_EXTENSION);
+        $userFilename = $modelFile->getClientFilename();
+        $file_extension = pathinfo($userFilename, PATHINFO_EXTENSION);
 
         if (strcasecmp($file_extension, SUPPORTED_FILES_EXTENSION)) {
             throw new UnsupportedFileExtension();
@@ -36,6 +37,7 @@ class FilesUploadService
 
         $printingModel = new PrintingModel();
         $printingModel
+            ->setOriginalName($userFilename)
             ->setFilename($new_name)
             ->setMaterialCost($materialCost)
             ->setPrice($this->calcPrice($materialCost, MARGIN));

@@ -2,12 +2,11 @@
 
 namespace Tests\Controllers;
 
-use App\Controllers\AuthController;
 use App\Entity\User;
-use App\Services\EmailService;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Mailer\MailerInterface;
+use Tests\App\Dto\EmailService;
 
 class AuthControllerTest extends TestCase
 {
@@ -21,6 +20,7 @@ class AuthControllerTest extends TestCase
     }
     public function test_SendWelcomeEmail()
     {
+        //todo test fail
         //given
         $this->mailer = $this->container->get(MailerInterface::class);
         $user = (new User())
