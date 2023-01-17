@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 
 use App\Controllers\AuthController;
+use App\Controllers\ChartController;
 use App\Controllers\OrderController;
 use App\Controllers\HomeController;
 use App\Controllers\UploadController;
@@ -38,6 +39,14 @@ return function (App $app) {
         $orders->delete('/{id:[0-9]+}', [OrderController::class, 'delete']);
         $orders->get('/{id:[0-9]+}', [OrderController::class, 'get']);
         $orders->post('/{id:[0-9]+}', [OrderController::class, 'update']);
+    })->add(AuthMiddleware::class);
+
+    $app->group('/chart', function (RouteCollectorProxy $chart) {
+        $chart->get('', [ChartController::class, 'index']);
+        $chart->post('', [ChartController::class, 'store']);
+        $chart->delete('/{id:[0-9]+}', [ChartController::class, 'delete']);
+        $chart->get('/{id:[0-9]+}', [ChartController::class, 'get']);
+        $chart->post('/{id:[0-9]+}', [ChartController::class, 'update']);
     })->add(AuthMiddleware::class);
 
     $app->group('/users', function (RouteCollectorProxy $users) {
