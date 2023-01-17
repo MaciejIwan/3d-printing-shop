@@ -9,12 +9,13 @@ use App\Controllers\UploadController;
 use App\Controllers\UserController;
 use App\Middleware\AuthMiddleware;
 use App\Middleware\GuestMiddleware;
+use App\Middleware\UserMiddleware;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 
 return function (App $app) {
     //homepage
-    $app->get('/', [HomeController::class, 'index']);
+    $app->get('/', [HomeController::class, 'index'])->add(UserMiddleware::class);
     $app->get('/dashboard', [HomeController::class, 'dashboard'])->add(AuthMiddleware::class);
 
     //upload
