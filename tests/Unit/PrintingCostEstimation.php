@@ -20,11 +20,11 @@ class PrintingCostEstimation extends TestCase
 
         $vol = $reader->readModel();
         $grams = $vol / 1000;
-        $actualCost = $grams * PRICE_PER_GRAM;
+        $actualCost = $grams * FILAMENT_PRICE_PER_GRAM;
 
         $realCost = 6.5;
 
-        $this->assertTrue($actualCost * MULTIPLIER > 2 * $realCost);
+        $this->assertTrue($actualCost * MARGIN > 2 * $realCost);
     }
 
 }
