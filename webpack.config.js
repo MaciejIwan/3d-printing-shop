@@ -26,6 +26,7 @@ Encore
     .addEntry("orders", "./resources/js/orders.js")
     .addEntry("users", "./resources/js/users.js")
     .addEntry("index", "./resources/js/index.js")
+    .addEntry("chart", "./resources/js/chart.js")
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

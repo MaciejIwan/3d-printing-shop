@@ -1,8 +1,7 @@
 import "../css/index.scss"
 
-import { Modal }     from "bootstrap"
-import { get, post } from "./ajax"
-
+import {Modal} from "bootstrap"
+import {get, post} from "./ajax"
 
 
 window.addEventListener('DOMContentLoaded', function () {
@@ -12,15 +11,15 @@ window.addEventListener('DOMContentLoaded', function () {
         button.addEventListener('click', function (event) {
             const orderId = event.currentTarget.getAttribute('data-id')
 
-            get(`/orders/${ orderId }`)
+            get(`/orders/${orderId}`)
                 .then(response => openEditOrderModal(editOrderModal, response))
         })
-    })
+    });
 
     document.querySelector('.save-order-btn').addEventListener('click', function (event) {
         const orderId = event.currentTarget.getAttribute('data-id')
 
-        post(`/orders/${ orderId }`, {
+        post(`/orders/${orderId}`, {
             name: editOrderModal._element.querySelector('input[name="name"]').value
         }).then(response => {
             console.log(response)
@@ -40,7 +39,7 @@ function openEditOrderModal(modal, {id, name}) {
 }
 
 function updateTableRow({id, name, created_at, updated_at}) {
-    let date  = new Date();
+    let date = new Date();
     document.querySelector(`#ordersTable > table > tbody > tr.t${id} > td.order-name`).innerHTML = name
     document.querySelector(`#ordersTable > table > tbody > tr.t${id} > td.order-createAt`).innerHTML = created_at
     document.querySelector(`#ordersTable > table > tbody > tr.t${id} > td.order-updatedAt`).innerHTML = updated_at
