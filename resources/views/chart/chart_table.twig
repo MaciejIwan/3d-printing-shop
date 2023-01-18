@@ -15,13 +15,13 @@
                     <td class="order-name">{{ chartItem.printingModel.originalName }}</td>
                     <td class="order-status flex">
 
-                        <button class="btn btn-danger">
+                        <button class="btn btn-danger decrease-quantity-btn" data-id="{{ chartItem.id }}">
                             <b>-</b>
                         </button>
 
                         <span>{{ chartItem.quantity }}</span>
 
-                        <button class="btn btn-success">
+                        <button class="btn btn-success increase-quantity-btn" data-id="{{ chartItem.id }}">
                             <b>+</b>
                         </button>
 
