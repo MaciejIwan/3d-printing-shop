@@ -29,17 +29,17 @@ class Order
     #[Column]
     private string $name;
 
-    #[Column(type: 'decimal', precision: 10, scale: 2)]
+    #[Column(type: 'decimal', scale: 2)]
     private int $amount;
 
     #[Column(enumType: OrderStatus::class)]
     private OrderStatus $status;
 
-    #[ManyToOne(inversedBy: '`order`')]
+    #[ManyToOne(inversedBy: 'order')]
     private User $user;
 
 
-    #[OneToMany(mappedBy: '`order`', targetEntity: OrderItem::class, cascade: ['persist', 'remove'])]
+    #[OneToMany(mappedBy: 'order', targetEntity: OrderItem::class, cascade: ['persist', 'remove'])]
     private Collection $items;
 
     public function __construct()
