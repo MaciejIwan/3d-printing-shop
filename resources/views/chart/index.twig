@@ -5,21 +5,27 @@
     {{ encore_entry_script_tags('chart') }}
 {% endblock %}
 
+{% block stylesheets %}
+    {{ encore_entry_link_tags('app') }}
+    {{ encore_entry_link_tags('chart') }}
+
+{% endblock %}
+
 {% block title %}Chart{% endblock %}
 
 {% block content %}
     <div class="orders container content-body">
 
-        <div class="text-end"><span>Chart</span></div>
+        <div class="text-lg-center title"><span>Chart</span></div>
         {% include 'chart/create_chart_modal.twig' %}
         {% include 'chart/edit_chart_modal.twig' %}
         {% include 'chart/chart_table.twig' %}
 
         <div class="text-end">
 
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newOrderModal">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal">
                 <i class="bi bi-plus-circle me-1"></i>
-                New Order
+                Order Now
             </button>
         </div>
     </div>

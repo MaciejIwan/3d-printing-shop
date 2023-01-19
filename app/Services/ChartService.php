@@ -8,6 +8,7 @@ use App\Entity\PrintingModel;
 use App\Entity\ShoppingCartItem;
 use App\Entity\User;
 use Doctrine\ORM\EntityManager;
+use http\Exception\InvalidArgumentException;
 
 class ChartService
 {
@@ -49,8 +50,13 @@ class ChartService
         return $this->entityManager->find(ShoppingCartItem::class, $id);
     }
 
-    public function update(ShoppingCartItem $chart): ShoppingCartItem
+    public function update(ShoppingCartItem $chart, int $quantity): ShoppingCartItem
     {
+        if($quantity <= 0){
+            throw new InvalidArgumentException("Quantity have to bigger or equal 0!. To delete use delete()");
+        }
+
+        $chart->setQuantity($quantity);
 
         $this->entityManager->persist($chart);
         $this->entityManager->flush();
