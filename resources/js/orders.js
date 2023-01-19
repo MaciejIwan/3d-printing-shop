@@ -1,4 +1,5 @@
 import "../css/index.scss"
+import "../css/orders.scss"
 
 import {Modal} from "bootstrap"
 import {get, post} from "./ajax"
@@ -26,6 +27,16 @@ window.addEventListener('DOMContentLoaded', function () {
             updateTableRow(response['data'])
         })
     })
+
+    document.querySelectorAll('.expand-order-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            let orderId = this.dataset.id;
+            let orderDetailsRow = document.querySelector(`.order-${orderId}`);
+            orderDetailsRow.classList.toggle("d-none");
+            this.classList.toggle("arrow-up");
+            this.classList.toggle("arrow-down");
+        });
+    });
 })
 
 function openEditOrderModal(modal, {id, name}) {

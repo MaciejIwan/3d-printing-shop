@@ -16,7 +16,7 @@
                 <tr class="t{{ order.id }}">
                     <td class="order-name">{{ order.id }}</td>
                     <td class="order-status">{{ order.status.toString() }}</td>
-                    <td class="order-total">{{ order.total}}</td>
+                    <td class="order-total">{{ order.total }}</td>
                     <td class="order-createAt">{{ order.createdAt | date('m/d/Y g:i A') }}</td>
                     <td class="order-updatedAt">{{ order.updatedAt | date('m/d/Y g:i A') }}</td>
                     <td>
@@ -33,7 +33,33 @@
 
                                 <i class="bi bi-pencil-fill"></i>
                             </button>
+                            <a href="#order-{{ order.id }}">
+                                <button class="ms-2 btn btn-outline-primary expand-order-btn arrow-down"
+                                        data-id="{{ order.id }}"></button>
+                            </a>
                         </div>
+                    </td>
+                </tr>
+                <tr class="d-none order-detail-row order-{{ order.id }}" id="order-{{ order.id }}">
+                    <td colspan="6">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in order.items %}
+                                <tr>
+                                    <td>{{ item.printingModel.originalName }}</td>
+                                    <td>{{ item.printingModel.price }}</td>
+                                    <td>{{ item.quantity }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
                     </td>
                 </tr>
             {% endfor %}
@@ -41,3 +67,6 @@
         </table>
     </div>
 {% endif %}
+<style>
+
+</style>
