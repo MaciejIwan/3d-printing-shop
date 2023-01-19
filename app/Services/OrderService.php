@@ -6,8 +6,8 @@ namespace App\Services;
 
 use App\Dto\OrderAddDto;
 use App\Entity\Order;
-use App\Entity\User;
-use App\Enum\OrderStatus;
+use App\Entity\OrderItem;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
 
 class OrderService
@@ -21,7 +21,7 @@ class OrderService
         $order = new Order();
 
         $order->setUser($dto->user);
-        $order->setAmount($dto->amount);
+        $order->setTotal($dto->amount);
         $order->setStatus($dto->status);
 
         return $this->update($order, $dto->name);
@@ -53,5 +53,22 @@ class OrderService
         $this->entityManager->flush();
 
         return $order;
+    }
+
+    public function addOrderItemsFromChart(Order $order, Collection $chartItems): void
+    {
+        $total = 0;
+        foreach ($chartItems as $chartItem) {
+            $orderItem = new OrderItem();
+            $orderItem->setPrintingModel($chartItem->getPrintingModel());
+            $orderItem->setQuantity($chartItem->getQuantity());
+            $orderItem->setUnitPrice($chartItem->getPrintingModel()->getPrice());
+            $order->addItem($orderItem);
+            $total += $chartItem->getPrintingModel()->getPrice() * $chartItem->getQuantity();
+        }
+        $order->setTotal($total);
+
+        $this->entityManager->persist($order);
+        $this->entityManager->flush();
     }
 }

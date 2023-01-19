@@ -30,7 +30,7 @@ class Order
     private string $name;
 
     #[Column(type: 'decimal', scale: 2)]
-    private int $amount;
+    private float $total;
 
     #[Column(enumType: OrderStatus::class)]
     private OrderStatus $status;
@@ -47,7 +47,7 @@ class Order
         $this->items = new ArrayCollection();
     }
 
-    public function addItem(OrderItem $item)
+    public function addItem(OrderItem $item): Order
     {
         $item->setOrder($this);
         $this->items->add($item);
@@ -59,82 +59,48 @@ class Order
         return $this->name;
     }
 
-    public function setName($name)
+    public function setName($name): Order
     {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     * @return Order
-     */
-    public function setId($id)
+    public function setId($id): Order
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getAmount(): int
+    public function getTotal(): float
     {
-        return $this->amount;
+        return $this->total;
     }
 
-    /**
-     * @param int $amount
-     * @return Order
-     */
-    public function setAmount($amount)
+    public function setTotal(float $total): Order
     {
-        $this->amount = $amount;
+        $this->total = $total;
         return $this;
     }
 
-    /**
-     * @return OrderStatus
-     */
     public function getStatus(): OrderStatus
     {
         return $this->status;
     }
 
-    /**
-     * @param OrderStatus $status
-     * @return Order
-     */
-    public function setStatus($status)
+    public function setStatus($status): Order
     {
         $this->status = $status;
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getItems(): Collection
     {
         return $this->items;
-    }
-
-    /**
-     * @param Collection $items
-     * @return Order
-     */
-    public function setItems($items)
-    {
-        $this->items = $items;
-        return $this;
     }
 
     public function getUser(): User
@@ -142,10 +108,6 @@ class Order
         return $this->user;
     }
 
-    /**
-     * @param User $user
-     * @return Order
-     */
     public function setUser(User $user): Order
     {
         $this->user = $user;

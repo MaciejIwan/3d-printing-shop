@@ -4,15 +4,20 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Dto\OrderAddDto;
+use App\Entity\Order;
+use App\Entity\OrderItem;
 use App\Entity\PrintingModel;
 use App\Entity\ShoppingCartItem;
 use App\Entity\User;
+use App\Enum\OrderStatus;
 use Doctrine\ORM\EntityManager;
 use http\Exception\InvalidArgumentException;
 
 class ChartService
 {
-    public function __construct(private readonly EntityManager    $entityManager)
+    public function __construct(private readonly EntityManager $entityManager,
+                                private readonly OrderService  $orderService)
     {
     }
 
@@ -52,7 +57,7 @@ class ChartService
 
     public function update(ShoppingCartItem $chart, int $quantity): ShoppingCartItem
     {
-        if($quantity <= 0){
+        if ($quantity <= 0) {
             throw new InvalidArgumentException("Quantity have to bigger or equal 0!. To delete use delete()");
         }
 
@@ -62,5 +67,28 @@ class ChartService
         $this->entityManager->flush();
 
         return $chart;
+    }
+
+    public function clearChart(User $user): void
+    {
+        $chartItemRepository = $this->entityManager->getRepository(ShoppingCartItem::class);
+        $chartItems = $chartItemRepository->findBy(['user' => $user]);
+
+        foreach ($chartItems as $chartItem) {
+            $this->entityManager->remove($chartItem);
+        }
+
+        $this->entityManager->flush();
+    }
+
+    public function sumbit(User $user)
+    {
+        $newOrderDto = new OrderAddDto('Order for ' . $user->getName(), 0, OrderStatus::New, $user);
+        $order = $this->orderService->create($newOrderDto);
+
+        $chartItems = $user->getShoppingCardItems();
+        $this->orderService->addOrderItemsFromChart($order, $chartItems);
+
+        return $order;
     }
 }

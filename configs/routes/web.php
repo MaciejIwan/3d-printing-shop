@@ -47,6 +47,7 @@ return function (App $app) {
         $chart->delete('/{id:[0-9]+}', [ChartController::class, 'delete']);
         $chart->get('/{id:[0-9]+}', [ChartController::class, 'get']);
         $chart->post('/{id:[0-9]+}', [ChartController::class, 'update']);
+        $chart->get('/submit', [ChartController::class, 'submit']);
     })->add(AuthMiddleware::class);
 
     $app->group('/users', function (RouteCollectorProxy $users) {

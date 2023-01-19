@@ -6,13 +6,11 @@ namespace App\Controllers;
 
 use App\Contracts\RequestValidatorFactoryInterface;
 use App\Dto\ChartUpdateDto;
-use App\Dto\OrderUpdateDto;
+use App\Entity\User;
 use App\RequestValidators\AddShoppingChartItemRequestValidator;
 use App\RequestValidators\UpdateChartItemRequestValidator;
-use App\RequestValidators\UpdateOrderRequestValidator;
 use App\ResponseFormatter;
 use App\Services\ChartService;
-use App\Services\OrderService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
@@ -92,5 +90,22 @@ class ChartController
             'data' => ChartUpdateDto::fromEntity($updatedItem),
         ]);
         return $response;
+    }
+
+    public function submit(Request $request, Response $response, array $args): Response
+    {
+        /** @var User $user */
+        $user = $request->getAttribute('user');
+
+        $order = $this->chartService->sumbit($user);
+        $this->chartService->clearChart($user);
+
+//        $this->responseFormatter->asJson($response, [
+//            'message' => "Your order has been accepted",
+//            'data' => [
+//                "order_id" => $order->getId()
+//            ],
+//        ]);
+        return $response->withHeader('Location', '/orders')->withStatus(302);
     }
 }
