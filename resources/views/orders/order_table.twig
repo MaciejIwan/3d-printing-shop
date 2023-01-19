@@ -3,8 +3,9 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>Name</th>
+                <th>Id</th>
                 <th>Status</th>
+                <th>Total</th>
                 <th>Created At</th>
                 <th>Updated At</th>
                 <th>Actions</th>
@@ -13,8 +14,9 @@
             <tbody>
             {% for order in orders %}
                 <tr class="t{{ order.id }}">
-                    <td class="order-name">{{ order.name }}</td>
+                    <td class="order-name">{{ order.id }}</td>
                     <td class="order-status">{{ order.status.toString() }}</td>
+                    <td class="order-total">{{ order.total}}</td>
                     <td class="order-createAt">{{ order.createdAt | date('m/d/Y g:i A') }}</td>
                     <td class="order-updatedAt">{{ order.updatedAt | date('m/d/Y g:i A') }}</td>
                     <td>

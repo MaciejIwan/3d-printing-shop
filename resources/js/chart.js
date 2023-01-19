@@ -1,23 +1,32 @@
 import "../css/index.scss"
 import "../css/chart.scss"
-import {post} from "./ajax"
+import {post, get} from "./ajax"
 
 
 window.addEventListener('DOMContentLoaded', function () {
 
     document.querySelectorAll('.decrease-quantity-btn').forEach(button => {
-        button.addEventListener('click', function (event) {
+        button.addEventListener('click', (event) => {
             let updateBY = -1
             sendUpdateRequest(event, updateBY);
         })
     })
 
     document.querySelectorAll('.increase-quantity-btn').forEach(button => {
-        button.addEventListener('click', function (event) {
+        button.addEventListener('click', (event) => {
             let updateBY = +1
             sendUpdateRequest(event, updateBY);
         })
     })
+
+    document.querySelectorAll("#cart-submit").forEach(button => {
+        button.addEventListener('click', (event) => {
+            get(`/chart/submit`, )
+                .then(response => console.log(response))
+        })
+    })
+
+
 })
 
 function sendUpdateRequest(event, updateBY) {

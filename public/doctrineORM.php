@@ -25,7 +25,7 @@ $entityManager = EntityManager::create($connectionParams, $config);
 
 $items = [['item 1', 1, 15], ['item 2', 2, 7.5], ['item 3', 4, 3.75]];
 $invoice = (new Order())
-    ->setAmount(45)
+    ->setTotal(45)
     ->setStatus(OrderStatus::Pending)
     ->setCreatedAt(new DateTime());
 

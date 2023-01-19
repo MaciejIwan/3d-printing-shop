@@ -44,7 +44,6 @@ class OrderController
         );
         $orderAddDto = OrderAddDto::fromArrayAndUser($data,$request->getAttribute('user'));
         $this->orderService->create($orderAddDto);
-        //$this->orderService->create($data['name'], $request->getAttribute('user'), $data['name']);
 
         return $response->withHeader('Location', '/orders')->withStatus(302);
     }

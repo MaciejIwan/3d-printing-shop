@@ -14,7 +14,7 @@ class OrderAddDto
         public readonly string      $name,
         public readonly int         $amount,
         public readonly OrderStatus $status,
-        public readonly User        $user,
+        public readonly User        $user
     )
     {
     }
