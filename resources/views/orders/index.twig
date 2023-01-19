@@ -7,12 +7,15 @@
 
  {% block stylesheets %}
      {{ encore_entry_link_tags('orders') }}
+     {{ encore_entry_link_tags('app') }}
+
  {% endblock %}
 
 {% block title %}Orders{% endblock %}
 
 {% block content %}
     <div class="orders container content-body">
+        <div class="text-lg-center title"><span>Orders</span></div>
         <div class="text-end">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newOrderModal">
                 <i class="bi bi-plus-circle me-1"></i>

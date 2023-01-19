@@ -18,7 +18,7 @@ class DtoToJsonTest extends TestCase
         $order = new Order();
         $order->setId(1);
         $order->setName("test name");
-        $order->setStatus(OrderStatus::New);
+        $order->setStatus(OrderStatus::Unpaid);
 
         $date = new DateTime();
         $order->setUpdatedAt($date);

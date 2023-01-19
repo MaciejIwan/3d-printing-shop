@@ -5,6 +5,7 @@
             <tr>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Role</th>
                 <th>Created At</th>
                 <th>Updated At</th>
                 <th>Actions</th>
@@ -15,6 +16,7 @@
                 <tr class="t{{ user.id }}">
                     <td class="user-name">{{ user.name }}</td>
                     <td class="user-email">{{ user.email }}</td>
+                    <td class="user-role">{{ user.role.toString }}</td>
                     <td class="user-createAt">{{ user.createdAt | date('m/d/Y g:i A') }}</td>
                     <td class="user-updatedAt">{{ user.updatedAt | date('m/d/Y g:i A') }}</td>
                     <td>
