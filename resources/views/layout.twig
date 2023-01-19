@@ -1,65 +1,73 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full bg-gray-100">
-    <head>
-        <meta charset="UTF-8">
-        <meta id="csrfName" name="{{ csrf.keys.name }}" content="{{ csrf.name }}">
-        <meta id="csrfValue" name="{{ csrf.keys.value }}" content="{{ csrf.value }}">
-        <title>{% block title %}3d Lodz{% endblock %}</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
-              rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<head>
+    <meta charset="UTF-8">
+    <meta id="csrfName" name="{{ csrf.keys.name }}" content="{{ csrf.name }}">
+    <meta id="csrfValue" name="{{ csrf.keys.value }}" content="{{ csrf.value }}">
+    <title>{% block title %}3d Lodz{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+          integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        <div class="container">
-            <header class="d-flex flex-wrap justify-content-center align-items-center py-3 mb-4">
-                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-                    <img src="{{ asset('build/images/logo.png') }}" width="64" height="64" alt="Expennies Logo" />
-                    <span class="fs-1 fw-bold">3D<span class="text-primary">printing</span></span>
-                </a>
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+<div class="container">
+    <header class="d-flex flex-wrap justify-content-center align-items-center py-3 mb-4">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+            <img src="{{ asset('build/images/logo.png') }}" width="64" height="64" alt="Expennies Logo"/>
+            <span class="fs-1 fw-bold">3D<span class="text-primary">printing</span></span>
+        </a>
 
-                <ul class="nav nav-pills align-items-center">
-                    <li class="nav-item">
-                        <a href="/dashboard" class="nav-link fw-bold fs-5 active" aria-current="page">Overview</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/users" class="nav-link fw-bold fs-5" aria-current="page">Users</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/orders" class="nav-link fw-bold fs-5" aria-current="page">Orders</a>
-                    </li>
-                </ul>
+        <ul class="nav nav-pills align-items-center">
+            <li class="nav-item">
+                <a href="/dashboard" class="nav-link fw-bold fs-5 active" aria-current="page">Overview</a>
+            </li>
+            <li class="nav-item">
+                <a href="/users" class="nav-link fw-bold fs-5" aria-current="page">Users</a>
+            </li>
+            <li class="nav-item">
+                <a href="/orders" class="nav-link fw-bold fs-5" aria-current="page">Orders</a>
+            </li>
+            <li class="nav-item">
+                <a href="/chart" class="nav-link fw-bold fs-5" aria-current="page">Chart</a>
+            </li>
+        </ul>
 
-                <div class="dropdown user-dropdown-menu">
-                    <a href="#" class="text-decoration-none d-flex align-items-center" id="userDropDownMenu" data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon">
-                            <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
-                        </svg>
-                        <span>{{ auth.name }}</span>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="userDropDownMenu">
-                        <li>
-                            <form action="/logout" method="post">
-                                {{ csrf.fields | raw }}
-                                <button class="dropdown-item" href="#">Log Out</button>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
-            </header>
+        <div class="dropdown user-dropdown-menu">
+            <a href="#" class="text-decoration-none d-flex align-items-center" id="userDropDownMenu"
+               data-bs-toggle="dropdown"
+               aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon">
+                    <path fill-rule="evenodd"
+                          d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
+                          clip-rule="evenodd"/>
+                </svg>
+                <span>{{ auth.name }}</span>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="userDropDownMenu">
+                <li>
+                    <form action="/logout" method="post">
+                        {{ csrf.fields | raw }}
+                        <button class="dropdown-item" href="#">Log Out</button>
+                    </form>
+                </li>
+            </ul>
         </div>
-        <div class="container">
-            {% block content %}{% endblock %}
-        </div>
-    </body>
+    </header>
+</div>
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+</body>
 </html>

@@ -33,6 +33,7 @@ class UserProviderService implements UserProviderServiceInterface
 
         $user->setName($data->name);
         $user->setEmail($data->email);
+        $user->setRole($data->userRole);
         $user->setPassword(password_hash($data->password, PASSWORD_BCRYPT, ['cost' => 12]));
 
         $this->entityManager->persist($user);

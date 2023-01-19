@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Contracts\UserInterface;
 use App\Entity\Trait\HasTimestamps;
+use App\Enum\UserRole;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
@@ -33,6 +34,9 @@ class User implements UserInterface
 
     #[Column]
     private string $password;
+
+    #[Column(type: "string", enumType: UserRole::class)]
+    private UserRole $role;
 
     #[OneToMany(mappedBy: 'user', targetEntity: ShoppingCartItem::class)]
     private Collection $shoppingCardItems;
@@ -68,6 +72,17 @@ class User implements UserInterface
     {
         $this->email = $email;
 
+        return $this;
+    }
+
+    public function getRole(): UserRole
+    {
+        return $this->role;
+    }
+
+    public function setRole(UserRole $role): User
+    {
+        $this->role = $role;
         return $this;
     }
 

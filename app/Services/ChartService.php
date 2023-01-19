@@ -83,7 +83,7 @@ class ChartService
 
     public function sumbit(User $user)
     {
-        $newOrderDto = new OrderAddDto('Order for ' . $user->getName(), 0, OrderStatus::New, $user);
+        $newOrderDto = new OrderAddDto('Order for ' . $user->getName(), 0, OrderStatus::Unpaid, $user);
         $order = $this->orderService->create($newOrderDto);
 
         $chartItems = $user->getShoppingCardItems();

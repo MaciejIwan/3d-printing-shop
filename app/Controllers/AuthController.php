@@ -7,6 +7,7 @@ namespace App\Controllers;
 use App\Contracts\AuthInterface;
 use App\Contracts\RequestValidatorFactoryInterface;
 use App\Dto\RegisterUserData;
+use App\Enum\UserRole;
 use App\Exceptions\ValidationException;
 use App\RequestValidators\RegisterUserRequestValidator;
 use App\RequestValidators\UserLoginRequestValidator;
@@ -43,7 +44,7 @@ class AuthController
         );
 
         $user = $this->auth->register(
-            new RegisterUserData($data['name'], $data['email'], $data['password'])
+            new RegisterUserData($data['name'], $data['email'], $data['password'], UserRole::User)
         );
 
         $this->emailService->sendWelcomeEmail($user, $this);
