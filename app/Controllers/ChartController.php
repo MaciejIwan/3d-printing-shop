@@ -28,6 +28,7 @@ class ChartController
 
     public function index(Request $request, Response $response): Response
     {
+        /** @var User $user */
         $user = $request->getAttribute('user');
 
         return $this->twig->render(
@@ -59,7 +60,6 @@ class ChartController
 
     public function get(Request $request, Response $response, array $args): Response
     {
-        //todo write this function
         $chartItem = $this->chartService->getById((int)$args['id']);
 
         if (!$chartItem) {

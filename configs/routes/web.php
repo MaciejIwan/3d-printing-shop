@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 use App\Controllers\AuthController;
 use App\Controllers\ChartController;
-use App\Controllers\OrderController;
 use App\Controllers\HomeController;
+use App\Controllers\OrderController;
 use App\Controllers\UploadController;
 use App\Controllers\UserController;
 use App\Middleware\AuthMiddleware;
@@ -20,8 +20,12 @@ return function (App $app) {
     $app->get('/dashboard', [HomeController::class, 'dashboard'])->add(AuthMiddleware::class);
 
     //upload
-    $app->get('/upload', [UploadController::class, 'index']);
-    $app->post('/upload', [UploadController::class, 'store']);
+    $app->group('/upload', function (RouteCollectorProxy $guest) {
+        $guest->get('', [UploadController::class, 'index']);
+        $guest->get('/download/{filename}', [UploadController::class, 'download']); //todo refactor of Controller but also endpoint
+        $guest->post('', [UploadController::class, 'store']);
+    });
+
 
     //guest subpages
     $app->group('', function (RouteCollectorProxy $guest) {
