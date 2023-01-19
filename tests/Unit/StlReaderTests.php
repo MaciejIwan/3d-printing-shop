@@ -60,4 +60,5 @@ class StlReaderTests extends TestCase
         $this->assertEqualsWithDelta($expected, $actual, 0.001);
     }
 
+
 }

@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Contracts\RequestValidatorFactoryInterface;
+use App\Dto\ChartUpdateDto;
 use App\Dto\OrderUpdateDto;
 use App\RequestValidators\AddShoppingChartItemRequestValidator;
+use App\RequestValidators\UpdateChartItemRequestValidator;
 use App\RequestValidators\UpdateOrderRequestValidator;
 use App\ResponseFormatter;
 use App\Services\ChartService;
@@ -73,21 +75,21 @@ class ChartController
 
     public function update(Request $request, Response $response, array $args): Response
     {
-        $data = $this->requestValidatorFactory->make(UpdateOrderRequestValidator::class)->validate(
+        $data = $this->requestValidatorFactory->make(UpdateChartItemRequestValidator::class)->validate(
             $args + $request->getParsedBody()
         );
 
-        $category = $this->chartService->getById((int)$data['id']);
+        $chartItem = $this->chartService->getById((int)$data['id']);
 
-        if (!$category) {
+        if (!$chartItem) {
             return $response->withStatus(404);
         }
 
-        $updatedCategory = $this->chartService->update($category, $data['name']);
+        $updatedItem = $this->chartService->update($chartItem, $data['quantity']);
 
         $this->responseFormatter->asJson($response, [
-            'message' => "order updated successfully",
-            'data' => ChartUpdateDto::fromEntity($updatedCategory), //todo implement ChartUpdateDto
+            'message' => "chart updated successfully",
+            'data' => ChartUpdateDto::fromEntity($updatedItem),
         ]);
         return $response;
     }
