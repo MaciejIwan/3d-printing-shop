@@ -53,7 +53,9 @@
                             <tbody>
                             {% for item in order.items %}
                                 <tr>
-                                    <td>{{ item.printingModel.originalName }}</td>
+                                    <td>
+                                        <a href="/upload/download/{{ item.printingModel.filename }}">{{ item.printingModel.originalName }}</a>
+                                    </td>
                                     <td>{{ item.printingModel.price }}</td>
                                     <td>{{ item.quantity }}</td>
                                 </tr>
