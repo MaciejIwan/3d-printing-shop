@@ -10,7 +10,6 @@ use App\Services\OrderService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
-use Stripe\Stripe;
 
 class PaymentController
 {
@@ -76,16 +75,20 @@ class PaymentController
         $cancel_url = $YOUR_DOMAIN . '/cancel';
 
         // Create the Checkout Session
+        $currency = "pln";
+
         $checkout_session = \Stripe\Checkout\Session::create([
-            'line_items' => [[
-                'price' => 'price_1MS9LqKfUwlni2dZhaO3OgA9',
-                'quantity' => 1,
-            ]],
+            'line_items' => [
+                $this->generateProduct($currency, "Product name", "here is product description", 500, 1),
+                $this->generateProduct($currency, "Product name 2", "descri 2", 400, 2),
+            ],
             'mode' => 'payment',
             'success_url' => $success_url,
             'cancel_url' => $cancel_url,
         ]);
 
+        //todo save paymentid to database and track status with webhook
+        // $paymentId = $checkout_session->payment_intent;
         // Redirect the user to the Checkout page
         return $response->withStatus(303)->withHeader('Location', $checkout_session->url);
     }
@@ -93,6 +96,21 @@ class PaymentController
     public function test(Request $request, Response $response): Response
     {
         return $this->twig->render($response, 'payment/test.twig');
+    }
+
+    public function generateProduct(string $currency, string $productName, string $description, int $amount, int $quantity): array
+    {
+        return [
+            'price_data' => [
+                "currency" => $currency,
+                "product_data" => [
+                    "name" => $productName,
+                    "description" => $description
+                ],
+                'unit_amount' => $amount,
+            ],
+            'quantity' => $quantity,
+        ];
     }
 
 

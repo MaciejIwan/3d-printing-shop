@@ -27,7 +27,6 @@ return function (App $app) {
         $payments->get('/test', [PaymentController::class, 'test']);
     });
 
-
     //upload
     $app->group('/upload', function (RouteCollectorProxy $guest) {
         $guest->get('', [UploadController::class, 'index']);
