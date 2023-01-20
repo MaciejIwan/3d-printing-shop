@@ -7,6 +7,7 @@ use App\Controllers\ChartController;
 use App\Controllers\ClientsController;
 use App\Controllers\HomeController;
 use App\Controllers\OrderController;
+use App\Controllers\PaymentController;
 use App\Controllers\UploadController;
 use App\Controllers\UserController;
 use App\Middleware\AdminMiddleware;
@@ -21,6 +22,22 @@ return function (App $app) {
     //homepage
     $app->get('/', [HomeController::class, 'index'])->add(EveryoneMiddleware::class);
     $app->get('/dashboard', [HomeController::class, 'dashboard'])->add(AuthMiddleware::class);
+
+    $app->group('/payments', function (RouteCollectorProxy $payments) {
+        $payments->get('/success', [PaymentController::class, 'success']);
+        $payments->get('/cancel', [PaymentController::class, 'cancel']);
+        $payments->post('/create-checkout-session', [PaymentController::class, 'checkout']);
+        $payments->get('/test', [PaymentController::class, 'test']);
+    });
+
+
+    //upload
+    $app->group('/upload', function (RouteCollectorProxy $guest) {
+        $guest->get('', [UploadController::class, 'index']);
+        $guest->get('/download/{filename}', [UploadController::class, 'download']); //todo refactor of Controller but also endpoint
+        $guest->post('', [UploadController::class, 'store']);
+    });
+
 
     //guest subpages
     $app->group('', function (RouteCollectorProxy $guest) {
@@ -40,6 +57,7 @@ return function (App $app) {
 
 
     $app->post('/logout', [AuthController::class, 'logOut'])->add(AuthMiddleware::class);
+
 
     $app->group('/chart', function (RouteCollectorProxy $chart) {
         $chart->get('', [ChartController::class, 'index']);
