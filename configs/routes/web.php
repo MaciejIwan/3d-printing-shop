@@ -6,6 +6,7 @@ use App\Controllers\AuthController;
 use App\Controllers\ChartController;
 use App\Controllers\HomeController;
 use App\Controllers\OrderController;
+use App\Controllers\PaymentController;
 use App\Controllers\UploadController;
 use App\Controllers\UserController;
 use App\Middleware\AuthMiddleware;
@@ -18,6 +19,14 @@ return function (App $app) {
     //homepage
     $app->get('/', [HomeController::class, 'index'])->add(UserMiddleware::class);
     $app->get('/dashboard', [HomeController::class, 'dashboard'])->add(AuthMiddleware::class);
+
+    $app->group('/payments', function (RouteCollectorProxy $payments) {
+        $payments->get('/success', [PaymentController::class, 'success']);
+        $payments->get('/cancel', [PaymentController::class, 'cancel']);
+        $payments->post('/create-checkout-session', [PaymentController::class, 'checkout']);
+        $payments->get('/test', [PaymentController::class, 'test']);
+    });
+
 
     //upload
     $app->group('/upload', function (RouteCollectorProxy $guest) {

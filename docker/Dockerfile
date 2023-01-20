@@ -13,6 +13,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     vim \
     libicu-dev
+#    php-curl \
+#    php-mbstring \
 
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash \
     && apt-get install nodejs -y
@@ -30,6 +32,16 @@ RUN pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.client_host = host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+RUN apt-get install libcurl4-openssl-dev
+RUN apt-get install libonig-dev
+RUN docker-php-ext-install curl
+#RUN pecl install php-curl \
+#    && docker-php-ext-enable php-curl
+
+RUN docker-php-ext-install mbstring
+#RUN pecl install php-mbstring \
+#    && docker-php-ext-enable php-mbstring
 
 COPY xdebug.ini "${PHP_INI_DIR}/conf.d"
 #RUN pecl install xdebug \

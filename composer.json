@@ -24,6 +24,7 @@
         "slim/psr7": "^1.5",
         "slim/slim": "^4.10",
         "slim/twig-view": "^3.3",
+        "stripe/stripe-php": "^10.4",
         "symfony/asset": "^6.2",
         "symfony/cache": "^6.1",
         "symfony/console": "^6.1",
