@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Dto\OrderAddDto;
 use App\Entity\Order;
 use App\Entity\OrderItem;
+use App\Entity\User;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
 
@@ -70,5 +71,10 @@ class OrderService
 
         $this->entityManager->persist($order);
         $this->entityManager->flush();
+    }
+
+    public function getAllByUser(User $user): array
+    {
+        return $this->entityManager->getRepository(Order::class)->findBy(['user' => $user]);
     }
 }

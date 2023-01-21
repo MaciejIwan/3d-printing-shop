@@ -15,10 +15,10 @@
 {% block content %}
     {% if printingModel %}
         <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h1>{{ printingModel.filename }}</h1>
-                    <p>Price: {{ printingModel.price }}</p>
+            <div class="row align-items-center" style="justify-content: flex-start;">
+                <div class="col-md-4 offset-md-1" style="display: flex; flex-direction: column; margin-top: -20%;">
+                    <h1>{{ printingModel.originalName }}</h1>
+                    <p>price / psc: {{ printingModel.price | number_format(2) }} PLN</p>
                     <form action="/chart" method="post">
                         {{ csrf.fields | raw }}
                         <input type="hidden" class="form-control" name="product" value="{{ printingModel.id }}">
@@ -27,10 +27,17 @@
                             <input type="number" class="form-control" id="quantity" name="quantity" min="1" value="1">
                         </div>
                         <p>Total Cost: </p>
-                        <span id="total-cost">{{ printingModel.price }}</span></p>
+                        <span id="total-cost">{{ printingModel.price | number_format(2) }} PLN</span></p>
                         <button type="submit" class="btn btn-primary" id="add-to-cart">Add to Cart</button>
                     </form>
                 </div>
+
+
+                <div class="col-md-6 offset-md-1" id="preview" style="background-image: url('{{ asset('build/images/preview.png') }}');">
+                    <h1 style="color:black">Preview</h1>
+
+                </div>
+
             </div>
         </div>
 
@@ -43,7 +50,7 @@
                 quantityInput.addEventListener("input", function () {
                     let quantity = this.value;
                     let totalCost = quantity * price;
-                    totalCostSpan.innerText = totalCost.toFixed(2);
+                    totalCostSpan.innerText = "" + totalCost.toFixed(2) + " PLN";
                 });
             });
         </script>
@@ -57,4 +64,20 @@
 
 
     {% endif %}
+
+    <style>
+        #preview {
+            color:white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position-x: center;
+            background-position-y: bottom;
+            height: 80vh;
+            gap:50px;
+        }
+    </style>
 {% endblock %}

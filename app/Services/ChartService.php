@@ -11,6 +11,7 @@ use App\Entity\PrintingModel;
 use App\Entity\ShoppingCartItem;
 use App\Entity\User;
 use App\Enum\OrderStatus;
+use App\Exceptions\OrderPleaceException;
 use Doctrine\ORM\EntityManager;
 use http\Exception\InvalidArgumentException;
 
@@ -83,10 +84,13 @@ class ChartService
 
     public function sumbit(User $user)
     {
+        $chartItems = $user->getShoppingCardItems();
+        if($chartItems->count() == 0)
+            throw new OrderPleaceException("You have to pass at least one item");
+
         $newOrderDto = new OrderAddDto('Order for ' . $user->getName(), 0, OrderStatus::Unpaid, $user);
         $order = $this->orderService->create($newOrderDto);
 
-        $chartItems = $user->getShoppingCardItems();
         $this->orderService->addOrderItemsFromChart($order, $chartItems);
 
         return $order;
