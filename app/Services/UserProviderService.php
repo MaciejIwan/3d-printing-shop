@@ -62,7 +62,7 @@ class UserProviderService implements UserProviderServiceInterface
         $user->setEmail($data->email);
         $user->setRole($data->role);
 
-        //$this->entityManager->persist($user);
+        $this->entityManager->persist($user);
         $this->entityManager->flush();
 
         return $user;
