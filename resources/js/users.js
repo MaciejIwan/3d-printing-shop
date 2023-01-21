@@ -18,7 +18,8 @@ window.addEventListener('DOMContentLoaded', function () {
 
         post(`/users/${userId}`, {
             name: editUserModal._element.querySelector('input[name="name"]').value,
-            email: editUserModal._element.querySelector('input[name="email"]').value
+            email: editUserModal._element.querySelector('input[name="email"]').value,
+            role: editUserModal._element.querySelector('select[name="role"]').value
         }).then(response => {
             console.log(response)
             updateTableRow(response['data'])
@@ -26,22 +27,24 @@ window.addEventListener('DOMContentLoaded', function () {
     })
 })
 
-function openEditUserModal(modal, {id, name, email}) {
+function openEditUserModal(modal, {id, name, email, role}) {
     //todo fill data in loop
     modal._element.querySelector('input[name="name"]')
         .value = name
     modal._element.querySelector('input[name="email"]')
         .value = email
+    modal._element.querySelector('select[name="role"]').value = role;
 
     modal._element.querySelector('.save-user-btn').setAttribute('data-id', id)
 
     modal.show()
 }
 
-function updateTableRow({id, name, email, created_at, updated_at}) {
-    console.table([id, name, email])
+function updateTableRow({id, name, email, role, created_at, updated_at}) {
+    console.table([id, name, email, role])
     document.querySelector(`#usersTable > table > tbody > tr.t${id} > td.user-name`).innerHTML = name
     document.querySelector(`#usersTable > table > tbody > tr.t${id} > td.user-email`).innerHTML = email
+    document.querySelector(`#usersTable > table > tbody > tr.t${id} > td.user-role`).innerHTML = role
     document.querySelector(`#usersTable > table > tbody > tr.t${id} > td.user-createAt`).innerHTML = created_at
     document.querySelector(`#usersTable > table > tbody > tr.t${id} > td.user-updatedAt`).innerHTML = updated_at
 }
