@@ -48,4 +48,4 @@ run commands in 3d-printing-app docker commandline
  * Software used to create database diagram
  https://drawsql.app/
  * Logo design https://pixabay.com/pl/users/krzysztof-m-1363864/
- 
+ * Preview illustraton from: https://pixabay.com/pl/illustrations/%d0%bb%d0%be%d1%83%d0%bf%d0%be%d0%bb%d0%b8-3d-blender-poligon-drzewo-3494476/

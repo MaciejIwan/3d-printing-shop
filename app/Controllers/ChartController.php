@@ -7,6 +7,7 @@ namespace App\Controllers;
 use App\Contracts\RequestValidatorFactoryInterface;
 use App\Dto\ChartUpdateDto;
 use App\Entity\User;
+use App\Exceptions\OrderPleaceException;
 use App\RequestValidators\AddShoppingChartItemRequestValidator;
 use App\RequestValidators\UpdateChartItemRequestValidator;
 use App\ResponseFormatter;
@@ -94,18 +95,17 @@ class ChartController
 
     public function submit(Request $request, Response $response, array $args): Response
     {
-        /** @var User $user */
-        $user = $request->getAttribute('user');
+        try {
+            /** @var User $user */
+            $user = $request->getAttribute('user');
 
-        $order = $this->chartService->sumbit($user);
-        $this->chartService->clearChart($user);
+            $order = $this->chartService->sumbit($user);
+            $this->chartService->clearChart($user);
+        }catch (OrderPleaceException $e){
+            return $response->withHeader('Location', '/chart')->withStatus(302);
+    }
 
-//        $this->responseFormatter->asJson($response, [
-//            'message' => "Your order has been accepted",
-//            'data' => [
-//                "order_id" => $order->getId()
-//            ],
-//        ]);
-        return $response->withHeader('Location', '/orders')->withStatus(302);
+
+        return $response->withHeader('Location', 'orders/my')->withStatus(302);
     }
 }

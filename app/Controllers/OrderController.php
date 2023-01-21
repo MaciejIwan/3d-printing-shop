@@ -7,6 +7,7 @@ namespace App\Controllers;
 use App\Contracts\RequestValidatorFactoryInterface;
 use App\Dto\OrderAddDto;
 use App\Dto\OrderUpdateDto;
+use App\Entity\User;
 use App\RequestValidators\CreateOrderDataValidator;
 use App\RequestValidators\UpdateOrderRequestValidator;
 use App\ResponseFormatter;
@@ -35,6 +36,17 @@ class OrderController
                 'orders' => $this->orderService->getAll(),
             ]
         );
+    }
+
+    public function myOrders(Request $request, Response $response): Response
+    {
+        /** @var User $user */
+        $user = $request->getAttribute('user');
+
+        return $this->twig->render($response, 'orders/index.twig',
+            [
+                'orders' => $this->orderService->getAllByUser($user),
+            ]);
     }
 
     public function store(Request $request, Response $response): Response
