@@ -8,7 +8,7 @@ use App\Contracts\AuthInterface;
 use App\Contracts\SessionInterface;
 use App\Contracts\UserInterface;
 use App\Contracts\UserProviderServiceInterface;
-use App\Dto\UserRegisterDto;
+use App\Dto\RegisterUserData;
 
 class Auth implements AuthInterface
 {
@@ -16,7 +16,8 @@ class Auth implements AuthInterface
 
     public function __construct(
         private readonly UserProviderServiceInterface $userProvider,
-        private readonly SessionInterface             $session)
+        private readonly SessionInterface             $session
+    )
     {
     }
 
@@ -33,11 +34,13 @@ class Auth implements AuthInterface
         }
 
         $user = $this->userProvider->getById($userId);
+
         if (!$user) {
             return null;
         }
 
         $this->user = $user;
+
         return $this->user;
     }
 
@@ -56,15 +59,7 @@ class Auth implements AuthInterface
 
     public function checkCredentials(UserInterface $user, array $credentials): bool
     {
-        return password_verify($credentials['password'], $user->getPasswordHash());
-    }
-
-    public function logIn(UserInterface $user): void
-    {
-        $this->session->regenerate();
-        $this->session->put('user', $user->getId());
-
-        $this->user = $user;
+        return password_verify($credentials['password'], $user->getPassword());
     }
 
     public function logOut(): void
@@ -75,12 +70,21 @@ class Auth implements AuthInterface
         $this->user = null;
     }
 
-    public function register(UserRegisterDto $data): UserInterface
+    public function register(RegisterUserData $data): UserInterface
     {
         $user = $this->userProvider->createUser($data);
+
         $this->logIn($user);
+
         return $user;
     }
 
+    public function logIn(UserInterface $user): void
+    {
+        $this->session->regenerate();
+        $this->session->put('user', $user->getId());
+
+        $this->user = $user;
+    }
 
 }

@@ -1,9 +1,128 @@
-{% extends 'layout.twig' %}
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-gray-100">
+<head>
+    <meta charset="UTF-8">
+    <meta id="csrfName" name="{{ csrf.keys.name }}" content="{{ csrf.name }}">
+    <meta id="csrfValue" name="{{ csrf.keys.value }}" content="{{ csrf.value }}">
+    <title>3D BOAT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+          rel="stylesheet">
 
-{% block title %}
-    Dashboard
-{% endblock %}
+    {% block stylesheets %}
+        {#        {{ encore_entry_link_tags('app') }} #}
+        {{ encore_entry_link_tags('uploadFile') }}
+        {{ encore_entry_link_tags('index') }}
 
-{% block content %}
-    Home
-{% endblock %}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+        {{ encore_entry_script_tags('uploadFile') }}
+        {{ encore_entry_script_tags('index') }}
+
+    {% endblock %}
+</head>
+<body>
+<div class="main-container">
+    <div class="left-container" style="background-image: url('{{ asset('build/images/boat.jpg') }}')">
+        <div class="logo-container">
+            <div class="logo" style="background-image: url('{{ asset('build/images/logo.png') }}')"></div>
+            <h1 class="title-text">3D Printing Boat</h1>
+        </div>
+
+    </div>
+    <div class="right-container">
+
+        <nav class="navbar navbar-expand-lg">
+
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="#" id="home-btn" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="contact-btn" class="nav-link">Contact</a>
+                </li>
+                <li class="nav-item">
+                    {% if auth is defined %}
+                        <div class="dropdown user-dropdown-menu">
+                            <a href="#" class="text-decoration-none d-flex align-items-center" id="userDropDownMenu"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                     class="icon">
+                                    <path fill-rule="evenodd"
+                                          d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
+                                          clip-rule="evenodd"/>
+                                </svg>
+                                <span>{{ auth.name }}</span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="userDropDownMenu">
+                                <li>
+                                    <a href="/dashboard" class="nav-link btn-login">Dashboard</a>
+                                </li>
+                                <li>
+                                    <a href="/chart" class="nav-link btn-login">Chart</a>
+                                </li>
+                                <li>
+                                    <form action="/logout" method="post">
+                                        {{ csrf.fields | raw }}
+                                        <button class="dropdown-item" href="#">Log Out</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+
+                    {% else %}
+                        <a href="/login" class="nav-link btn-login">Login</a>
+                    {% endif %}
+
+
+                </li>
+            </ul>
+
+        </nav>
+
+        <div id="home" class="content">
+            <div class="content-texts">
+                <p>Nie musisz wychodzić z domu, by cieszyć się najlepszym drukiem 3D - zamów online i odbierz z
+                    dostawą
+                    do domu!
+                </p>
+                <p>Z nami każdy wydruk 3D to sukces - zapraszamy do skorzystania z naszych usług!</p>
+            </div>
+
+            <form class="file-form " method="post" action="/upload" enctype="multipart/form-data">
+                {{ csrf.fields | raw }}
+                <div class="drop-zone drag-upload-container">
+                    <div class="drop-zone__prompt">Przeciągnij tu .stl do automatycznej wyceny
+                        <div id="upload-icon"
+                             style="background-image: url('{{ asset('build/images/upload.png') }}')"></div>
+                    </div>
+
+                    <input type="file" name="model_file" class="drop-zone__input" required>
+
+
+                </div>
+                <p id="note">Akceptujemy pliki tylko z rozszerzeniem .stl</p>
+                <button class="btn btn-primary bg-gradient text-white btn-lg px-5" type="submit">Prześlij</button>
+            </form>
+        </div>
+
+        <div id="contact" class="content" style="display: none">
+            <div class="content-texts">
+                <span>W przypadku zamówień większych ilości, prosimy o kontakt mailowy, aby ustalić indywidualną cenę.</span>
+                <span>Nasza drukarnia jest otwarta w godzinach 8-18.</span>
+
+                <p class="contact-info">Email: contract@3dboat.pl</p>
+                <p class="contact-info">Telefon: 000 000 000</p>
+                <p class="contact-info">Piotrkowska XX lok XX 99-999 Lodz</p>
+                <span> Dziękujemy za zainteresowanie Naszymi usługami i jesteśmy do Państwa dyspozycji.</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\commands;
+namespace App\Commands;
 
 use App\Repository\UserRepository;
 use Symfony\Component\Console\Command\Command;

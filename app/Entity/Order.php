@@ -3,38 +3,43 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Enums\OrderStatus;
-use DateTime;
+use App\Entity\Trait\HasTimestamps;
+use App\Enum\OrderStatus;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 
-//#[Setter, Getter]
-#[Entity]
-#[Table('`order`')]
+
+#[Entity, Table('`order`'), HasLifecycleCallbacks]
 class Order
 {
+    use HasTimestamps;
+
     #[Id]
     #[Column, GeneratedValue]
     private int $id;
 
-    #[Column(type: 'decimal', precision: 10, scale: 2)]
-    private int $amount;
+    #[Column]
+    private string $name;
 
+    #[Column(type: 'decimal', scale: 2)]
+    private float $total;
 
     #[Column(enumType: OrderStatus::class)]
     private OrderStatus $status;
 
-    #[Column('created_at')]
-    private DateTime $createdAt;
+    #[ManyToOne(inversedBy: 'order')]
+    private User $user;
 
-    //todo check cascade
-    #[OneToMany(mappedBy: '`order`', targetEntity: OrderItem::class, cascade: ['persist', 'remove'])]
+
+    #[OneToMany(mappedBy: 'order', targetEntity: OrderItem::class, cascade: ['persist', 'remove'])]
     private Collection $items;
 
     public function __construct()
@@ -42,102 +47,71 @@ class Order
         $this->items = new ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     * @return Order
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getAmount(): int
-    {
-        return $this->amount;
-    }
-
-    /**
-     * @param int $amount
-     * @return Order
-     */
-    public function setAmount($amount)
-    {
-        $this->amount = $amount;
-        return $this;
-    }
-
-    /**
-     * @return OrderStatus
-     */
-    public function getStatus(): OrderStatus
-    {
-        return $this->status;
-    }
-
-    /**
-     * @param OrderStatus $status
-     * @return Order
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-        return $this;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getCreatedAt(): DateTime
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @param DateTime $createdAt
-     * @return Order
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getItems(): Collection
-    {
-        return $this->items;
-    }
-
-    /**
-     * @param Collection $items
-     * @return Order
-     */
-    public function setItems($items)
-    {
-        $this->items = $items;
-        return $this;
-    }
-
-    public function addItem(OrderItem $item)
+    public function addItem(OrderItem $item): Order
     {
         $item->setOrder($this);
         $this->items->add($item);
         return $this;
     }
 
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName($name): Order
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function setId($id): Order
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    public function getTotal(): float
+    {
+        return $this->total;
+    }
+
+    public function setTotal(float $total): Order
+    {
+        $this->total = $total;
+        return $this;
+    }
+
+    public function getStatus(): OrderStatus
+    {
+        return $this->status;
+    }
+
+    public function setStatus($status): Order
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): Order
+    {
+        $this->user = $user;
+        return $this;
+    }
 
 }

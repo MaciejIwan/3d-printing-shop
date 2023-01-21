@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 
-//#[Setter, Getter]
 #[Entity]
 #[Table('`order_item`')]
 class OrderItem
@@ -22,8 +22,9 @@ class OrderItem
     #[Column(name: 'order_id')]
     private int $orderId;
 
-    #[Column(name: 'description')]
-    private string $description;
+    #[ManyToOne(targetEntity:PrintingModel::class)]
+    #[JoinColumn(name:"printing_model_id", referencedColumnName:"id")]
+    private $printingModel;
 
     #[Column(name: 'quantity', type: 'decimal', precision: 10, scale: 2)]
     private int $quantity;
@@ -139,6 +140,21 @@ class OrderItem
     public function setOrder($order)
     {
         $this->order = $order;
+        return $this;
+    }
+
+    public function getPrintingModel()
+    {
+        return $this->printingModel;
+    }
+
+    /**
+     * @param mixed $printingModel
+     * @return OrderItem
+     */
+    public function setPrintingModel($printingModel)
+    {
+        $this->printingModel = $printingModel;
         return $this;
     }
 

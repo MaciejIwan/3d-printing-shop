@@ -1,0 +1,48 @@
+{% if chartItems %}
+    <div id="ordersTable">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for chartItem in chartItems %}
+                <tr class="t{{ chartItem.id }}">
+                    <td class="item-name">{{ chartItem.printingModel.originalName }}</td>
+                    <td class="item-quantity flex-row">
+
+                        <button class="btn btn-danger decrease-quantity-btn" data-id="{{ chartItem.id }}">
+                            <b>-</b>
+                        </button>
+
+                        <span class="quantity-counter">{{ chartItem.quantity }}</span>
+
+                        <button class="btn btn-success increase-quantity-btn" data-id="{{ chartItem.id }}">
+                            <b>+</b>
+                        </button>
+
+                    </td>
+                    <td class="item-price">{{ chartItem.printingModel.price |number_format(2)}}</td>
+                    <td class="item-total">{{ chartItem.printingModel.price *  chartItem.quantity |  number_format(2, '.', ',') }}</td>
+                    <td>
+                        <div class="d-flex flex-">
+                            <form action="/chart/{{ chartItem.id }}" method="post">
+                                {{ csrf.fields | raw }}
+                                <input type="hidden" name="_METHOD" value="DELETE"/>
+                                <button type="submit" class="btn btn-outline-primary">
+                                    <i class="bi bi-trash3-fill"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}

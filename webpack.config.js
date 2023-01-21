@@ -22,6 +22,11 @@ Encore
     .addEntry("app", "./resources/js/app.js")
     .addEntry("dashboard", "./resources/js/dashboard.js")
     .addEntry("auth", "./resources/js/auth.js")
+    .addEntry("uploadFile", "./resources/js/uploadFile.js")
+    .addEntry("orders", "./resources/js/orders.js")
+    .addEntry("users", "./resources/js/users.js")
+    .addEntry("index", "./resources/js/index.js")
+    .addEntry("chart", "./resources/js/chart.js")
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

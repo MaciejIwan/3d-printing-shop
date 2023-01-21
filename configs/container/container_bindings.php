@@ -1,17 +1,23 @@
 <?php
-declare(strict_types=1);
+
+declare(strict_types = 1);
 
 use App\Auth;
 use App\Config;
 use App\Contracts\AuthInterface;
-use App\Contracts\DataValidatorFactoryInterface;
+use App\Contracts\RequestValidatorFactoryInterface;
 use App\Contracts\SessionInterface;
 use App\Contracts\UserProviderServiceInterface;
-use App\DataValidators\DataValidatorFactory;
-use App\Enums\AppEnvironment;
+use App\Csrf;
+use App\Dto\SessionConfig;
+use App\Enum\AppEnvironment;
+use App\Enum\SameSite;
+use App\Repository\OrderRepository;
+use App\Repository\PrintingModelRepository;
 use App\Repository\UserRepository;
-use App\Services\MailerService;
-use App\Services\UserService;
+use App\RequestValidators\RequestValidatorFactory;
+use App\Services\EmailService;
+use App\Services\UserProviderService;
 use App\Session;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
@@ -33,11 +39,11 @@ use Twig\Extra\Intl\IntlExtension;
 use function DI\create;
 
 return [
-    App::class => function (ContainerInterface $container) {
+    App::class                              => function (ContainerInterface $container) {
         AppFactory::setContainer($container);
 
         $addMiddlewares = require CONFIG_PATH . '/middleware.php';
-        $router = require CONFIG_PATH . '/routes/web.php';
+        $router         = require CONFIG_PATH . '/routes/web.php';
 
         $app = AppFactory::create();
 
@@ -47,17 +53,20 @@ return [
 
         return $app;
     },
-    Config::class => create(Config::class)->constructor(require CONFIG_PATH . '/app.php'),
-    EntityManager::class => fn(Config $config) => EntityManager::create(
+    Config::class                           => create(Config::class)->constructor(
+        require CONFIG_PATH . '/app.php'
+    ),
+    EntityManager::class                    => fn(Config $config) => EntityManager::create(
         $config->get('doctrine.connection'),
         ORMSetup::createAttributeMetadataConfiguration(
             $config->get('doctrine.entity_dir'),
             $config->get('doctrine.dev_mode')
         )
     ),
-    Twig::class => function (Config $config, ContainerInterface $container) {
+    Twig::class                             => function (Config $config, ContainerInterface $container) {
         $twig = Twig::create(VIEW_PATH, [
-            'cache' => STORAGE_PATH . '/cache/templates',
+//            'cache'       => STORAGE_PATH . '/cache/templates',
+            'cache'       => false,
             'auto_reload' => AppEnvironment::isDevelopment($config->get('app_environment')),
         ]);
 
@@ -67,34 +76,43 @@ return [
 
         return $twig;
     },
-    MailerInterface::class => fn(Config $config) => new MailerService($config->get('mailer.dsn')),
+    MailerInterface::class => fn(Config $config, ContainerInterface $container) => new EmailService($config->get('mailer.dsn'), $container->get(Twig::class)),
+
     UserRepository::class => fn(EntityManager $entityManager) => new UserRepository($entityManager),
+    PrintingModelRepository::class => fn(EntityManager $entityManager) => new PrintingModelRepository($entityManager),
+    OrderRepository::class => fn(EntityManager $entityManager) => new OrderRepository($entityManager),
 
 
     /**
      * The following two bindings are needed for EntryFilesTwigExtension & AssetExtension to work for Twig
      */
-    'webpack_encore.packages' => fn() => new Packages(
+    'webpack_encore.packages'               => fn() => new Packages(
         new Package(new JsonManifestVersionStrategy(BUILD_PATH . '/manifest.json'))
     ),
-    'webpack_encore.tag_renderer' => fn(ContainerInterface $container) => new TagRenderer(
+    'webpack_encore.tag_renderer'           => fn(ContainerInterface $container) => new TagRenderer(
         new EntrypointLookup(BUILD_PATH . '/entrypoints.json'),
         $container->get('webpack_encore.packages')
     ),
-    ResponseFactoryInterface::class => fn(App $app) => $app->getResponseFactory(),
-    AuthInterface::class => fn(ContainerInterface $container) => $container->get(
+    ResponseFactoryInterface::class         => fn(App $app) => $app->getResponseFactory(),
+    AuthInterface::class                    => fn(ContainerInterface $container) => $container->get(
         Auth::class
     ),
-    UserProviderServiceInterface::class => fn(ContainerInterface $container) => $container->get(
-        UserService::class
+    UserProviderServiceInterface::class     => fn(ContainerInterface $container) => $container->get(
+        UserProviderService::class
     ),
-    SessionInterface::class => fn(Config $config) => new Session(
-        $config->get('session')
+    SessionInterface::class                 => fn(Config $config) => new Session(
+        new SessionConfig(
+            $config->get('session.name', ''),
+            $config->get('session.flash_name', 'flash'),
+            $config->get('session.secure', true),
+            $config->get('session.httponly', true),
+            SameSite::from($config->get('session.samesite', 'lax'))
+        )
     ),
-    DataValidatorFactoryInterface::class => fn(ContainerInterface $container) => $container->get(
-        DataValidatorFactory::class
+    RequestValidatorFactoryInterface::class => fn(ContainerInterface $container) => $container->get(
+        RequestValidatorFactory::class
     ),
-    'csrf' => fn(ResponseFactoryInterface $responseFactory)=> new Guard($responseFactory, persistentTokenMode: true),
-
-
+    'csrf'                                  => fn(ResponseFactoryInterface $responseFactory, Csrf $csrf) => new Guard(
+        $responseFactory, failureHandler: $csrf->failureHandler(), persistentTokenMode: true
+    ),
 ];

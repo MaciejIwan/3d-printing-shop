@@ -2,93 +2,73 @@
 
 namespace App\Controllers;
 
-use App\Services\UserService;
+use App\Contracts\RequestValidatorFactoryInterface;
+use App\Dto\UserUpdateDto;
+use App\RequestValidators\UpdateUserRequestValidator;
+use App\ResponseFormatter;
+use App\Services\UserProviderService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 
 
 class UserController
 {
 
     public function __construct(
-        private readonly MailerInterface $mailer,
-        private readonly UserService     $userService,
-        private readonly Twig            $twig)
+        private readonly MailerInterface                  $mailer,
+        private readonly RequestValidatorFactoryInterface $requestValidatorFactory,
+        private readonly ResponseFormatter                $responseFormatter,
+        private readonly UserProviderService              $userService,
+        private readonly Twig                             $twig)
     {
 
     }
 
-    public
-    function login(Request $request, Response $response, $args): Response
+    public function index(Request $request, Response $response, $args): Response
     {
-        return $this->twig->render($response, 'login.twig');
+        return $this->twig->render($response, 'users/index.twig', ['users' => $this->userService->getAllUsers()]);
     }
 
-    public
-    function getById(Request $request, Response $response, $args): Response
+    public function get(Request $request, Response $response, array $args): Response
     {
-//        $user = $this->userRepository->fetchUser($_GET['id']);
+        $user = $this->userService->getById((int)$args['id']);
 
-        $body = $response->getBody();
-//        $body->write($user->getEmail());
+        if (!$user) {
+            return $response->withStatus(404);
+        }
 
-        return $response;
+        $data = UserUpdateDto::fromEntity($user);
+        return $this->responseFormatter->asJson($response, $data);
     }
 
-
-    public
-    function create(Request $request, Response $response, $args): Response
+    public function delete(Request $request, Response $response, array $args): Response
     {
-        return $this->twig->render($response, 'users/register.twig');
+        $this->userService->delete((int)$args['id']);
+
+        return $response->withHeader('Location', '/users')->withStatus(302);
     }
 
-    public
-    function all(Request $request, Response $response, $args): Response
+    public function update(Request $request, Response $response, array $args): Response
     {
-        echo "<br>test_string";
-        $users = $this->userService->getAllUsers();
-        return $this->twig->render($response, 'users/index.twig', ['users' => $users]);
-    }
+        $data = $this->requestValidatorFactory->make(UpdateUserRequestValidator::class)->validate(
+            $args + $request->getParsedBody()
+        );
 
+        $user = $this->userService->getById((int)$data['id']);
 
-    public
-    function register(Request $request, Response $response, $args): Response
-    {
-        $allPostPutVars = $request->getParsedBody();
+        if (!$user) {
+            return $response->withStatus(404);
+        }
 
-        $name = $allPostPutVars['name'];
-        $email = $allPostPutVars['email'];
-        $firstName = explode(' ', $name)[0];
+        $updatedUser = $this->userService->update($user, UserUpdateDto::fromEditForm($data));
 
-
-// todo move HTML to VIEW. Use Twing and check email templetes
-        $text = <<<Body
-Hello $firstName,
-Thank you for signing up!
-Body;
-
-        $html = <<<HTMLBody
-<h1 style="text-align: center; color: blue;">Welcome</h1>
-Hello $firstName,
-<br /><br />
-Thank you for signing up!
-HTMLBody;
-
-        $email = (new Email())
-            ->from('noreplay@3dprintingapp.com')
-            ->to($email)
-            ->subject('Welcome!')
-            ->attach('Hello World!', 'welcome.txt')
-            ->text($text)
-            ->html($html);
-
-        $this->mailer->send($email);
-
-
-        $response->getBody()->write("Check your email!");
+        $this->responseFormatter->asJson($response, [
+            'message' => "user updated successfully",
+            'data' => UserUpdateDto::fromEntity($updatedUser),
+            'email' => $request->getAttribute('user')->getEmail()
+        ]);
         return $response;
     }
 

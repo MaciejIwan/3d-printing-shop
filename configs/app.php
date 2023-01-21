@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-
-use App\Enums\AppEnvironment;
+use App\Enum\AppEnvironment;
 
 $appEnv = $_ENV['APP_ENV'] ?? AppEnvironment::Production->value;
+$appSnakeName = strtolower(str_replace(' ', '_', $_ENV['APP_NAME']));
 
 return [
     'app_name' => $_ENV['APP_NAME'],
@@ -22,23 +22,19 @@ return [
             'driver' => $_ENV['DB_DRIVER'] ?? 'pdo_mysql',
             'host' => $_ENV['DB_HOST'] ?? 'localhost',
             'port' => $_ENV['DB_PORT'] ?? 3306,
-            'dbname' => $_ENV['DB_DATABASE'],
+            'dbname' => $_ENV['DB_NAME'],
             'user' => $_ENV['DB_USER'],
             'password' => $_ENV['DB_PASS'],
         ],
     ],
-    'mailer' => [
-        'dsn' => $_ENV['MAILER_DSN']
-    ],
     'session' => [
-        'name' => "app_session",
+        'name' => $appSnakeName . '_session',
+        'flash_name' => $appSnakeName . '_flash',
         'secure' => true,
         'httponly' => true,
         'samesite' => 'lax',
-        'flashName' => 'flash'
-    ]
+    ],
+    'mailer' => [
+        'dsn' => $_ENV['MAILER_DSN']
+    ],
 ];
-
-
-
-
