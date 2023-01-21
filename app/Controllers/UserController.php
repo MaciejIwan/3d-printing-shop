@@ -39,9 +39,7 @@ class UserController
             return $response->withStatus(404);
         }
 
-        //todo replace array with userDTO
-        $data = ['id' => $user->getId(), 'name' => $user->getName(), 'email' => $user->getEmail()];
-
+        $data = UserUpdateDto::fromEntity($user);
         return $this->responseFormatter->asJson($response, $data);
     }
 

@@ -60,6 +60,7 @@ class UserProviderService implements UserProviderServiceInterface
         //todo allow to change password
         $user->setName($data->name);
         $user->setEmail($data->email);
+        $user->setRole($data->role);
 
         //$this->entityManager->persist($user);
         $this->entityManager->flush();

@@ -16,16 +16,19 @@ class UpdateUserRequestValidator implements RequestValidatorInterface
     {
     }
 
-    public function validate(array $data): array
+    public function validate(array $data, string $currentEmail = null): array
     {
         $v = new Validator($data);
 
-        $v->rule('required', ['name', 'email']);
+        $v->rule('required', ['name', 'email', 'role']);
         $v->rule('email', 'email')->message(ValidationException::$EMAIL_NOT_CORRECT)->label('Email');;
-        $v->rule(
-            fn($field, $value, $params, $fields) => !$this->userRepository->isEmailTaken($value),
-            'email'
-        )->message(ValidationException::$EMAIL_TAKEN);
+
+        if (!is_null($currentEmail) && $data['email'] !== $currentEmail) {
+            $v->rule(
+                fn($field, $value, $params, $fields) => !$this->userRepository->isEmailTaken($value),
+                'email'
+            )->message(ValidationException::$EMAIL_TAKEN);
+        }
 
         if (!$v->validate()) {
             throw new ValidationException($v->errors());
