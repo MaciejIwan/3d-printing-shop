@@ -71,18 +71,22 @@ class ChartService
     public function clearChart(User $user): void
     {
         $chartItemRepository = $this->entityManager->getRepository(ShoppingCartItem::class);
-        $chartItems = $chartItemRepository->findBy(['user' => $user]);
+        $query = $chartItemRepository->createQueryBuilder('c')
+            ->delete()
+            ->where('c.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery();
 
-        foreach ($chartItems as $chartItem) {
-            $this->entityManager->remove($chartItem);
-        }
+        $query->execute();
 
+        $this->entityManager->persist($user);
         $this->entityManager->flush();
     }
 
     public function sumbit(User $user)
     {
         $chartItems = $user->getShoppingCardItems();
+
         if ($chartItems->count() == 0)
             throw new OrderPleaceException("You have to pass at least one item");
 
