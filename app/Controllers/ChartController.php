@@ -101,11 +101,11 @@ class ChartController
 
             $order = $this->chartService->sumbit($user);
             $this->chartService->clearChart($user);
-        }catch (OrderPleaceException $e){
-            return $response->withHeader('Location', '/chart')->withStatus(302);
-    }
+        } catch (OrderPleaceException $e) {
+            return $response->withHeader('Location', '/orders/my')->withStatus(302);
+        }
 
 
-        return $response->withHeader('Location', 'orders/my')->withStatus(302);
+        return $response->withHeader('Location', '/orders/my')->withStatus(302);
     }
 }

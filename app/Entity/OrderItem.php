@@ -22,8 +22,8 @@ class OrderItem
     #[Column(name: 'order_id')]
     private int $orderId;
 
-    #[ManyToOne(targetEntity:PrintingModel::class)]
-    #[JoinColumn(name:"printing_model_id", referencedColumnName:"id")]
+    #[ManyToOne(targetEntity: PrintingModel::class)]
+    #[JoinColumn(name: "printing_model_id", referencedColumnName: "id")]
     private $printingModel;
 
     #[Column(name: 'quantity', type: 'decimal', precision: 10, scale: 2)]
@@ -143,7 +143,7 @@ class OrderItem
         return $this;
     }
 
-    public function getPrintingModel()
+    public function getPrintingModel(): PrintingModel
     {
         return $this->printingModel;
     }

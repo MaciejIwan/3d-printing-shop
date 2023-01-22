@@ -4,7 +4,8 @@
             <thead>
             <tr>
                 <th>Id</th>
-                <th>Status</th>
+                <th>Order status</th>
+                <th>Payment status</th>
                 <th>Total</th>
                 <th>Created At</th>
                 <th>Updated At</th>
@@ -16,6 +17,7 @@
                 <tr class="t{{ order.id }}">
                     <td class="order-name">{{ order.id }}</td>
                     <td class="order-status">{{ order.status.toString() }}</td>
+                    <td class="order-paid">{{ order.paid ? 'Yes':'No' }}</td>
                     <td class="order-total">{{ order.total }}</td>
                     <td class="order-createAt">{{ order.createdAt | date('m/d/Y g:i A') }}</td>
                     <td class="order-updatedAt">{{ order.updatedAt | date('m/d/Y g:i A') }}</td>
@@ -36,11 +38,12 @@
                                 </button>
 
                             {% else %}
-                                <a href="#order-{{ order.id }}">
-                                    <button class="ms-2 btn btn-primary expand-order-btn"
-                                            data-id="{{ order.id }}">Pay for order</button>
-                                </a>
+                                <form action="/payments/create-checkout-session/{{ order.id }}" method="POST">
+                                    {{ csrf.fields | raw }}
+                                    <button type="submit" {% if order.paid %}disabled {% endif %}id="checkout-button" class="ms-2 btn btn-primary" data-id="{{ order.id }}">Pay for order</button>
+                                </form>
                             {% endif %}
+
                             <a href="#order-{{ order.id }}">
                                 <button class="ms-2 btn btn-outline-primary expand-order-btn arrow-down"
                                         data-id="{{ order.id }}"></button>

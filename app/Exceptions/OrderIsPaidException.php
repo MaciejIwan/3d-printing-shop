@@ -6,7 +6,7 @@ namespace App\Exceptions;
 
 use RuntimeException;
 
-class OrderPleaceException extends RuntimeException
+class OrderIsPaidException extends RuntimeException
 {
 
     /**

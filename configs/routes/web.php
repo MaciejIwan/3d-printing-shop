@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 use App\Controllers\AuthController;
 use App\Controllers\ChartController;
-use App\Controllers\ClientsController;
 use App\Controllers\HomeController;
 use App\Controllers\OrderController;
+use App\Controllers\PaymentController;
 use App\Controllers\UploadController;
 use App\Controllers\UserController;
 use App\Middleware\AdminMiddleware;
@@ -22,6 +22,13 @@ return function (App $app) {
     $app->get('/', [HomeController::class, 'index'])->add(EveryoneMiddleware::class);
     $app->get('/dashboard', [HomeController::class, 'dashboard'])->add(AuthMiddleware::class);
 
+    $app->group('/payments', function (RouteCollectorProxy $payments) {
+        $payments->get('/success/{session_id}', [PaymentController::class, 'success']);
+        $payments->get('/cancel', [PaymentController::class, 'cancel']);
+        $payments->post('/create-checkout-session/{order_id}', [PaymentController::class, 'checkout']);
+    })->add(AuthMiddleware::class);
+
+
     //guest subpages
     $app->group('', function (RouteCollectorProxy $guest) {
         $guest->get('/login', [AuthController::class, 'loginView']);
@@ -34,12 +41,12 @@ return function (App $app) {
     //upload
     $app->group('/upload', function (RouteCollectorProxy $guest) {
         $guest->get('', [UploadController::class, 'index']);
-        $guest->get('/download/{filename}', [UploadController::class, 'download']); //todo refactor of Controller but also endpoint
+        $guest->get('/download/{filename}', [UploadController::class, 'download']);
         $guest->post('', [UploadController::class, 'store']);
     });
 
-
     $app->post('/logout', [AuthController::class, 'logOut'])->add(AuthMiddleware::class);
+
 
     $app->group('/chart', function (RouteCollectorProxy $chart) {
         $chart->get('', [ChartController::class, 'index']);
@@ -49,10 +56,6 @@ return function (App $app) {
         $chart->post('/{id:[0-9]+}', [ChartController::class, 'update']);
         $chart->get('/submit', [ChartController::class, 'submit']);
     })->add(AuthMiddleware::class);
-
-    $app->group('/', function (RouteCollectorProxy $users) {
-        $users->get('myorders', [ClientsController::class, 'index']);
-    })->add(UserMiddleware::class);
 
     $app->group('/orders', function (RouteCollectorProxy $orders) {
         $orders->get('/my', [OrderController::class, 'myOrders'])->add(UserMiddleware::class);

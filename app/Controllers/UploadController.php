@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 
-use App\Entity\User;
 use App\Services\FilesUploadService;
 use Exception;
 use Psr\Http\Message\ResponseInterface as Response;

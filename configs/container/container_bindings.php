@@ -27,6 +27,7 @@ use Slim\App;
 use Slim\Csrf\Guard;
 use Slim\Factory\AppFactory;
 use Slim\Views\Twig;
+use Stripe\StripeClient;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
 use Symfony\Component\Asset\Package;
 use Symfony\Component\Asset\Packages;
@@ -115,4 +116,6 @@ return [
     'csrf'                                  => fn(ResponseFactoryInterface $responseFactory, Csrf $csrf) => new Guard(
         $responseFactory, failureHandler: $csrf->failureHandler(), persistentTokenMode: true
     ),
+    StripeClient::class => fn(Config $config) => new StripeClient($config->get('stripe.private_key')),
+
 ];

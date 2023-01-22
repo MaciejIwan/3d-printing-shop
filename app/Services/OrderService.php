@@ -8,6 +8,7 @@ use App\Dto\OrderAddDto;
 use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Entity\User;
+use App\Enum\OrderStatus;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
 
@@ -76,5 +77,22 @@ class OrderService
     public function getAllByUser(User $user): array
     {
         return $this->entityManager->getRepository(Order::class)->findBy(['user' => $user]);
+    }
+
+    public function updatePaymentSession(Order $order, string $paymentId, string $payment_status)
+    {
+        $order->setPaymentId($paymentId);
+        if ($payment_status == 'paid') {
+            $order->setPaid(true);
+            $order->setStatus(OrderStatus::PENDING);
+        }
+
+        $this->entityManager->persist($order);
+        $this->entityManager->flush();
+    }
+
+    public function getByPaymentId(string $session_id): Order
+    {
+        return $this->entityManager->getRepository(Order::class)->findOneBy(['paymentId' => $session_id]);
     }
 }

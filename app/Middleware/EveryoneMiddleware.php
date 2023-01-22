@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Middleware;
 
 use App\Contracts\AuthInterface;
-use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -15,8 +14,8 @@ use Slim\Views\Twig;
 class EveryoneMiddleware implements MiddlewareInterface
 {
     public function __construct(
-        private readonly AuthInterface            $auth,
-        private readonly Twig                     $twig
+        private readonly AuthInterface $auth,
+        private readonly Twig          $twig
     )
     {
     }
