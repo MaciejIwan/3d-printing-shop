@@ -26,8 +26,7 @@ return function (App $app) {
         $payments->get('/success/{session_id}', [PaymentController::class, 'success']);
         $payments->get('/cancel', [PaymentController::class, 'cancel']);
         $payments->post('/create-checkout-session/{order_id}', [PaymentController::class, 'checkout']);
-        $payments->get('/test', [PaymentController::class, 'test']);
-    });
+    })->add(AuthMiddleware::class);
 
 
     //guest subpages
@@ -42,7 +41,7 @@ return function (App $app) {
     //upload
     $app->group('/upload', function (RouteCollectorProxy $guest) {
         $guest->get('', [UploadController::class, 'index']);
-        $guest->get('/download/{filename}', [UploadController::class, 'download']); //todo refactor of Controller but also endpoint
+        $guest->get('/download/{filename}', [UploadController::class, 'download']);
         $guest->post('', [UploadController::class, 'store']);
     });
 

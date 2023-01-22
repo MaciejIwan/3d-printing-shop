@@ -88,7 +88,7 @@ class ChartService
         if($chartItems->count() == 0)
             throw new OrderPleaceException("You have to pass at least one item");
 
-        $newOrderDto = new OrderAddDto('Order for ' . $user->getName(), 0, OrderStatus::Unpaid, $user);
+        $newOrderDto = new OrderAddDto('Order for ' . $user->getName(), 0, OrderStatus::UNPAID, $user);
         $order = $this->orderService->create($newOrderDto);
 
         $this->orderService->addOrderItemsFromChart($order, $chartItems);
