@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Dto\OrderAddDto;
-use App\Entity\Order;
-use App\Entity\OrderItem;
 use App\Entity\PrintingModel;
 use App\Entity\ShoppingCartItem;
 use App\Entity\User;
@@ -85,7 +83,7 @@ class ChartService
     public function sumbit(User $user)
     {
         $chartItems = $user->getShoppingCardItems();
-        if($chartItems->count() == 0)
+        if ($chartItems->count() == 0)
             throw new OrderPleaceException("You have to pass at least one item");
 
         $newOrderDto = new OrderAddDto('Order for ' . $user->getName(), 0, OrderStatus::UNPAID, $user);

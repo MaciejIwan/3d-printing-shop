@@ -7,6 +7,7 @@ namespace App\RequestValidators;
 use App\Contracts\RequestValidatorFactoryInterface;
 use App\Contracts\RequestValidatorInterface;
 use Psr\Container\ContainerInterface;
+use RuntimeException;
 
 class RequestValidatorFactory implements RequestValidatorFactoryInterface
 {
@@ -22,6 +23,6 @@ class RequestValidatorFactory implements RequestValidatorFactoryInterface
             return $validator;
         }
 
-        throw new \RuntimeException('Failed to instantiate the request validator class "' . $class . '"');
+        throw new RuntimeException('Failed to instantiate the request validator class "' . $class . '"');
     }
 }
