@@ -24,7 +24,7 @@ class OrderAddDto
         return new static(
             $data['name'],
             intval($data['amount']),
-            OrderStatus::Unpaid,
+            OrderStatus::UNPAID,
             $user,
         );
     }

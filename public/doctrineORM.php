@@ -26,7 +26,7 @@ $entityManager = EntityManager::create($connectionParams, $config);
 $items = [['item 1', 1, 15], ['item 2', 2, 7.5], ['item 3', 4, 3.75]];
 $invoice = (new Order())
     ->setTotal(45)
-    ->setStatus(OrderStatus::Pending)
+    ->setStatus(OrderStatus::PENDING)
     ->setCreatedAt(new DateTime());
 
 foreach ($items as [$description, $quantity, $unitPrice]) {
@@ -44,7 +44,7 @@ $entityManager->flush();
 
 //fetch example
 $invoice = $entityManager->find(Order::class, 1);
-$invoice->setStatus(OrderStatus::Paid);
+$invoice->setStatus(OrderStatus::PAID);
 $entityManager->flush();
 //var_dump($invoice);
 
