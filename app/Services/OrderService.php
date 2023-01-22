@@ -77,4 +77,15 @@ class OrderService
     {
         return $this->entityManager->getRepository(Order::class)->findBy(['user' => $user]);
     }
+
+    public function updatePaymentSession(Order $order, string $paymentId, string $payment_status)
+    {
+        $order->setPaymentId($paymentId);
+        if ($payment_status == 'paid') {
+            $order->setPaid(true);
+        }
+
+        $this->entityManager->persist($order);
+        $this->entityManager->flush();
+    }
 }
