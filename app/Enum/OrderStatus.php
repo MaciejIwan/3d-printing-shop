@@ -10,6 +10,7 @@ enum OrderStatus: int
     case Pending = 1;
     case Paid = 2;
     case Canceled = 3;
+    case ToPickUp = 4;
 
     public function toString(): string
     {
@@ -17,7 +18,8 @@ enum OrderStatus: int
             self::Unpaid => 'unpaid',
             self::Pending => 'pending',
             self::Paid => 'paid',
-            self::Canceled => 'canceled'
+            self::Canceled => 'canceled',
+            self::ToPickUp => 'to pick up',
         };
     }
 
