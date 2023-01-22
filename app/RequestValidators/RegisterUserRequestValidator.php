@@ -23,7 +23,7 @@ class RegisterUserRequestValidator implements RequestValidatorInterface
         $v = new Validator($data);
 
         $v->rule('required', ['name', 'email', 'password', 'confirmPassword']);
-        $v->rule('email', 'email')->message(\App\Exceptions\ValidationException::$EMAIL_NOT_CORRECT)->label('Email');;
+        $v->rule('email', 'email')->message(ValidationException::$EMAIL_NOT_CORRECT)->label('Email');
         $v->rule('equals', 'confirmPassword', 'password')
             ->message(ValidationException::$PASSWORDS_NOT_MATCH)
             ->label('ConfirmPassword');

@@ -11,7 +11,7 @@ class ChartUpdateDto
     public function __construct(
         public readonly string $name,
         public readonly int    $id,
-        public readonly int $quantity
+        public readonly int    $quantity
     )
     {
     }
@@ -28,7 +28,7 @@ class ChartUpdateDto
     public static function fromEntity(ShoppingCartItem $item): ChartUpdateDto
     {
         return ChartUpdateDto::fromArray([
-            'name'=>$item->getPrintingModel()->getOriginalName(),
+            'name' => $item->getPrintingModel()->getOriginalName(),
             'id' => $item->getId(),
             'quantity' => $item->getQuantity()
         ]);

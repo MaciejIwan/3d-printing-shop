@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
-class OrderPleaceException extends \RuntimeException
+use RuntimeException;
+
+class OrderPleaceException extends RuntimeException
 {
 
     /**

@@ -12,6 +12,7 @@ use Stripe\Checkout\Session;
 use Stripe\StripeClient;
 
 define('YOUR_DOMAIN', 'http://localhost:8000/payments');
+
 class PaymentService
 {
     private string $currency = "pln";

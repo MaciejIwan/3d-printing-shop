@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Exceptions\OrderIsPaidException;
 use App\Services\OrderService;
 use App\Services\PaymentService;
+use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
@@ -69,7 +70,7 @@ class PaymentController
         $order = $this->orderService->getById(intval($orderId));
 
         if ($order->getUser()->getId() != $user->getId()) {
-            throw new \InvalidArgumentException("You can checkout only your orders");
+            throw new InvalidArgumentException("You can checkout only your orders");
         }
         if ($order->isPaid()) {
             throw new OrderIsPaidException("Order is already paid");

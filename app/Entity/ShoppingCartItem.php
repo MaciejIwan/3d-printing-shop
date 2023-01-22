@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
-use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\Table;
 
 
@@ -21,8 +20,8 @@ class ShoppingCartItem
     private int $id;
 
 //    #[Column(name: 'printing_model_id')]
-    #[ManyToOne(targetEntity:PrintingModel::class)]
-    #[JoinColumn(name:"printing_model_id", referencedColumnName:"id")]
+    #[ManyToOne(targetEntity: PrintingModel::class)]
+    #[JoinColumn(name: "printing_model_id", referencedColumnName: "id")]
     private $printingModel;
 
     #[Column(name: 'quantity', type: 'decimal', precision: 10, scale: 2)]

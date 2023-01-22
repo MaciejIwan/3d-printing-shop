@@ -21,7 +21,7 @@ class UpdateUserRequestValidator implements RequestValidatorInterface
         $v = new Validator($data);
 
         $v->rule('required', ['name', 'email', 'role']);
-        $v->rule('email', 'email')->message(ValidationException::$EMAIL_NOT_CORRECT)->label('Email');;
+        $v->rule('email', 'email')->message(ValidationException::$EMAIL_NOT_CORRECT)->label('Email');
 
         if (!is_null($currentEmail) && $data['email'] !== $currentEmail) {
             $v->rule(

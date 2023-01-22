@@ -54,7 +54,7 @@ class OrderController
         $data = $this->requestValidatorFactory->make(CreateOrderDataValidator::class)->validate(
             $request->getParsedBody()
         );
-        $orderAddDto = OrderAddDto::fromArrayAndUser($data,$request->getAttribute('user'));
+        $orderAddDto = OrderAddDto::fromArrayAndUser($data, $request->getAttribute('user'));
         $this->orderService->create($orderAddDto);
 
         return $response->withHeader('Location', '/orders')->withStatus(302);

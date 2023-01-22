@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
-class OrderIsPaidException extends \RuntimeException
+use RuntimeException;
+
+class OrderIsPaidException extends RuntimeException
 {
 
     /**
