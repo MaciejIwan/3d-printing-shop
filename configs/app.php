@@ -38,4 +38,7 @@ return [
     'mailer' => [
         'dsn' => $_ENV['MAILER_DSN']
     ],
+    'stripe' => [
+        'private_key' => $_ENV['STRIPE_PRIVATE_KEY']
+    ]
 ];
