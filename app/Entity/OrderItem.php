@@ -143,7 +143,7 @@ class OrderItem
         return $this;
     }
 
-    public function getPrintingModel()
+    public function getPrintingModel(): PrintingModel
     {
         return $this->printingModel;
     }

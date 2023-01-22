@@ -42,9 +42,16 @@ class Order
     #[OneToMany(mappedBy: 'order', targetEntity: OrderItem::class, cascade: ['persist', 'remove'])]
     private Collection $items;
 
+    #[Column(name: "payment_id", nullable: true)]
+    private string $paymentId;
+
+    #[Column]
+    private bool $paid;
+
     public function __construct()
     {
         $this->items = new ArrayCollection();
+        $this->paid = false;
     }
 
     public function addItem(OrderItem $item): Order
@@ -111,6 +118,28 @@ class Order
     public function setUser(User $user): Order
     {
         $this->user = $user;
+        return $this;
+    }
+
+    public function isPaid(): bool
+    {
+        return $this->paid;
+    }
+
+    public function setPaid(bool $paid): Order
+    {
+        $this->paid = $paid;
+        return $this;
+    }
+
+    public function getPaymentId(): string
+    {
+        return $this->paymentId;
+    }
+
+    public function setPaymentId(string $paymentId): Order
+    {
+        $this->paymentId = $paymentId;
         return $this;
     }
 
