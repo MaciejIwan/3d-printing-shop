@@ -16,6 +16,7 @@ use App\Services\OrderService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
+use Symfony\Component\Mailer\MailerInterface;
 
 class OrderController
 {
@@ -23,7 +24,8 @@ class OrderController
         private readonly Twig                             $twig,
         private readonly RequestValidatorFactoryInterface $requestValidatorFactory,
         private readonly OrderService                     $orderService,
-        private readonly ResponseFormatter                $responseFormatter
+        private readonly ResponseFormatter                $responseFormatter,
+        private readonly MailerInterface                  $emailService,
     )
     {
     }
@@ -105,6 +107,8 @@ class OrderController
             filter_var($data['is_paid'], FILTER_VALIDATE_BOOLEAN)
 
         );
+
+        $this->emailService->sendOrderStatusEmail($updatedOrder);
 
         $this->responseFormatter->asJson($response, [
             'message' => "order updated successfully",
