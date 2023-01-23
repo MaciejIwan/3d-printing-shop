@@ -1,0 +1,33 @@
+{% extends 'layout.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('dashboard') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('dashboard') }}
+{% endblock %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <div class="dashboard">
+        <div class="top-container mb-4 row g-0 rounded-4">
+            <div class="col-8 border-end border-3">
+                <div class="row justify-content-between">
+                    <div class="col p-4">Income $</div>
+                    <div class="col p-4">Orders to verify</div>
+                    <div class="col p-4">New orders</div>
+                </div>
+                <div class="row">
+                    <div class="col p-4">Another Data</div>
+                </div>
+            </div>
+            <div class="col p-4">
+                Latest Orders
+            </div>
+        </div>
+    </div>
+{% endblock %}

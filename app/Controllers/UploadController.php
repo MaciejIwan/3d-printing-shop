@@ -3,17 +3,20 @@
 namespace App\Controllers;
 
 
-
+use App\Services\FilesUploadService;
+use Exception;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Psr7\UploadedFile;
 use Slim\Views\Twig;
 
 
 class UploadController
 {
 
-    public function __construct(private readonly Twig $twig)
+    public function __construct(
+        private readonly Twig               $twig,
+        private readonly FilesUploadService $filesUploadService
+    )
     {
     }
 
@@ -25,42 +28,47 @@ class UploadController
 
     public function store(Request $request, Response $response)
     {
-        //todo move all to service
-        echo '<pre>';
-        var_dump($_FILES);
-        echo '</pre>';
+        $modelFile = $request->getUploadedFiles()['model_file'];
 
-        $saveFilePath = STORAGE_PATH . '/' . $_FILES['receipt']['name'];
-        move_uploaded_file($_FILES['receipt']['tmp_name'], $saveFilePath);
+        $printingModel = $this->filesUploadService->handleNewFile($modelFile);
 
-        echo '<pre>';
-        $saveFilePath;
-        echo '</pre>';
+//        $body = $response->getBody();
+//        $body->write("File uploaded. Cost is " . $printingModel->getPrice() . " PLN");
 
-        // todo replace php stuff with $requests etc
-        $uploadedFiles = $request->getUploadedFiles();
-        var_dump($uploadedFiles);
-
-        $body = $response->getBody();
-        $body->write("File uploaded");
-        return $response->withBody($body);
+        return $this->twig->render(
+            $response,
+            'pricePreview.twig',
+            [
+                'printingModel' => $printingModel,
+            ]
+        );
     }
 
-    //todo move to file microservice
-    function moveUploadedFile($directory, UploadedFile $uploadedFile)
+
+    public function download(Request $request, Response $response, array $args)
     {
-        $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
-        $basename = bin2hex(random_bytes(8));
-        $filename = sprintf('%s.%0.8s', $basename, $extension);
+        //todo in the future we should check permission to files
+        $filename = $args['filename'];
 
-        $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
+        if (!preg_match('/^[\w0-9_.-]+$/', $filename)) {
+            return $response->withStatus(404);
+        }
 
-        return $filename;
+        $filepath = STL_MODELS_PATH . $filename;
+        if (!file_exists($filepath)) {
+            return $response->withStatus(404);
+        }
+
+        try {
+            $response = $response->withHeader('Content-Type', 'application/octet-stream')
+                ->withHeader('Content-Disposition', 'attachment; filename="' . basename($filepath) . '"')
+                ->withHeader('Content-Length', filesize($filepath));
+            $response->getBody()->write(file_get_contents($filepath));
+            return $response;
+        } catch (Exception $e) {
+            return $response->withStatus(500);
+        }
     }
 
 
-    public function update(): void
-    {
-
-    }
 }

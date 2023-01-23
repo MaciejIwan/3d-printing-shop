@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redirecting...</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1 class="text-primary">Redirecting...</h1>
+            <p class="text-secondary">{{ message | raw }}</p>
+        </div>
+    </div>
+</div>
+<script>
+    setTimeout(function () {
+        window.location.href = "{{ url }}";
+    }, {{ delay }});
+</script>
+</body>
+</html>

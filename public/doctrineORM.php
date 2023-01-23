@@ -2,7 +2,7 @@
 
 use App\Entity\Order;
 use App\Entity\OrderItem;
-use App\Enums\OrderStatus;
+use App\Enum\OrderStatus;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 
@@ -25,8 +25,8 @@ $entityManager = EntityManager::create($connectionParams, $config);
 
 $items = [['item 1', 1, 15], ['item 2', 2, 7.5], ['item 3', 4, 3.75]];
 $invoice = (new Order())
-    ->setAmount(45)
-    ->setStatus(OrderStatus::Pending)
+    ->setTotal(45)
+    ->setStatus(OrderStatus::PENDING)
     ->setCreatedAt(new DateTime());
 
 foreach ($items as [$description, $quantity, $unitPrice]) {
@@ -44,13 +44,13 @@ $entityManager->flush();
 
 //fetch example
 $invoice = $entityManager->find(Order::class, 1);
-$invoice->setStatus(OrderStatus::Paid);
+$invoice->setStatus(OrderStatus::PAID);
 $entityManager->flush();
 //var_dump($invoice);
 
 
 
-$user = (new \App\Entity\User())->setEmail("myemail@edu.pl")->setPaaswordHash("passhash");
+$user = (new \App\Entity\User())->setEmail("myemail@edu.pl")->setPasswordHash("passhash");
 $user->addAddress((new \App\Entity\UserAddress())->setCountry("Poland")->setPhoneNumber("731333261"));
 $entityManager->persist($user);
 $entityManager->flush();

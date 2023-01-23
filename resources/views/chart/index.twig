@@ -1,0 +1,45 @@
+{% extends 'layout.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('chart') }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('chart') }}
+    {{ encore_entry_link_tags('app') }}
+
+{% endblock %}
+
+{% block title %}Chart{% endblock %}
+
+{% block content %}
+    <div class="orders container content-body">
+
+        <div class="text-lg-center title"><span>Chart</span></div>
+        <div class="text-end">
+            <a href="/" class="nav-link btn-login">
+                <button class="btn btn-primary">
+                    <i class="bi bi-plus-circle me-1"></i>
+                    Upload new file
+                </button>
+            </a>
+
+        </div>
+
+        {% include 'chart/create_chart_modal.twig' %}
+        {% include 'chart/edit_chart_modal.twig' %}
+        {% include 'chart/chart_table.twig' %}
+
+        <div class="text-end">
+            <form action="/chart/submit" method="get">
+                {{ csrf.fields | raw }}
+                <button type="submit" id="cart-submit" class="btn btn-primary">
+                    <i class="bi">$</i>
+                   Place an order
+                </button>
+            </form>
+
+        </div>
+    </div>
+{% endblock %}

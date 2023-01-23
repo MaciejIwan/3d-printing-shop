@@ -17,9 +17,15 @@ class UserRepository extends EntityRepository
     }
 
 
-    public function fetchUser($user_id)
+    public function add(User $new_user)
     {
-        return $this->find(User::class, $user_id);
+        $this->getEntityManager()->persist($new_user);
+        $this->getEntityManager()->flush();
+    }
+
+    public function isEmailTaken(string $email): bool
+    {
+        return boolval($this->count(['email' => $email]));
     }
 
 }

@@ -1,0 +1,86 @@
+{% if orders %}
+    <div id="ordersTable">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Order status</th>
+                <th>paid</th>
+                <th>Total</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in orders %}
+                <tr class="t{{ order.id }}">
+                    <td class="order-name">{{ order.id }}</td>
+                    <td class="order-status">{{ order.status.toString() }}</td>
+                    <td class="order-paid">{{ order.paid ? 'true':'false' }}</td>
+                    <td class="order-total">{{ order.total }}</td>
+                    <td class="order-createAt">{{ order.createdAt | date('m/d/Y g:i A') }}</td>
+                    <td class="order-updatedAt">{{ order.updatedAt | date('m/d/Y g:i A') }}</td>
+                    <td>
+                        <div class="d-flex flex-">
+                            {% if auth.role.toString == 'admin' %}
+                                <form action="/orders/{{ order.id }}" method="post">
+                                    {{ csrf.fields | raw }}
+                                    <input type="hidden" name="_METHOD" value="DELETE"/>
+                                    <button type="submit" class="btn btn-outline-primary">
+                                        <i class="bi bi-trash3-fill"></i>
+                                    </button>
+                                </form>
+                                <button class="ms-2 btn btn-outline-primary edit-order-btn"
+                                        data-id="{{ order.id }}">
+
+                                    <i class="bi bi-pencil-fill"></i>
+                                </button>
+
+                            {% else %}
+                                <form action="/payments/create-checkout-session/{{ order.id }}" method="POST">
+                                    {{ csrf.fields | raw }}
+                                    <button type="submit" {% if order.paid %}disabled {% endif %}id="checkout-button" class="ms-2 btn btn-primary" data-id="{{ order.id }}">Pay for order</button>
+                                </form>
+                            {% endif %}
+
+                            <a href="#order-{{ order.id }}">
+                                <button class="ms-2 btn btn-outline-primary expand-order-btn arrow-down"
+                                        data-id="{{ order.id }}"></button>
+                            </a>
+
+                        </div>
+                    </td>
+                </tr>
+                <tr class="d-none order-detail-row order-{{ order.id }}" id="order-{{ order.id }}">
+                    <td colspan="6">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in order.items %}
+                                <tr>
+                                    <td>
+                                        <a href="/upload/download/{{ item.printingModel.filename }}">{{ item.printingModel.originalName }}</a>
+                                    </td>
+                                    <td>{{ item.printingModel.price }}</td>
+                                    <td>{{ item.quantity }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+<style>
+
+</style>

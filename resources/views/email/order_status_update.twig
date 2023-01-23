@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <style>
+        /* Add a blue background color and some padding to the body */
+        body {
+            align-items: flex-start;
+            justify-content: center;
+            padding: 20px;
+        }
+        /* Center the header text */
+        .header {
+            text-align: center;
+        }
+        /* Style the main heading */
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        /* Style the table */
+        table {
+            align-items: flex-start;
+            justify-content: center;
+            width: 50%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid white;
+            padding: 8px;
+            text-align: left;
+        }
+        /* Add hover effect to table rows */
+        tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        /* Style the "view details" link */
+        a {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div class="body">
+    <div class="container">
+        <div class="header text-center">
+        </div>
+        <div class="content">
+            <h1 class="text-center">Order status update!</h1>
+            <p class="block">
+                Dear {{ user.name }}, <br>
+
+                we have a good news, your order contain:<br>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in order.items %}
+                    <tr>
+                        <td>{{ item.printingModel.originalName }}</td>
+                        <td>{{ item.printingModel.price }}</td>
+                        <td>{{ item.quantity }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <br><br>
+            Changed, the current status is:<br><b>{{ order.status.toString }}</b><br>
+
+            You can check details under link below: <a href="{{ link }}">link</a><br>
+            <br>
+            Best regards,<br>
+            3D Boat Printing !<br>
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

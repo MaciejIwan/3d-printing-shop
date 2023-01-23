@@ -1,0 +1,26 @@
+{% extends 'layout.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('users') }}
+{% endblock %}
+
+{% block title %}Users{% endblock %}
+
+{% block content %}
+    <div class="users container content-body">
+        <div class="text-lg-center title"><span>Users</span></div>
+        <div class="text-end">
+{#            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUserModal">#}
+{#                Create User#}
+{#            </button>#}
+        </div>
+
+        {% include 'users/create_user_modal.twig' %}
+        {% include 'users/edit_user_modal.twig' %}
+        {% include 'users/user_table.twig' %}
+
+    </div>
+{% endblock %}
+
+

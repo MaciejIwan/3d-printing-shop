@@ -1,0 +1,83 @@
+{% extends 'layout.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('dashboard') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('dashboard') }}
+{% endblock %}
+
+{% block title %}PricePreview{% endblock %}
+
+{% block content %}
+    {% if printingModel %}
+        <div class="container">
+            <div class="row align-items-center" style="justify-content: flex-start;">
+                <div class="col-md-4 offset-md-1" style="display: flex; flex-direction: column; margin-top: -20%;">
+                    <h1>{{ printingModel.originalName }}</h1>
+                    <p>price / psc: {{ printingModel.price | number_format(2) }} PLN</p>
+                    <form action="/chart" method="post">
+                        {{ csrf.fields | raw }}
+                        <input type="hidden" class="form-control" name="product" value="{{ printingModel.id }}">
+                        <div class="form-group">
+                            <label for="quantity">Quantity:</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity" min="1" value="1">
+                        </div>
+                        <p>Total Cost: </p>
+                        <span id="total-cost">{{ printingModel.price | number_format(2) }} PLN</span></p>
+                        <button type="submit" class="btn btn-primary" id="add-to-cart">Add to Cart</button>
+                    </form>
+                </div>
+
+
+                <div class="col-md-6 offset-md-1" id="preview" style="background-image: url('{{ asset('build/images/preview.png') }}');">
+                    <h1 style="color:black">Preview</h1>
+
+                </div>
+
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                let quantityInput = document.getElementById("quantity");
+                let totalCostSpan = document.getElementById("total-cost");
+                let price = {{ printingModel.price }};
+
+                quantityInput.addEventListener("input", function () {
+                    let quantity = this.value;
+                    let totalCost = quantity * price;
+                    totalCostSpan.innerText = "" + totalCost.toFixed(2) + " PLN";
+                });
+            });
+        </script>
+
+
+        {#        <div data-id="{{ printingModel.id }}"> #}
+        {#            <div class="order-name">{{ printingModel.price }}</div> #}
+        {#            <div class="order-createAt">{{ printingModel.createdAt | date('m/d/Y g:i A') }}</div> #}
+        {#            <div class="order-updatedAt">{{ printingModel.updatedAt | date('m/d/Y g:i A') }}</div> #}
+        {#        </div> #}
+
+
+    {% endif %}
+
+    <style>
+        #preview {
+            color:white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position-x: center;
+            background-position-y: bottom;
+            height: 80vh;
+            gap:50px;
+        }
+    </style>
+{% endblock %}

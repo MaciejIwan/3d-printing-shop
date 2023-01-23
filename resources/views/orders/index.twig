@@ -1,0 +1,32 @@
+{% extends 'layout.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('orders') }}
+{% endblock %}
+
+ {% block stylesheets %}
+     {{ encore_entry_link_tags('orders') }}
+     {{ encore_entry_link_tags('app') }}
+
+ {% endblock %}
+
+{% block title %}Orders{% endblock %}
+
+{% block content %}
+    <div class="orders container content-body">
+        <div class="text-lg-center title"><span>Orders</span></div>
+
+
+        {% if auth.role.toString == 'admin' %}
+
+            <div class="text-end">
+            </div>
+        {% endif %}
+
+        {% include 'orders/create_order_modal.twig' %}
+        {% include 'orders/edit_order_modal.twig' %}
+        {% include 'orders/order_table.twig' %}
+
+    </div>
+{% endblock %}

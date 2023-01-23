@@ -1,0 +1,17 @@
+@import "./variables.scss";
+
+.order-detail-row {
+  display: none;
+}
+
+.order-detail-row:target {
+  display: table-row;
+}
+
+.arrow-up::before {
+  content: "↑";
+}
+
+.arrow-down::before {
+  content: "↓";
+}
