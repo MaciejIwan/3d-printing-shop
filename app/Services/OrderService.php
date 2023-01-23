@@ -26,7 +26,7 @@ class OrderService
         $order->setTotal($dto->amount);
         $order->setStatus($dto->status);
 
-        return $this->update($order, $dto->name);
+        return $this->update($order, $dto->name, $order->getStatus(), $order->isPaid());
     }
 
     public function getAll(): array
