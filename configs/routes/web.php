@@ -68,7 +68,6 @@ return function (App $app) {
 
     $app->group('/users', function (RouteCollectorProxy $users) {
         $users->get('', [UserController::class, 'index']);
-        $users->post('', [UserController::class, 'store']);
         $users->delete('/{id:[0-9]+}', [UserController::class, 'delete']);
         $users->get('/{id:[0-9]+}', [UserController::class, 'get']);
         $users->post('/{id:[0-9]+}', [UserController::class, 'update']);
