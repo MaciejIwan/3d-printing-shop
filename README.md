@@ -64,6 +64,10 @@ Admin User Panel
 * add privacy policy page
 * add terms of use page
 * improve email templates
+* find order by order number in admin panel
+* find order by user email in admin panel
+* filtr orders by status in admin panel
+* add shipping functionality (now is only pickup)
 
 ## Database diagram
 ![Database diagram](img/databaseDiagram.png)
