@@ -28,12 +28,12 @@ window.addEventListener('DOMContentLoaded', function () {
 })
 
 function openEditUserModal(modal, {id, name, email, role}) {
-    //todo fill data in loop
     modal._element.querySelector('input[name="name"]')
         .value = name
     modal._element.querySelector('input[name="email"]')
         .value = email
-    modal._element.querySelector('select[name="role"]').value = role;
+    modal._element.querySelector('select[name="role"]')
+        .value = role;
 
     modal._element.querySelector('.save-user-btn').setAttribute('data-id', id)
 

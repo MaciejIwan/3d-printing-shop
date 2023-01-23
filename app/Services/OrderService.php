@@ -47,9 +47,11 @@ class OrderService
         return $this->entityManager->find(Order::class, $id);
     }
 
-    public function update(Order $order, string $name): Order
+    public function update(Order $order, string $name, OrderStatus $status, bool $isPaid): Order
     {
         $order->setName($name);
+        $order->setStatus($status);
+        $order->setPaid($isPaid);
 
         $this->entityManager->persist($order);
         $this->entityManager->flush();

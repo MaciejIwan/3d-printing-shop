@@ -8,6 +8,7 @@ use App\Contracts\RequestValidatorFactoryInterface;
 use App\Dto\OrderAddDto;
 use App\Dto\OrderUpdateDto;
 use App\Entity\User;
+use App\Enum\OrderStatus;
 use App\RequestValidators\CreateOrderDataValidator;
 use App\RequestValidators\UpdateOrderRequestValidator;
 use App\ResponseFormatter;
@@ -75,7 +76,12 @@ class OrderController
             return $response->withStatus(404);
         }
 
-        $data = ['id' => $order->getId(), 'name' => $order->getName()];
+        $data = [
+            'id' => $order->getId(),
+            'name' => $order->getName(),
+            'is_paid' => $order->isPaid(),
+            'status' => $order->getStatus()->toString(),
+        ];
 
         return $this->responseFormatter->asJson($response, $data);
     }
@@ -91,8 +97,14 @@ class OrderController
         if (!$order) {
             return $response->withStatus(404);
         }
+        error_log(print_r(filter_var($data['is_paid'], FILTER_VALIDATE_BOOLEAN), true));
+        $updatedOrder = $this->orderService->update(
+            $order,
+            $data['name'],
+            OrderStatus::fromString($data['status']),
+            filter_var($data['is_paid'], FILTER_VALIDATE_BOOLEAN)
 
-        $updatedOrder = $this->orderService->update($order, $data['name']);
+        );
 
         $this->responseFormatter->asJson($response, [
             'message' => "order updated successfully",
