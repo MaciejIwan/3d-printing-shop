@@ -17,10 +17,17 @@ PHP use:
 - **environment variables** are stored in .env file.
 
 ## App preview
+Index
 ![Index](img/index.png)
+User Orders panel
 ![OrdersAdminView](img/AdminViewOrdersPage.png)
+User checkout Stripe page
+![UsersView](img/payments.png)
+Admin edit order
 ![EditOrder](img/AdminViewEditOrder.png)
+Admin User Panel
 ![UsersView](img/users.png)
+
 
 
 ## App features
