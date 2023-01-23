@@ -11,12 +11,11 @@ use App\Entity\User;
 use App\Enum\OrderStatus;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\Mailer\MailerInterface;
 
 class OrderService
 {
     public function __construct(
-        private readonly EntityManager   $entityManager,
+        private readonly EntityManager $entityManager,
     )
     {
     }

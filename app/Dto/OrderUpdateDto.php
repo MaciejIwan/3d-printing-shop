@@ -12,7 +12,7 @@ class OrderUpdateDto
         public readonly int    $id,
         public readonly string $name,
         public readonly string $status,
-        public readonly bool $is_paid,
+        public readonly bool   $is_paid,
         public readonly string $created_at,
         public readonly string $updated_at,
     )

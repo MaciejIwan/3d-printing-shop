@@ -18,6 +18,7 @@ class AuthControllerTest extends TestCase
         parent::setUp();
         $this->container = require(__DIR__ . '/../../bootstrap.php');
     }
+
     public function test_SendWelcomeEmail()
     {
         //todo test fail
