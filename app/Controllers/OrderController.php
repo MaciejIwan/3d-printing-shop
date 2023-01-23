@@ -97,7 +97,7 @@ class OrderController
         if (!$order) {
             return $response->withStatus(404);
         }
-        error_log(print_r(filter_var($data['is_paid'], FILTER_VALIDATE_BOOLEAN), true));
+
         $updatedOrder = $this->orderService->update(
             $order,
             $data['name'],
