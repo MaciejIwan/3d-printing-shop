@@ -12,6 +12,7 @@ class OrderUpdateDto
         public readonly int    $id,
         public readonly string $name,
         public readonly string $status,
+        public readonly bool $is_paid,
         public readonly string $created_at,
         public readonly string $updated_at,
     )
@@ -24,6 +25,7 @@ class OrderUpdateDto
             $data['id'],
             $data['name'],
             $data['status'],
+            $data['is_paid'],
             date('m/d/Y g:i A', $data['created_at']->getTimestamp()),
             date('m/d/Y g:i A', $data['updated_at']->getTimestamp()),
         );
@@ -35,6 +37,7 @@ class OrderUpdateDto
             'id' => $order->getId(),
             'name' => $order->getName(),
             'status' => $order->getStatus()->toString(),
+            'is_paid' => $order->isPaid(),
             'created_at' => $order->getCreatedAt(),
             'updated_at' => $order->getUpdatedAt()
         ]);
