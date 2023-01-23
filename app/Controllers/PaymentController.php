@@ -84,20 +84,5 @@ class PaymentController
         return $response->withStatus(303)->withHeader('Location', $checkout_session->url);
     }
 
-    public function generateProduct(string $currency, string $productName, string $description, int $amount, int $quantity): array
-    {
-        return [
-            'price_data' => [
-                "currency" => $currency,
-                "product_data" => [
-                    "name" => $productName,
-                    "description" => $description
-                ],
-                'unit_amount' => $amount,
-            ],
-            'quantity' => $quantity,
-        ];
-    }
-
 
 }
