@@ -74,6 +74,7 @@ Register Page
 * filtr orders by status in admin panel
 * add shipping functionality (now is only pickup)
 * add webhooks to stripe to handle payments in real time and when user drop his connection
+* allow blocked user to access his account and show him message why he is blocked and basic informations
 
 ## Database diagram
 ![Database diagram](img/databaseDiagram.png)
