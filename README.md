@@ -27,6 +27,86 @@ Admin edit order
 ![EditOrder](img/AdminViewEditOrder.png)
 Admin User Panel
 ![UsersView](img/users.png)
+Login Page
+![UsersView](img/login.png)
+Register Page
+![UsersView](img/register.png)
+
+
+
+
+## App features
+* User can register and login
+* User can upload .stl file
+* User can see list of uploaded files
+* Admin can see list of all orders
+* Admin can see details of order
+* Admin can change order status
+* App send email to user after order is updated
+* Order can be paid with stripe
+* user password is hashed with bcrypt
+* implement drag and drop file upload
+* csrf protection for forms
+* sql injection protection
+
+
+## TO DO
+* Add more tests
+* password recovery 
+* improve security
+* each user have access to every file - it should be changed
+* add more features to admin panel
+* add admin dashboard
+* add filaments to database
+* allow user to choose filament
+* allow user to specify quality of print
+* allow to track filament in stock
+* chart submit empty orders, it should be repaired
+* add .stl live preview using JS
+* render thumbnail of .stl file
+* add support for more file formats
+* cost of print should be calculated based on slicer data not only volume
+* add privacy policy page
+* add terms of use page
+* improve email templates
+* find order by order number in admin panel
+* find order by user email in admin panel
+* filtr orders by status in admin panel
+* add shipping functionality (now is only pickup)
+* add webhooks to stripe to handle payments in real time and when user drop his connection
+* allow blocked user to access his account and show him message why he is blocked and basic informations
+
+## Database diagram
+![Database diagram](img/databaseDiagram.png)
+# 3d printing shop app
+This is simple educentional project of php web application.
+Handle .stl files from user, could aproximate price of printing, allow user to add .stl models to  and send email .
+
+The app uses docker containers to run php, mysql, mailhog and nginx.
+PHP use:
+- **Slim framework** and **Twig** template engine.
+- **Doctrine ORM** to communicate with database.
+- **PHP-DI** to handle dependency injection.
+- **Stipe API** to handle payments.
+- **PHPMailer** to send emails.
+- **Symfony console** to run commands.
+- **PHPunit** to run tests.
+- **Composer** to manage dependencies.
+- **NPM** to manage frontend dependencies.
+- **Webpack** to compile frontend assets.
+- **environment variables** are stored in .env file.
+
+## App preview
+Index
+![Index](img/index.png)
+User Orders panel
+![OrdersAdminView](img/AdminViewOrdersPage.png)
+User checkout Stripe page
+![UsersView](img/payments.png)
+Admin edit order
+![EditOrder](img/AdminViewEditOrder.png)
+Admin User Panel
+![UsersView](img/users.png)
 
 
 
