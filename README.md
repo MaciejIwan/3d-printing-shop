@@ -27,6 +27,11 @@ Admin edit order
 ![EditOrder](img/AdminViewEditOrder.png)
 Admin User Panel
 ![UsersView](img/users.png)
+Login Page
+![UsersView](img/login.png)
+Register Page
+![UsersView](img/register.png)
+
 
 
 
@@ -68,6 +73,7 @@ Admin User Panel
 * find order by user email in admin panel
 * filtr orders by status in admin panel
 * add shipping functionality (now is only pickup)
+* add webhooks to stripe to handle payments in real time and when user drop his connection
 
 ## Database diagram
 ![Database diagram](img/databaseDiagram.png)
